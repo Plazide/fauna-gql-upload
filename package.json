@@ -1,0 +1,21 @@
+{
+  "name": "fauna-gql-upload",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "fauna-ctl"
+  },
+  "bin": {
+    "fauna-gql": "./index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-plazide": "^0.1.6",
+    "node-fetch": "^2.6.0"
+  }
+}
