@@ -6,7 +6,7 @@
   "bin": {
     "fauna-gql": "./index.js"
   },
-  "keywords": [],
+  "keywords": ["faunadb", "graphql", "cli"],
   "author": "",
   "license": "ISC",
   "dependencies": {
