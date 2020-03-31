@@ -7,7 +7,7 @@
     "fauna-gql": "./index.js"
   },
   "keywords": ["faunadb", "graphql", "cli"],
-  "author": "",
+  "author": "Carl Hallén Jansson",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.2.0",
