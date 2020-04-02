@@ -7,10 +7,11 @@ require("dotenv").config();
 const cwd = process.cwd();
 const config = JSON.parse(fs.readFileSync(path.join(cwd, ".fauna.json"), "utf8"));
 
-const{ schemaPath = "./models/schema.gql", secretEnv } = config;
+const defaultSecret = "FAUNADB_SECRET";
+const{ schemaPath = "./models/schema.gql", secretEnv = defaultSecret } = config;
 
+const secret = process.env[secretEnv];
 const schema = path.join(cwd, schemaPath);
-const secret = process.env[secretEnv] || process.env.FAUNA_SECRET;
 const data = fs.createReadStream(schema);
 
 fetch("https://graphql.fauna.com/import", {
@@ -20,9 +21,16 @@ fetch("https://graphql.fauna.com/import", {
 		"Content-Type": "text/plain"
 	},
 	body: data
-}).then( res => {
-	if(!res.ok)
-		throw res.message;
+}).then( async res => {
+	if(!res.ok){
+		const result = await res.text();
+		console.error("Error:", result);
+		console.log();
+		console.log("Search for this error on Google:", encodeURI(`https://google.com/search?q=faunadb graphql ${result}`));
+	}
 
-	console.log("Successfully updated schema!!!");
+	if(res.ok)
+		console.log("Successfully updated schema!!!");
+}).catch(err => {
+	throw err;
 });
