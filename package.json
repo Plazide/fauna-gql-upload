@@ -1,12 +1,16 @@
 {
   "name": "fauna-gql-upload",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Upload a GraphQL schema to FaunaDB using the command line.",
   "main": "index.js",
   "bin": {
     "fauna-gql": "./index.js"
   },
-  "keywords": ["faunadb", "graphql", "cli"],
+  "keywords": [
+    "faunadb",
+    "graphql",
+    "cli"
+  ],
   "author": "Carl Hallén Jansson",
   "license": "ISC",
   "dependencies": {
