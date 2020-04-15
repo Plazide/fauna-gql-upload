@@ -8,19 +8,33 @@ require("dotenv").config();
 const cwd = process.cwd();
 const config = JSON.parse(fs.readFileSync(path.join(cwd, ".fauna.json"), "utf8"));
 
+const defaultFnsDir = path.join(cwd, "fauna", "function");
 const defaultSecret = "FAUNADB_SECRET";
-const{ schemaPath = "./models/schema.gql", secretEnv = defaultSecret } = config;
-const fnsDir = path.join(cwd, "fauna", "functions");
-const fnsFiles = fs.readdirSync(fnsDir);
-
-const fns = fnsFiles.map( file => {
-	return require(path.join(fnsDir, file));
-});
-
+const{
+	schemaPath = "./models/schema.gql",
+	secretEnv = defaultSecret,
+	fnsDir = defaultFnsDir
+} = config;
 const secret = process.env[secretEnv];
 
 (async () => {
+	// Upload schema
 	await uploadSchema(schemaPath, secret);
 	console.log();
-	await uploadFunctions(fns, secret);
+
+	// Upload functions
+	fs.readdir(fnsDir, async (err, fnsFiles) => {
+		if(err) {
+			console.log("Could not read functions directory...");
+			console.log("❌  Ignoring functions");
+
+			return;
+		}
+
+		const fns = fnsFiles.map( file => {
+			return require(path.join(fnsDir, file));
+		});
+
+		await uploadFunctions(fns, secret);
+	});
 })();
