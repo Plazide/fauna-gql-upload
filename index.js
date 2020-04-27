@@ -3,17 +3,20 @@ const fs = require("fs");
 const path = require("path");
 const uploadSchema = require("./lib/schema");
 const uploadFunctions = require("./lib/functions");
+const uploadRoles = require("./lib/roles");
 require("dotenv").config();
 
 const cwd = process.cwd();
 const config = JSON.parse(fs.readFileSync(path.join(cwd, ".fauna.json"), "utf8"));
 
+const defaultRolesDir = path.join("fauna", "roles");
 const defaultFnsDir = path.join("fauna", "functions");
 const defaultSecret = "FAUNADB_SECRET";
 const{
 	schemaPath = "./models/schema.gql",
 	secretEnv = defaultSecret,
-	fnsDir = defaultFnsDir
+	fnsDir = defaultFnsDir,
+	rolesDir = defaultRolesDir
 } = config;
 const secret = process.env[secretEnv];
 
@@ -23,26 +26,9 @@ const secret = process.env[secretEnv];
 	console.log();
 
 	// Upload functions
-	fs.readdir(fnsDir, async (err, fnsFiles) => {
-		if(err) {
-			console.log("Could not read functions directory...");
-			console.log("❌  Ignoring functions");
+	await uploadFunctions(fnsDir, secret);
+	console.log();
 
-			return;
-		}
-
-		const fns = fnsFiles.map( file => {
-			try{
-				const fn = require(path.join(cwd, fnsDir, file));
-
-				return fn;
-			}catch(err){
-				console.error("❌  Could not read", file);
-
-				return null;
-			}
-		}).filter( value => value !== null);
-
-		await uploadFunctions(fns, secret);
-	});
+	// Upload roles
+	await uploadRoles(rolesDir, secret);
 })();
