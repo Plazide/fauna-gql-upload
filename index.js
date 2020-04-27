@@ -8,7 +8,7 @@ require("dotenv").config();
 const cwd = process.cwd();
 const config = JSON.parse(fs.readFileSync(path.join(cwd, ".fauna.json"), "utf8"));
 
-const defaultFnsDir = path.join(cwd, "fauna", "function");
+const defaultFnsDir = path.join("fauna", "functions");
 const defaultSecret = "FAUNADB_SECRET";
 const{
 	schemaPath = "./models/schema.gql",
@@ -32,8 +32,16 @@ const secret = process.env[secretEnv];
 		}
 
 		const fns = fnsFiles.map( file => {
-			return require(path.join(fnsDir, file));
-		});
+			try{
+				const fn = require(path.join(cwd, fnsDir, file));
+
+				return fn;
+			}catch(err){
+				console.error("❌  Could not read", file);
+
+				return null;
+			}
+		}).filter( value => value !== null);
 
 		await uploadFunctions(fns, secret);
 	});
