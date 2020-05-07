@@ -30,11 +30,9 @@ const secret = process.env[secretEnv];
 
 	// Upload indexes
 	await uploadIndexes(indexesDir, secret);
-	console.log();
 
 	// Upload functions
 	await uploadFunctions(fnsDir, secret);
-	console.log();
 
 	// Upload roles
 	await uploadRoles(rolesDir, secret);
