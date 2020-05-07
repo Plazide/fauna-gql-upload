@@ -1,5 +1,5 @@
 # fauna-gql
-fauna-gql is a simple CLI to update your database's GraphQL schema, resolver functions, and database roles without going to the FaunaDB dashboard. It uses the `https://graphql.fauna.com/import` endpoint to update the schema from a file within your project, and the FQL driver for JavaScript to update/create functions and roles.
+fauna-gql is a simple CLI to update your database's GraphQL schema, resolver functions, indexes, and database roles without going to the FaunaDB dashboard. It uses the `https://graphql.fauna.com/import` endpoint to update the schema from a file within your project, and the FQL driver for JavaScript to update/create functions, roles, and indexes.
 
 ## Install
 You could install locally within your project:
@@ -44,8 +44,9 @@ For the command to work properly, you need to have certain information in your p
 
 1. You need a `.env` file with a variable called `FAUNADB_SECRET`
 2. You need a valid schema file to upload. This file should be located at `./models/schema.gql` relative to the working directory where the command is executed.
-3. To upload functions, you need a directory called `fauna/functions`. Within this directory, you should have one `.js` file for each of you functions. See [Uploading Functions](#uploading-functions) to see an example of such a file.
-4. To upload roles, you need a directory called `fauna/roles`. Within this directory, you should have one `.js` file for each of your roles. See [Uploading Roles](#uploading-roles) to see and example of such a file.
+3. To upload functions, you need a directory called `fauna/functions`. Within this directory, you should have one `.js` file for each of you functions. See [Uploading Functions](#uploading-functions) for an example of such a file.
+4. To upload roles, you need a directory called `fauna/roles`. Within this directory, you should have one `.js` file for each of your roles. See [Uploading Roles](#uploading-roles) for an example of such a file.
+5. To upload indexes, you need a directory called `fauna/indexes`. Within this directory, you should have one `.js` file for each of your indexes. See [Uploading indexes](#uploading-indexes) for an example of such a file.
 
 If you want to use another environment variable name, another path for the schema, or another functions directory, you could create a `.fauna.json` file. It takes the following properties:
 ```json
@@ -108,6 +109,25 @@ module.exports = {
 }
 ```
 As with the functions, you need to include certain functions from the `faunadb` driver. 
+
+### Uploading indexes
+To upload indexes, you need a `fauna/indexes` directory containing a `.js` file for each of your roles. These files describe the role and look like the following example.
+
+```js
+const { query } = require("faunadb");
+const { Collection } = query;
+
+module.exports = {
+	name: "people_sort_by_age_asc",
+	source: Collection("People"),
+	values: [
+		{ field: ["data", "age"] },
+		{ field: ["ref"] }
+	]
+}
+```
+
+Fauna does actually create indexes based on your schema. But in certain situations it might be necessary to create custom indexes. The index above sorts people in ascending order by their age.
 
 #### Predicate functions
 Another detail that you've probably noticed is the `onlyDeleteByOwner` function. This is a [predicate function](https://docs.fauna.com/fauna/current/security/roles#mco). It lets you define your own permissions based on the user making the request and the document's fields. You would normally have to write these inline with the permissions. But in this case, we can create these in seperate files and reuse them multiple times for different resources.
