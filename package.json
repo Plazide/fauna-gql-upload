@@ -14,8 +14,11 @@
   "author": "Carl Hallén Jansson",
   "license": "ISC",
   "dependencies": {
+    "cli-spinner": "^0.2.10",
     "dotenv": "^8.2.0",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "prompts": "^2.3.2",
+    "yargs": "^15.3.1"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
