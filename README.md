@@ -65,6 +65,33 @@ These would now take precedent over the default values.
 ### Uploading schema
 To upload your schema, it has to be placed at `fauna/schema.gql` or the path specified in `.fauna.json`. It also needs to be valid (of course), otherwise you would get back an error. For more information on writing a GraphQL schema for FaunaDB, see the [official documentation](https://docs.fauna.com/fauna/current/api/graphql/).
 
+#### Overriding the schema
+If you need to make schema changes that are not compatible with the previous versions of the schema, you might have to override it. This can be done by adding a `--override` flag when running the command.
+
+Like so:
+```sh
+fauna-gql --override
+```
+
+If you are running the command locally with npm, you need to add the flag to the npm script.
+```json
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "fauna": "fauna-gql",
+    "fauna-override": "fauna-gql --override",
+  }
+}
+```
+
+and then run:
+```sh
+npm run fauna-override
+```
+
 ### Uploading functions
 To upload functions, you need a to have a `fauna/functions` directory containing `.js` files that describe your function's name, role, and body. As mentioned earlier, it is possible to customize the functions path by adding a `fnsDir` property to the `.fauna.json` file.
 
