@@ -1,3 +1,7 @@
 {
-	"extends": "plazide"
+	"plugins": ["jest"],
+	"extends": ["plazide"],
+	"env": {
+		"jest/globals": true
+	}
 }

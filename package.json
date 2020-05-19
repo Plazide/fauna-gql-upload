@@ -21,14 +21,16 @@
     "yargs": "^15.3.1"
   },
   "devDependencies": {
+    "babel-jest": "^26.0.1",
     "eslint": "^6.8.0",
-    "eslint-config-plazide": "^0.1.6"
+    "eslint-config-plazide": "^0.1.6",
+    "jest": "^26.0.1"
   },
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
