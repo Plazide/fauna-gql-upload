@@ -38,8 +38,6 @@ const{
 (async () => {
 	// Upload schema
 	await uploadSchema(schemaPath, argv.override);
-	if(argv.override) return;
-
 	console.log();
 
 	// Upload indexes
