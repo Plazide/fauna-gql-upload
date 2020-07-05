@@ -1,6 +1,10 @@
 # fauna-gql
 fauna-gql is a simple CLI to update your database's GraphQL schema, resolver functions, indexes, and database roles without going to the FaunaDB dashboard. It uses the `https://graphql.fauna.com/import` endpoint to update the schema from a file within your project, and the FQL driver for JavaScript to update/create functions, roles, and indexes.
 
+## Main features
+- Store all your User-defined functions, roles, and indexes within your project.
+- Update your schema and other resources without leaving your editor.
+
 ## Install
 You could install locally within your project:
 ```sh
