@@ -92,6 +92,13 @@ and then run:
 npm run fauna-override
 ```
 
+Since overriding the schema removes all collections, functions, and indexes, you will be asked to confirm your intention. In certain situations though, you'd want to skip this confirmation, like in a CI/CD pipeline. Therefore, you can use the `-y` flag to override the prompt and go forward with the opration without questions.
+
+It would look like this:
+```sh
+fauna-gql --override -y
+```
+
 ### Uploading functions
 To upload functions, you need a to have a `fauna/functions` directory containing `.js` files that describe your function's name, role, and body. As mentioned earlier, it is possible to customize the functions path by adding a `fnsDir` property to the `.fauna.json` file.
 
