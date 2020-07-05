@@ -40,6 +40,8 @@ const secret = process.env[secretEnv];
 (async () => {
 	// Upload schema
 	await uploadSchema(schemaPath, secret, argv.override);
+	if(argv.override) return;
+	
 	console.log();
 
 	// Upload indexes
