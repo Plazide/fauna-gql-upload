@@ -2,35 +2,17 @@
   "name": "fauna-gql-upload",
   "version": "1.5.1",
   "description": "Upload a GraphQL schema to FaunaDB using the command line.",
-  "main": "index.js",
-  "bin": {
-    "fauna-gql": "./index.js"
-  },
-  "keywords": [
-    "faunadb",
-    "graphql",
-    "cli"
+  "main": "dist/index.js",
+  "files": [
+    "/dist"
   ],
-  "author": "Carl Hallén Jansson",
-  "license": "ISC",
-  "dependencies": {
-    "cli-spinner": "^0.2.10",
-    "dotenv": "^8.2.0",
-    "node-fetch": "^2.6.0",
-    "prompts": "^2.3.2",
-    "yargs": "^15.3.1"
-  },
-  "devDependencies": {
-    "babel-jest": "^26.0.1",
-    "eslint": "^6.8.0",
-    "eslint-config-plazide": "^0.1.6",
-    "jest": "^26.0.1"
-  },
-  "directories": {
-    "lib": "lib"
+  "bin": {
+    "fauna-gql": "dist/index.js"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc",
+    "lint": "eslint src --fix"
   },
   "repository": {
     "type": "git",
@@ -39,5 +21,56 @@
   "bugs": {
     "url": "https://github.com/Plazide/fauna-gql-upload/issues"
   },
-  "homepage": "https://github.com/Plazide/fauna-gql-upload#readme"
+  "homepage": "https://github.com/Plazide/fauna-gql-upload#readme",
+  "directories": {
+    "lib": "src/lib"
+  },
+  "keywords": [
+    "faunadb",
+    "graphql",
+    "cli"
+  ],
+  "author": "Carl Hallén Jansson",
+  "license": "ISC",
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "yarn lint"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "dependencies": {
+    "cli-spinner": "^0.2.10",
+    "dotenv": "^8.2.0",
+    "eslint-plugin-jest": "^23.18.0",
+    "faunadb": "^2.14.2",
+    "node-fetch": "^2.6.0",
+    "prompts": "^2.3.2",
+    "yargs": "^15.4.0"
+  },
+  "devDependencies": {
+    "@types/cli-spinner": "^0.2.0",
+    "@types/jest": "^26.0.3",
+    "@types/node": "^14.0.14",
+    "@types/node-fetch": "^2.5.7",
+    "@types/prompts": "^2.0.8",
+    "@typescript-eslint/eslint-plugin": "^3.5.0",
+    "@typescript-eslint/parser": "^3.5.0",
+    "eslint": "^7.4.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-unused-imports": "^0.1.3",
+    "husky": "^4.2.5",
+    "jest": "^26.1.0",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5",
+    "ts-jest": "^26.1.1",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.6"
+  }
 }
