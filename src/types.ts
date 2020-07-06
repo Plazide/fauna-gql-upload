@@ -1,4 +1,8 @@
-export type CreatedUpdatedStatus = 'created' | 'updated' | 'failed';
+export enum UploadStatus {
+  Created = 'created',
+  Updated = 'updated',
+  Failed = 'failed',
+}
 
 export enum FaunaResource {
   Function = 'functions',
@@ -8,10 +12,12 @@ export enum FaunaResource {
 
 export interface IResource {
   name: string;
+
   [rest: string]: unknown;
 }
 
 export interface IConfig {
+  secretEnv?: string;
   schemaPath?: string;
   fnsDir?: string;
   rolesDir?: string;

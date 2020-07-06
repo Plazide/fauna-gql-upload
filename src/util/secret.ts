@@ -8,6 +8,8 @@ const defaultSecret = 'FAUNADB_SECRET';
 const { secretEnv = defaultSecret } = config;
 const secret = process.env[secretEnv];
 
-// TODO this should throw error if secret is not found?
+if (!secret) {
+  throw new Error(`Missing ${secretEnv} env in .env file`);
+}
 
 export default secret;

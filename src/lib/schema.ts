@@ -33,13 +33,12 @@ const uploadSchema = async (
   if (override && !shouldOverride) return;
 
   if (shouldOverride) {
-    console.log();
     console.log('Okay, this could take a while. Sit tight...');
     spinner.start();
   }
 
-  const endpoint = `https://graphql.fauna.com/import${
-    shouldOverride ? '?mode=override' : '?mode=merge'
+  const endpoint = `https://graphql.fauna.com/import?mode=${
+    shouldOverride ? 'override' : 'merge'
   }`;
 
   const res = (await fetch(endpoint, {
@@ -61,11 +60,10 @@ const uploadSchema = async (
 
   if (!res.ok) {
     console.error('Error:', result);
-    console.log();
   }
 
   if (res.ok) {
-    console.log('✔️  Successfully updated schema.');
+    console.log('✔️Successfully updated schema.');
   }
 };
 

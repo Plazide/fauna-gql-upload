@@ -1,5 +1,5 @@
 import { query as q } from 'faunadb';
-import { CreatedUpdatedStatus, FaunaResource, IResource } from '../types';
+import { FaunaResource, IResource, UploadStatus } from '../types';
 import client from './client';
 import displayErrors from './display-errors';
 
@@ -22,9 +22,9 @@ const resourceMap = {
 async function createOrUpdateResource(
   resource: FaunaResource,
   obj: IResource
-): Promise<CreatedUpdatedStatus> {
+): Promise<UploadStatus> {
   try {
-    return await client.query<CreatedUpdatedStatus>(
+    return await client.query<UploadStatus>(
       q.Let(
         {
           exists: q.Exists(resourceMap[resource].Ref(obj.name)),
@@ -35,14 +35,14 @@ async function createOrUpdateResource(
             q.Update(resourceMap[resource].Ref(obj.name), obj),
             resourceMap[resource].Create(obj)
           ),
-          q.If(q.Var('exists'), 'updated', 'created')
+          q.If(q.Var('exists'), UploadStatus.Updated, UploadStatus.Created)
         )
       )
     );
   } catch (err) {
     displayErrors(err, obj, resource);
 
-    return 'failed';
+    return UploadStatus.Failed;
   }
 }
 

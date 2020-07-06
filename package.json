@@ -10,6 +10,7 @@
     "fauna-gql": "dist/index.js"
   },
   "scripts": {
+    "test-example": "cd ./example && ts-node-script ../src/index.ts",
     "test": "jest",
     "build": "tsc",
     "lint": "eslint src --fix"

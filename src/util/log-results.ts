@@ -14,15 +14,12 @@ const logResults = ({
   numCreated,
   numFailed,
 }: ILogResults): void => {
-  console.group(`✔️  Finished uploading ${type}.`);
+  console.group(`✔️Finished uploading ${type}.`);
 
   if (numCreated > 0) console.log('Created', numCreated, type);
-
   if (numUpdated > 0) console.log('Updated', numUpdated, type);
-
   if (numFailed > 0) console.warn('Failed with', numFailed, type);
 
-  console.log();
   console.groupEnd();
 };
 

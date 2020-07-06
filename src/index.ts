@@ -22,30 +22,27 @@ const argv = yargs
     type: 'boolean',
   }).argv;
 
-const config = getConfig();
+const userConfig = getConfig();
 
-const defaultRolesDir = path.join('fauna', 'roles');
-const defaultFnsDir = path.join('fauna', 'functions');
-const defaultIndexesDir = path.join('fauna', 'indexes');
+const defaultConfig = {
+  schemaPath: './models/schema.gql',
+  fnsDir: path.join('./fauna', FaunaResource.Function),
+  rolesDir: path.join('./fauna', FaunaResource.Role),
+  indexesDir: path.join('./fauna', FaunaResource.Index),
+};
 
-const {
-  schemaPath = './models/schema.gql',
-  fnsDir = defaultFnsDir,
-  rolesDir = defaultRolesDir,
-  indexesDir = defaultIndexesDir,
-} = config;
+const cfg = { ...defaultConfig, ...userConfig };
 
 (async () => {
   // Upload schema
-  await uploadSchema(schemaPath, argv.override);
-  console.log();
+  await uploadSchema(cfg.schemaPath, argv.override);
 
   // Upload indexes
-  await uploadResource(FaunaResource.Index, indexesDir);
+  await uploadResource(FaunaResource.Index, cfg.indexesDir);
 
   // Upload functions
-  await uploadResource(FaunaResource.Function, fnsDir);
+  await uploadResource(FaunaResource.Function, cfg.fnsDir);
 
   // Upload roles
-  await uploadResource(FaunaResource.Role, rolesDir);
+  await uploadResource(FaunaResource.Role, cfg.rolesDir);
 })();

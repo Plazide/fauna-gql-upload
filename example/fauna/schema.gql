@@ -1,0 +1,9 @@
+type Person {
+  name: String
+  dog: Dog
+}
+
+type Dog {
+  name: String
+  owner: Person
+}
