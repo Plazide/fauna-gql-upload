@@ -55,7 +55,7 @@ const uploadResources = async (
   fs.readdir(dir, async (err, files) => {
     if (err) {
       console.log(`Could not read ${resourceType} directory...`);
-      console.log(`❌Ignoring ${resourceType}`);
+      console.log(`✗  Ignoring ${resourceType}`);
 
       return;
     }
@@ -65,7 +65,7 @@ const uploadResources = async (
         try {
           return require(path.join(cwd, dir, file));
         } catch (err) {
-          console.error('❌Could not read', file);
+          console.error('✗  Could not read', file);
 
           return null;
         }

@@ -63,7 +63,7 @@ const uploadSchema = async (
   }
 
   if (res.ok) {
-    console.log('✔️Successfully updated schema.');
+    console.log('✔ ️Successfully updated schema.');
   }
 };
 
