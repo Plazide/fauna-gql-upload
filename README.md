@@ -46,19 +46,21 @@ fauna-gql
 ## Configuration
 For the command to work properly, you need to have certain information in your project.
 
-1. You need a `.env` file with a variable called `FAUNADB_SECRET`
+1. You need a `.env` file with a variable called `FAUNADB_SECRET`.
 2. You need a valid schema file to upload. This file should be located at `fauna/schema.gql` relative to the working directory where the command is executed.
 3. To upload functions, you need a directory called `fauna/functions`. Within this directory, you should have one `.js` file for each of you functions. See [Uploading Functions](#uploading-functions) for an example of such a file.
 4. To upload roles, you need a directory called `fauna/roles`. Within this directory, you should have one `.js` file for each of your roles. See [Uploading Roles](#uploading-roles) for an example of such a file.
 5. To upload indexes, you need a directory called `fauna/indexes`. Within this directory, you should have one `.js` file for each of your indexes. See [Uploading indexes](#uploading-indexes) for an example of such a file.
 
-If you want to use another environment variable name, another path for the schema, or another functions directory, you could create a `.fauna.json` file. It takes the following properties:
+If you want to specify different values than any of the defaults, you could create a `.fauna.json` file in the directory you are executing the command from. I takes the following properties:
 ```json
 {
 	"schemaPath": "./schema.gql",
 	"secretEnv": "FAUNADB_SECRET",
 	"fnsDir": "fauna/functions",
-	"rolesDir": "fauna/roles"
+	"rolesDir": "fauna/roles",
+	"indexesDir": "fauna/indexes",
+	"envPath": ".env.local"
 }
 ```
 
