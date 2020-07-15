@@ -52,15 +52,23 @@ For the command to work properly, you need to have certain information in your p
 4. To upload roles, you need a directory called `fauna/roles`. Within this directory, you should have one `.js` file for each of your roles. See [Uploading Roles](#uploading-roles) for an example of such a file.
 5. To upload indexes, you need a directory called `fauna/indexes`. Within this directory, you should have one `.js` file for each of your indexes. See [Uploading indexes](#uploading-indexes) for an example of such a file.
 
-If you want to specify different values than any of the defaults, you could create a `.fauna.json` file in the directory you are executing the command from. I takes the following properties:
+Creating a `.fauna.json` file allows you to set:
+- the path to your `.env` file
+- FaunaDB secret environment variable name
+- another path for the schema
+- another functions directory
+- another indexes directory
+
+The `.fauna.json` file takes the following properties:
+
 ```json
 {
-	"schemaPath": "./schema.gql",
+	"envPath": ".env",
 	"secretEnv": "FAUNADB_SECRET",
+	"schemaPath": "fauna/schema.gql",
 	"fnsDir": "fauna/functions",
 	"rolesDir": "fauna/roles",
-	"indexesDir": "fauna/indexes",
-	"envPath": ".env.local"
+	"indexesDir": "fauna/indexes"
 }
 ```
 
