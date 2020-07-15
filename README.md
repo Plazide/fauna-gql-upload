@@ -63,12 +63,12 @@ The `.fauna.json` file takes the following properties:
 
 ```json
 {
-  "envPath": ".env",
-  "secretEnv": "FAUNADB_SECRET",
+	"envPath": ".env",
+	"secretEnv": "FAUNADB_SECRET",
 	"schemaPath": "fauna/schema.gql",
 	"fnsDir": "fauna/functions",
 	"rolesDir": "fauna/roles",
-  "indexesDir": "fauna/indexes
+	"indexesDir": "fauna/indexes"
 }
 ```
 
