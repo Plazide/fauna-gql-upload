@@ -43,24 +43,33 @@ const setResources = async (
       numUpdated,
       numFailed,
     });
+
+    return {
+      type: resourceType,
+      numCreated,
+      numUpdated,
+      numFailed,
+    };
   } catch (err) {
     throw err; // exception caught locally
   }
 };
 
+interface IUploadStats {
+  type: FaunaResource;
+  numCreated: number;
+  numUpdated: number;
+  numFailed: number;
+}
+
 const uploadResources = async (
   resourceType: FaunaResource,
   dir: string
-): Promise<void> => {
-  fs.readdir(dir, async (err, files) => {
-    if (err) {
-      console.log(`Could not read ${resourceType} directory...`);
-      console.log(`✗  Ignoring ${resourceType}`);
-
-      return;
-    }
-
+): Promise<IUploadStats> => {
+  try {
+    const files = await fs.promises.readdir(dir);
     const resourceFiles = files
+      .sort()
       .map((file) => {
         try {
           return require(path.join(cwd, dir, file));
@@ -72,8 +81,17 @@ const uploadResources = async (
       })
       .filter((value) => value !== null);
 
-    await setResources(resourceType, resourceFiles);
-  });
+    return await setResources(resourceType, resourceFiles);
+  } catch (e) {
+    console.log(`Could not read ${resourceType} directory...`);
+    console.log(`✗  Ignoring ${resourceType}`);
+    return {
+      type: resourceType,
+      numCreated: 0,
+      numUpdated: 0,
+      numFailed: 0,
+    };
+  }
 };
 
 export default uploadResources;

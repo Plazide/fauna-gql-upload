@@ -37,9 +37,8 @@ const uploadSchema = async (
     spinner.start();
   }
 
-  const endpoint = `https://graphql.fauna.com/import?mode=${
-    shouldOverride ? 'override' : 'merge'
-  }`;
+  const mode = shouldOverride ? 'override' : 'merge';
+  const endpoint = `https://graphql.fauna.com/import?mode=${mode}`;
 
   const res = (await fetch(endpoint, {
     method: 'POST',

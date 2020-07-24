@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES2019",
     "module": "commonjs",
     "lib": [
       "es6",
@@ -10,8 +10,12 @@
     "noImplicitAny": true,
     "esModuleInterop": true,
     "declaration": true,
+    "pretty": true,
+    "newLine": "lf",
+    "stripInternal": true,
     "outDir": "dist",
-    "sourceMap": false
+    "sourceMap": false,
+    "jsx": "react"
   },
   "include": [
     "src/**/*"
