@@ -25,34 +25,35 @@ const actions = {
  * @param {String} [obj.role] - The role of the function
  * @returns {Promise<string>} Promise that resolves to either `created` or `updated`
  */
-async function createOrUpdateResource(resource, type){
-	try{
-		const result = await client.query(
-			q.Let(
-				{
-					exists: q.Exists(actions[type].index(resource.name))
-				},
-				q.Do(
-					q.If(
-						q.Var("exists"),
-						q.Update(actions[type].index(resource.name), resource),
-						actions[type].create(resource)
-					),
-					q.If(
-						q.Var("exists"),
-						"updated",
-						"created"
+async function createOrUpdateResources(resources, type){
+	const result = await client.query(
+		q.Foreach(
+			resources,
+			q.Lambda(
+				"resource",
+				q.Let(
+					{
+						name: q.Select(["name"], q.Var("resource")),
+						exists: q.Exists(actions[type].index(q.Var("name")))
+					},
+					q.Do(
+						q.If(
+							q.Var("exists"),
+							q.Update(actions[type].index(q.Var("name")), q.Var("resource")),
+							actions[type].create(q.Var("resource"))
+						),
+						q.If(
+							q.Var("exists"),
+							"updated",
+							"created"
+						)
 					)
 				)
 			)
 		)
-	
-		return result;
-	}catch(err){
-		console.log(err);
-		displayErrors(err, resource, type);
-	}
+	)
 
+	return result;
 }
 
-module.exports = createOrUpdateResource;
+module.exports = createOrUpdateResources;

@@ -1,8 +1,8 @@
-module.exports = function displayErrors(err, resource, type){
+module.exports = function displayErrors(err, type){
 	const response = JSON.parse(err.requestResult.responseRaw);
 	const errors = response.errors;
 
-	console.group("Error creating", type, resource.name);
+	console.group("Error uploading", type);
 	for(let error of errors){
 		const failures = error.failures;
 		console.log(`${error.code}: ${error.description}`);
