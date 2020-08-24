@@ -1,12 +1,9 @@
 #!/usr/bin/env node
-const fs = require("fs");
 const path = require("path");
 const yargs = require("yargs");
 const getConfig = require("./util/getConfig");
 const uploadSchema = require("./lib/schema");
-const uploadFunctions = require("./lib/functions");
-const uploadRoles = require("./lib/roles");
-const uploadIndexes = require("./lib/indexes");
+const uploadResources = require("./lib/resources");
 require("dotenv").config();
 
 const argv = yargs
@@ -41,11 +38,11 @@ const{
 	console.log();
 
 	// Upload indexes
-	await uploadIndexes(indexesDir);
+	await uploadResources(indexesDir, "indexes");
 
 	// Upload functions
-	await uploadFunctions(fnsDir);
+	await uploadResources(fnsDir, "functions");
 
 	// Upload roles
-	await uploadRoles(rolesDir);
+	await uploadResources(rolesDir, "roles");
 })();
