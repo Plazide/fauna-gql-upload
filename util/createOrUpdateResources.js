@@ -1,6 +1,5 @@
 const { query: q } = require("faunadb");
 const client = require("./client");
-const displayErrors = require("./displayErrors");
 
 const actions = {
 	functions: {
