@@ -24,25 +24,30 @@ const config = getConfig();
 const defaultRolesDir = path.join("fauna", "roles");
 const defaultFnsDir = path.join("fauna", "functions");
 const defaultIndexesDir = path.join("fauna", "indexes");
+const defaultDataDir = path.join("fauna", "data");
 
 const{
 	schemaPath = "./models/schema.gql",
 	fnsDir = defaultFnsDir,
 	rolesDir = defaultRolesDir,
-	indexesDir = defaultIndexesDir
+	indexesDir = defaultIndexesDir,
+	dataDir = defaultDataDir,
 } = config;
 
 (async () => {
 	// Upload schema
-	await uploadSchema(schemaPath, argv.override);
-	console.log();
+	// await uploadSchema(schemaPath, argv.override);
+	// console.log();
 
-	// Upload indexes
-	await uploadResources(indexesDir, "indexes");
+	// // Upload indexes
+	// await uploadResources(indexesDir, "indexes");
 
-	// Upload functions
-	await uploadResources(fnsDir, "functions");
+	// // Upload functions
+	// await uploadResources(fnsDir, "functions");
 
-	// Upload roles
-	await uploadResources(rolesDir, "roles");
+	// // Upload roles
+	// await uploadResources(rolesDir, "roles");
+
+	// Upload data
+	await uploadResources(dataDir, "data");
 })();
