@@ -51,7 +51,7 @@ For the command to work properly, you need to have certain information in your p
 3. To upload functions, you need a directory called `fauna/functions`. Within this directory, you should have one `.js` file for each of you functions. See [Uploading Functions](#uploading-functions) for an example of such a file.
 4. To upload roles, you need a directory called `fauna/roles`. Within this directory, you should have one `.js` file for each of your roles. See [Uploading Roles](#uploading-roles) for an example of such a file.
 5. To upload indexes, you need a directory called `fauna/indexes`. Within this directory, you should have one `.js` file for each of your indexes. See [Uploading indexes](#uploading-indexes) for an example of such a file.
-6. To upload domain data, you need a directory called `fauna/data`. Within this directory, you should have one `.js` file for each of your indexes. See [Uploading data](#uploading-data) for an example of such a file.
+6. To upload domain data, you need a directory called `fauna/data`. Within this directory, you should have one `.js` file for each of your data sets. See [Uploading data](#uploading-data) for an example of such a file.
 
 Creating a `.fauna.json` file allows you to set:
 - the path to your `.env` file
@@ -70,7 +70,7 @@ The `.fauna.json` file takes the following properties:
 	"fnsDir": "fauna/functions",
 	"rolesDir": "fauna/roles",
 	"indexesDir": "fauna/indexes",
-	"dataDir": "fauna/data",
+	"dataDir": "fauna/data"
 }
 ```
 
@@ -195,7 +195,7 @@ module.exports = Query(
 );
 ```
 
-## Uploading data
+### Uploading data
 To upload data, you need a `fauna/data` directory containing a `.js` file for each of your data definition sets. These files describe the data and look like the following example.
 
 Data is idempotent, meaning multiple calls of the `fauna-gql` command will not yield duplicates. Documents that already exist (determined by the specified `key`) will be updated. This is why you must define a unique index and also specify which field to use for uniqueness with the `key` property.
