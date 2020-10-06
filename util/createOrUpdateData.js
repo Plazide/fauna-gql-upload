@@ -2,9 +2,11 @@ const { query: q } = require("faunadb");
 const client = require("./client");
 
 /**
- * TODO
+ * Creates or update domain data.
+ * @param {Array} resources - An array of domain data definitions.
+ * @returns {Promise<string>} Promise that resolves to either `created` or `updated`
  */
-async function createOrUpdateData(resources, type){
+async function createOrUpdateData(resources){
 	const result = await client.query(
 		q.Foreach(
 			resources,
@@ -17,7 +19,7 @@ async function createOrUpdateData(resources, type){
 						index: q.Select(["index"], q.Var("resource")),
 						key: q.Select(["key"], q.Var("resource")),
 					},
-					q.Foreach(Var("data"),
+					q.Foreach(q.Var("data"),
 						q.Lambda("item",
 							q.Let(
 								{
@@ -27,7 +29,7 @@ async function createOrUpdateData(resources, type){
 								q.Do(
 									q.If(
 										q.Var("exists"),
-										Let(
+										q.Let(
 											{
 												ref: q.Select(["ref"], q.Get(q.Var("match")))
 											},
