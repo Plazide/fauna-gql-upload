@@ -196,41 +196,22 @@ module.exports = Query(
 ```
 
 ## Uploading data
-To upload data, you need a `fauna/data` directory containing a `.js` file for each of your data definitions. These files describe the data and look like the following example.
+To upload data, you need a `fauna/data` directory containing a `.js` file for each of your data definition sets. These files describe the data and look like the following example.
+
+Data is idempotent, meaning multiple calls of the `fauna-gql` command will not yield duplicates. Documents that already exist (determined by the specified `key`) will be updated. This is why you must define a unique index and also specify which field to use for uniqueness with the `key` property.
 
 ```js
-const { query } = require("faunadb");
-const { Collection } = query;
-
 module.exports = {
-	data: [
-		{
-			collection: "Game",
-			document: {
-				name: "Qwixx",
-				key: "qwixx"
-			}
-		},
-		{
-			collection: "Game",
-			document: {
-				name: "Mexican Train Dominoes",
-				key: "mexican_train_dominoes"
-			}
-		}
-	]
+  collection: "Languages",
+  index: "languages_by_key",
+  key: "key",
+  data: [
+    { key: "en", name: "English" },
+    { key: "es", name: "Spanish" },
+    { key: "fr", name: "French" },
+  ],
 };
-```
 
-### Defining uniqueness
-After initial creation, you want the defined domain data to be updated instead of duplicated on subsequent calls to fauna-gql-upload. In this case, you need to define a unique index as well as a `key` field. These will be interrogated to ensure existing documents are updated.
-
-```js
-module.exports = {
-	data: [],
-	index: 'games_by_key',
-	key: 'key'
-}
 ```
 
 ## Get in touch
