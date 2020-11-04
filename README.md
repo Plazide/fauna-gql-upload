@@ -1,14 +1,14 @@
 # fauna-gql-upload
 fauna-gql-upload is a simple CLI to update your database's GraphQL schema, resolver functions, indexes, and database roles without going to the FaunaDB dashboard. It uses the `https://graphql.fauna.com/import` endpoint to update the schema from a file within your project, and the FQL driver for JavaScript to update/create functions, roles, and indexes.
 
-> **NOTE:** If you want to use this package with typescript, you do not need to build the resources manually. As of version 1.9.0, type-checking and typescript compilation is handled automatically without extra configuration. Read more about [typescript support](#typescript)
-
 ## Main features
-- Store all your User-defined functions, roles, indexes, and domain data within your project.
-- Update your schema and other resources without leaving your editor.
-- Easily replicate FaunaDB resources across databases and accounts.
-- Include FaunaDB resources in version control and source code.
-- Typescript support.
+- 🗄️ Store all your User-defined functions, roles, indexes, and domain data within your project.
+- 📜 Update your schema and other resources without leaving your editor.
+- 🔃 Easily replicate FaunaDB resources across databases and accounts.
+- 📑 Include FaunaDB resources in version control and source code.
+- ✔️ Typescript support.
+
+> **NOTE:** If you want to use this package with typescript, you do not need to build the resources manually. As of version 1.9.0, type-checking and typescript compilation is handled automatically without extra configuration. Read more about [typescript support](#typescript).
 
 ## Install
 You could install locally within your project:
