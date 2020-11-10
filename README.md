@@ -1,9 +1,14 @@
-# fauna-gql
-fauna-gql is a simple CLI to update your database's GraphQL schema, resolver functions, indexes, and database roles without going to the FaunaDB dashboard. It uses the `https://graphql.fauna.com/import` endpoint to update the schema from a file within your project, and the FQL driver for JavaScript to update/create functions, roles, and indexes.
+# fauna-gql-upload
+fauna-gql-upload is a simple CLI to update your database's GraphQL schema, resolver functions, indexes, and database roles without going to the FaunaDB dashboard. It uses the `https://graphql.fauna.com/import` endpoint to update the schema from a file within your project, and the FQL driver for JavaScript to update/create functions, roles, and indexes.
 
 ## Main features
-- Store all your User-defined functions, roles, indexes, and domain data within your project.
-- Update your schema and other resources without leaving your editor.
+- 🗄️ Store all your User-defined functions, roles, indexes, and domain data within your project.
+- 📜 Update your schema and other resources without leaving your editor.
+- 🔃 Easily replicate FaunaDB resources across databases and accounts.
+- 📑 Include FaunaDB resources in version control and source code.
+- ✔️ Typescript support.
+
+> **NOTE:** If you want to use this package with typescript, you do not need to build the resources manually. As of version 1.9.0, type-checking and typescript compilation is handled automatically without extra configuration. Read more about [typescript support](#typescript).
 
 ## Install
 You could install locally within your project:
@@ -53,28 +58,23 @@ For the command to work properly, you need to have certain information in your p
 5. To upload indexes, you need a directory called `fauna/indexes`. Within this directory, you should have one `.js` file for each of your indexes. See [Uploading indexes](#uploading-indexes) for an example of such a file.
 6. To upload domain data, you need a directory called `fauna/data`. Within this directory, you should have one `.js` file for each of your data sets. See [Uploading data](#uploading-data) for an example of such a file.
 
-Creating a `.fauna.json` file allows you to set:
-- the path to your `.env` file
-- FaunaDB secret environment variable name
-- another path for the schema
-- another functions directory
-- another indexes directory
+### Config file
 
-The `.fauna.json` file takes the following properties:
+If you need to customize paths or set a different environment variable name for your secret key, you can create a `.fauna.json` file.
 
-```json
-{
-	"envPath": ".env",
-	"secretEnv": "FAUNADB_SECRET",
-	"schemaPath": "fauna/schema.gql",
-	"fnsDir": "fauna/functions",
-	"rolesDir": "fauna/roles",
-	"indexesDir": "fauna/indexes",
-	"dataDir": "fauna/data"
-}
-```
+It takes the following properties:
 
-These would now take precedent over the default values.
+|Property|Default|Description|
+|--------|-------|-------|
+|`schemaPath`|`models/schema.gql`|Path to your GraphQL schema.
+|`secretEnv`|`FAUNADB_SECRET`|The key used to access the your FaunaDB database.
+|`tsconfigPath`|`tsconfig.json`|Path to a `tsconfig.json` file.
+|`envPath`|`.env`|Path to the environment file that holds your `secretEnv`
+|`fnsDir`|`fauna/functions`|Path to directory that holds your FQL UDFs.
+|`rolesDir`|`fauna/roles`|Path to directory that holds your FaunaDB roles
+|`dataDir`|`fauna/data`|Path to directory that holds your domain data.
+
+*All properties are optional, you can omit `.fauna.json` completely if you are happy with the defaults.*
 
 ## Usage
 
@@ -213,6 +213,38 @@ module.exports = {
 };
 
 ```
+
+### Typescript
+
+This package supports type-checking and automatic compilation of typescript files. All you need to do is change the file extension to `.ts`.
+
+You will also need to make sure you use the correct export syntax. Exports need to look like the following example to allow fauna-gql-upload to read it:
+
+```ts
+import{ query } from "faunadb";
+const{ Query, Lambda, Let, Identity, Select, Get, Var } = query;
+
+
+export = {
+	name: "current_user",
+	body:
+	Query(
+		Lambda([], Let({ userRef: Identity() }, Select([], Get(Var("userRef")))))
+	)
+}
+```
+
+#### Configuration file
+
+fauna-gql-upload looks for a `tsconfig.json` file in the following order:
+
+1. The file specified in `.fauna.json` under the `tsconfigPath` property.
+2. The closest `tsconfig.json` to the current resource, ie. if you have a `tsconfig.json` in your functions directory, we will use that for your functions but not for other resources.
+3. If the two previous checks returns empty, the default compiler options will be used.
+
+
+#### Incremental adoption
+If you've already started a project using `.js` files, you can just add new files with the `.ts` extension and fauna-gql-upload will pick up both file extensions and treat then correctly.
 
 ## Get in touch
 If you want to get in touch with me, feel free to reach out to me one Twitter([@chj_web](https://twitter.com/chj_web)).
