@@ -27,7 +27,7 @@ const defaultIndexesDir = path.join("fauna", "indexes");
 const defaultDataDir = path.join("fauna", "data");
 
 const{
-	schemaPath = "./models/schema.gql",
+	schemaPath = "./fauna/schema.gql",
 	fnsDir = defaultFnsDir,
 	rolesDir = defaultRolesDir,
 	indexesDir = defaultIndexesDir,
