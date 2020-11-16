@@ -4,7 +4,8 @@
   "description": "Upload a GraphQL schema to FaunaDB using the command line.",
   "main": "index.js",
   "bin": {
-    "fauna-gql": "./index.js"
+    "fauna-gql": "./index.js",
+    "fgu": "./index.js"
   },
   "keywords": [
     "faunadb",
