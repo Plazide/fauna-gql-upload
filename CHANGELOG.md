@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.9.0 - November 16th, 2020
+## 1.9.0 - November 23rd, 2020
 
 ### Added
 - Changelog.
