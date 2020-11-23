@@ -17,7 +17,7 @@ const actions = {
 }
 
 /**
- * Create or update a user-defined function. Returns the action that was taken.
+ * Create or update a resource. Returns the action that was taken.
  * @param {Object} resource - A function object.
  * @param {String} obj.name - The name of the function
  * @param {Object} obj.body - The actual function body

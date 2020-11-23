@@ -20,4 +20,6 @@
 
 - Default schema path is now the same as specified in readme. Previously, the default schema path was `models/schema.gql` while the readme specified `fauna/schema.gql`. Since users were previously required to use a `.fauna.json` file to set the schema path, the actual default path was never used. Therefore, I do not consider this a breaking change.
 
+- Invalid reference error when uploading function that uses custom role. If you created a custom role which was refrenced in a UDF, fauna would throw a invalid reference error because that role did not exist at the time it was referenced. This has been fixed by first creating functions with an empty role property, and then updating the functions after the roles have been created.
+
 ---

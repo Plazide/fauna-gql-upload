@@ -12,7 +12,7 @@
     "graphql",
     "cli"
   ],
-  "author": "Carl Hallén Jansson",
+  "author": "Carl Hallén Jansson <carl@chjweb.se>",
   "license": "ISC",
   "dependencies": {
     "cli-spinner": "^0.2.10",
