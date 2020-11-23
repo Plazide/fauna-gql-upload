@@ -1,58 +1,23 @@
-const { query: q } = require("faunadb");
-const client = require("./client");
-
-const actions = {
-	functions: {
-		create: q.CreateFunction,
-		index: q.Function
-	},
-	indexes: {
-		create: q.CreateIndex,
-		index: q.Index,
-	},
-	roles: {
-		create: q.CreateRole,
-		index: q.Role
-	}
-}
+const createOrUpdateData = require('./createOrUpdateData');
+const createOrUpdateStandardResources = require('./createOrUpdateStandardResources');
+const createFunctionsWithoutRoles = require("./createFunctionsWithoutRoles");
 
 /**
- * Create or update a user-defined function. Returns the action that was taken.
- * @param {Object} resource - A function object.
- * @param {String} obj.name - The name of the function
- * @param {Object} obj.body - The actual function body
- * @param {String} [obj.role] - The role of the function
- * @returns {Promise<string>} Promise that resolves to either `created` or `updated`
+ * Create or update resources.
+ * @param {object[]} resources - Resources to be uploaded
+ * @param {"data"|"functions"|"roles"|"indexes"} type - The type of resource to upload
+ * @param {{ fnsWithRoles: boolean }} options - Additional options
  */
-async function createOrUpdateResources(resources, type){
-	const result = await client.query(
-		q.Foreach(
-			resources,
-			q.Lambda(
-				"resource",
-				q.Let(
-					{
-						name: q.Select(["name"], q.Var("resource")),
-						exists: q.Exists(actions[type].index(q.Var("name")))
-					},
-					q.Do(
-						q.If(
-							q.Var("exists"),
-							q.Update(actions[type].index(q.Var("name")), q.Var("resource")),
-							actions[type].create(q.Var("resource"))
-						),
-						q.If(
-							q.Var("exists"),
-							"updated",
-							"created"
-						)
-					)
-				)
-			)
-		)
-	)
+async function createOrUpdateResources(resources, type, { fnsWithRoles = true } = {}){
+	if (type === 'data') {
+		return createOrUpdateData(resources);
+	}
 
-	return result;
+	if(type === "functions" && !fnsWithRoles){
+		return createFunctionsWithoutRoles(resources);
+	}
+
+	return createOrUpdateStandardResources(resources, type);
 }
 
 module.exports = createOrUpdateResources;

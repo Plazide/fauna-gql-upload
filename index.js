@@ -24,12 +24,14 @@ const config = getConfig();
 const defaultRolesDir = path.join("fauna", "roles");
 const defaultFnsDir = path.join("fauna", "functions");
 const defaultIndexesDir = path.join("fauna", "indexes");
+const defaultDataDir = path.join("fauna", "data");
 
 const{
-	schemaPath = "./models/schema.gql",
+	schemaPath = "./fauna/schema.gql",
 	fnsDir = defaultFnsDir,
 	rolesDir = defaultRolesDir,
-	indexesDir = defaultIndexesDir
+	indexesDir = defaultIndexesDir,
+	dataDir = defaultDataDir
 } = config;
 
 (async () => {
@@ -40,9 +42,17 @@ const{
 	// Upload indexes
 	await uploadResources(indexesDir, "indexes");
 
-	// Upload functions
-	await uploadResources(fnsDir, "functions");
+	// Upload functions without their role property.
+	// This solves a problem where the fauna would throw an invalid reference error
+	// when referencing user defined roles before they exist.
+	await uploadResources(fnsDir, "functions", { fnsWithRoles: false });
 
 	// Upload roles
 	await uploadResources(rolesDir, "roles");
+
+	// Upload functions with roles
+	await uploadResources(fnsDir, "functions", { fnsWithRoles: true })
+
+	// Upload data
+	await uploadResources(dataDir, "data");
 })();
