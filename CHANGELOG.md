@@ -4,6 +4,7 @@
 
 ### Fixed
 - Problem with Typescript when using NextJS. We didn't support the `export default` syntax when exporting from resource files. This proved to be a problem when using default Typescript options in NextJS since the `export = {}` syntax threw errors. Thanks to [@seanconnollydev](https://github.com/seanconnollydev) for extending the supported export syntax.
+- Typescript not using the closest `tsconfig.json` file. You were supposed to be able to create a seperate `tsconfig.json` file for each resource type by simply placing it in the resource directory. This did not work since typescript started looking for a config file in the working directory and therefore ignoring all the resource directories.
 
 ---
 
