@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.9.1 - November 24th, 2020
+
+### Fixed
+- Problem with Typescript when using NextJS. We didn't support the `export default` syntax when exporting from resource files. This proved to be a problem when using default Typescript options in NextJS since the `export = {}` syntax threw errors. Thanks to [@seanconnollydev](https://github.com/seanconnollydev) for extending the supported export syntax.
+
+---
+
 ## 1.9.0 - November 23rd, 2020
 
 ### Added
