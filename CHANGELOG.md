@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.9.2 - December 6th, 2020
+
+### Fixed
+- Error when not having Typescript installed in the project directory.
+- Error when having non `.js` or `.ts` files in resource directory. Thanks to [@naotone](https://github.com/naotone) for fixing this in PR #15.
+
+---
+
 ## 1.9.1 - November 24th, 2020
 
 ### Fixed
