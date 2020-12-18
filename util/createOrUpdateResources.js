@@ -9,15 +9,17 @@ const createFunctionsWithoutRoles = require("./createFunctionsWithoutRoles");
  * @param {{ fnsWithRoles: boolean }} options - Additional options
  */
 async function createOrUpdateResources(resources, type, { fnsWithRoles = true } = {}){
+	const resourcesArray = resources.map(r => r.default || r); // Support default exports
+
 	if (type === 'data') {
-		return createOrUpdateData(resources);
+		return createOrUpdateData(resourcesArray);
 	}
 
 	if(type === "functions" && !fnsWithRoles){
-		return createFunctionsWithoutRoles(resources);
+		return createFunctionsWithoutRoles(resourcesArray);
 	}
 
-	return createOrUpdateStandardResources(resources, type);
+	return createOrUpdateStandardResources(resourcesArray, type);
 }
 
 module.exports = createOrUpdateResources;

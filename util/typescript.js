@@ -1,12 +1,13 @@
 const ts = require("typescript");
 const fs = require("fs");
+const path = require("path");
 const getConfig = require("./getConfig");
 
 const cwd = process.cwd();
 const config = getConfig();
 
-async function typeCheck(entries){
-	const compilerOptions = await getCompilerOptions();
+async function typeCheck(entries, dir){
+	const compilerOptions = await getCompilerOptions(dir);
 
 	// Don't build files, that is handled by esbuild.
 	compilerOptions.noEmit = true;
@@ -30,9 +31,9 @@ async function typeCheck(entries){
 	return true;
 }
 
-async function getCompilerOptions(){
+async function getCompilerOptions(dir){
 	// Look for a tsconfig.json file.
-	const configFile = config.tsconfigPath || ts.findConfigFile(cwd, (name) => fs.existsSync(name));
+	const configFile = config.tsconfigPath || ts.findConfigFile(path.join(cwd, dir), (name) => fs.existsSync(name));
 
 	// Return the compiler options from that config file if it exists.
 	if(configFile){
