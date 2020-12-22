@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9.3 - December 22nd, 2020
+
+### Fixed
+- Error that prevented Typescript resources from being uploaded. Thanks to [@seanconnollydev](https://github.com/seanconnollydev) for fixing this in PR #16.
+
 ## 1.9.2 - December 6th, 2020
 
 ### Fixed
