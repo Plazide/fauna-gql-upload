@@ -247,4 +247,4 @@ fauna-gql-upload looks for a `tsconfig.json` file in the following order:
 If you've already started a project using `.js` files, you can just add new files with the `.ts` extension and fauna-gql-upload will pick up both file extensions and treat then correctly.
 
 ## Get in touch
-If you want to get in touch with me, feel free to reach out to me one Twitter([@chj_web](https://twitter.com/chj_web)).
+If you want to get in touch with me, feel free to reach out to me on Twitter([@chj_web](https://twitter.com/chj_web)).
