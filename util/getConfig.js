@@ -27,6 +27,7 @@ function getConfig(){
 		dataDir: providedConfig.dataDir || defaultDataDir,
 		codegen: providedConfig.codegen ? {
 			disableTypescript: codegenDisableTypescript,
+			operations: providedConfig.operations || true,
 			outputFile: providedConfig.codegen.outputFile || (codegenDisableTypescript ? "generated/graphql.js" : "generated/graphql.ts"),
 			headers: providedConfig.codegen.headers || {},
 			documents: providedConfig.codegen.documents || [],
