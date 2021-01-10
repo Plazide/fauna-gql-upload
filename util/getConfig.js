@@ -31,7 +31,8 @@ function getConfig(){
 			outputFile: providedConfig.codegen.outputFile || (codegenDisableTypescript ? "generated/graphql.js" : "generated/graphql.ts"),
 			headers: providedConfig.codegen.headers || {},
 			documents: providedConfig.codegen.documents || [],
-			plugins: providedConfig.codegen.plugins || []
+			plugins: providedConfig.codegen.plugins || [],
+			pluginOptions: providedConfig.pluginOptions || {}
 		} : false
 	}
 
