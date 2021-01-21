@@ -1,5 +1,5 @@
-const wait = require("../util/wait");
-const camelize = require("../util/camelize");
+import wait from "../src/util/wait";
+import camelize from "../src/util/camelize";
 
 test("Should wait about 500 ms", async () => {
 	const waitTime = 500;

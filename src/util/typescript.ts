@@ -1,12 +1,12 @@
-const ts = require("typescript");
-const fs = require("fs");
-const path = require("path");
-const getConfig = require("./getConfig");
+import ts from "typescript";
+import fs from "fs";
+import path from "path";
+import getConfig from "./getConfig";
 
 const cwd = process.cwd();
 const config = getConfig();
 
-async function typeCheck(entries, dir){
+export async function typeCheck(entries: string[], dir: string){
 	const compilerOptions = await getCompilerOptions(dir);
 
 	// Don't build files, that is handled by esbuild.
@@ -31,24 +31,26 @@ async function typeCheck(entries, dir){
 	return true;
 }
 
-async function getCompilerOptions(dir){
+async function getCompilerOptions(dir: string){
+	const basePath = path.join(cwd, dir);
+
 	// Look for a tsconfig.json file.
-	const configFile = config.tsconfigPath || ts.findConfigFile(path.join(cwd, dir), (name) => fs.existsSync(name));
+	const configFile = config.tsconfigPath || ts.findConfigFile(basePath, (name) => fs.existsSync(name));
 
 	// Return the compiler options from that config file if it exists.
 	if(configFile){
 		const configJson = await fs.promises.readFile(configFile, { encoding: "utf8" })
 		const config = ts.parseConfigFileTextToJson(configFile, configJson);
-		if(config.error) throw new Error(config.error.messageText);
+		if(config.error) {
+			const host = ts.createCompilerHost(config.config);
+			const message = ts.formatDiagnostic(config.error, host);
+			console.log(message);
+		}
 
-		const { options: compilerOptions } = ts.convertCompilerOptionsFromJson(config.config.compilerOptions);
+		const { options: compilerOptions } = ts.convertCompilerOptionsFromJson(config.config.compilerOptions, basePath);
 		return compilerOptions;
 	}
 
 	// Return default compiler options if no tsconfig.json exists.
 	return ts.getDefaultCompilerOptions();
-}
-
-module.exports = {
-	typeCheck
 }

@@ -1,13 +1,15 @@
-const fs = require("fs");
-const path = require("path");
-const createOrUpdateResources = require("../util/createOrUpdateResources");
-const displayErrors = require("../util/displayErrors");
-const esbuild = require("esbuild");
-const { typeCheck } = require("../util/typescript");
+import fs from "fs";
+import path from "path";
+import createOrUpdateResources from "../util/createOrUpdateResources";
+import displayErrors from "../util/displayErrors";
+import esbuild from "esbuild";
+import { typeCheck } from "../util/typescript";
+import { ResourceType, UploadResourcesOptions } from "../types";
 
 const cwd = process.cwd();
+const allowedExts = [".js", ".ts"];
 
-async function uploadResources(dir, type, options){
+async function uploadResources(dir: string, type: ResourceType, options: UploadResourcesOptions){
 	const failedUploadError = `❌  Failed to upload ${type}\n`;
 
 	const resourceDir = path.join(dir, "output");
@@ -19,7 +21,14 @@ async function uploadResources(dir, type, options){
 		return;
 	}
 
-	const entries = files.filter(value => value !== null).map( file => path.join(dir, file)).filter( file => getExt(file) !== ".json");
+	const entries = files.filter(file =>{
+		const ext = getExt(file)
+
+		if(allowedExts.includes(ext)){
+			return true
+		}
+		return false
+	}).map( file => path.join(dir, file));
 	const containsTs = files.some( file => getExt(file) === ".ts");
 	if(containsTs) {
 		const ok = await typeCheck(entries, dir);
@@ -52,10 +61,11 @@ async function uploadResources(dir, type, options){
 
 	const resourceFiles = (await Promise.all(files.map( async file => {
 		try{
-			if(getExt(file) === ".json") return null;
+			if(!allowedExts.includes(getExt(file))) return null;
 			const resourcePath = path.join(cwd, resourceDir, removeExt(file) + ".js");
 			const resource = await require(resourcePath);
 
+			console.log(resource);
 			return resource;
 		}catch(err){
 			console.error("❌ Error reading file", `${resourceDir}/${file}`);
@@ -84,11 +94,11 @@ async function uploadResources(dir, type, options){
 
 }
 
-function removeExt(str){
+function removeExt(str: string){
 	return str.split(".").slice(0, -1).join("");
 }
 
-function getExt(str){
+function getExt(str: string){
 	return path.extname(str);
 }
 

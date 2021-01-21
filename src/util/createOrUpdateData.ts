@@ -1,3 +1,5 @@
+import { IDataResource } from "../types";
+
 const { query: q } = require("faunadb");
 const client = require("./client");
 
@@ -6,7 +8,7 @@ const client = require("./client");
  * @param {Array} resources - An array of domain data definitions.
  * @returns {Promise<string>} Promise that resolves to either `created` or `updated`
  */
-async function createOrUpdateData(resources){
+export default async function createOrUpdateData(resources: IDataResource[]){
 	const result = await client.query(
 		q.Foreach(
 			resources,
@@ -53,5 +55,3 @@ async function createOrUpdateData(resources){
 
 	return result;
 }
-
-module.exports = createOrUpdateData;

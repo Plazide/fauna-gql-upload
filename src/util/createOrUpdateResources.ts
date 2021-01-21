@@ -1,3 +1,5 @@
+import { Resource, ResourceType, UploadResourcesOptions } from "../types";
+
 const createOrUpdateData = require('./createOrUpdateData');
 const createOrUpdateStandardResources = require('./createOrUpdateStandardResources');
 const createFunctionsWithoutRoles = require("./createFunctionsWithoutRoles");
@@ -8,8 +10,12 @@ const createFunctionsWithoutRoles = require("./createFunctionsWithoutRoles");
  * @param {"data"|"functions"|"roles"|"indexes"} type - The type of resource to upload
  * @param {{ fnsWithRoles: boolean }} options - Additional options
  */
-async function createOrUpdateResources(resources, type, { fnsWithRoles = true } = {}){
-	const resourcesArray = resources.map(r => r.default || r); // Support default exports
+export default async function createOrUpdateResources(
+	resources: Resource[], 
+	type: ResourceType, 
+	{ fnsWithRoles = true }: UploadResourcesOptions = {}
+){
+	const resourcesArray = resources//resources.map(r => r.default || r); // Support default exports
 
 	if (type === 'data') {
 		return createOrUpdateData(resourcesArray);
@@ -21,5 +27,3 @@ async function createOrUpdateResources(resources, type, { fnsWithRoles = true } 
 
 	return createOrUpdateStandardResources(resourcesArray, type);
 }
-
-module.exports = createOrUpdateResources;

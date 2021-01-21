@@ -1,7 +1,14 @@
 {
-	"plugins": ["jest"],
-	"extends": ["plazide"],
+	"parser": "@typescript-eslint/parser",
+	"plugins": [
+		"@typescript-eslint",
+		"jest"
+	],
 	"env": {
 		"jest/globals": true
-	}
+	},
+	"rules": {
+		"indent": ["tab", "error"]
+	},
+	"ignorePatterns": "dist"
 }

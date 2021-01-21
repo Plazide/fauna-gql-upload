@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-const path = require("path");
-const yargs = require("yargs");
-const getConfig = require("./util/getConfig");
+import path from "path";
+import yargs from "yargs";
+import getConfig from "./util/getConfig";
 //const runCodegen = require("./lib/codegen");
-require("dotenv").config();
+/* import dotenv from "dotenv";
+dotenv.config(); */
 
 const argv = yargs
 	.option("override", {
@@ -29,8 +30,8 @@ const {
 
 (async () => {
 	ensurePackage("faunadb")
-	const uploadSchema = require("./lib/schema");
-	const uploadResources = require("./lib/resources");
+	const uploadSchema = await import("./lib/schema");
+	const uploadResources = await import("./lib/resources");
 
 	// Upload schema
 	// await uploadSchema(schemaPath, argv.override);
@@ -55,25 +56,25 @@ const {
 
 	// If the codegen is specified
 	if(codegen){
-		ensurePackage("graphql");
+		//ensurePackage("graphql");
 
-		const runCodegen = require("./lib/codegen");
-		runCodegen(codegen)
+		const runCodegen = (await import("./lib/codegen")).default;
+		runCodegen()
 	}
 		
 })();
 
-function ensurePackage(name){
+function ensurePackage(name: string){
 	try{
-		require(name);
+		const modulePath = path.resolve(process.cwd(), "node_modules", name);
+		console.log(modulePath);
+		require(modulePath);
 		console.log(name, "is installed")
 	}catch(err){
-		throw new Error(
-			`Missing required peer dependency "${name}".
+		throw `Missing required peer dependency "${name}".
 			
 Run "yarn add ${name}" to install it with yarn,
 or "npm i ${name}" to install with npm.
 			`
-		)
 	}
 }
