@@ -2,14 +2,12 @@ import fs from "fs";
 import path from "path";
 import camelize from "../util/camelize";
 import { codegen } from "@graphql-codegen/core";
-import { Types, CodegenPlugin } from "@graphql-codegen/plugin-helpers"
+import type { Types, CodegenPlugin } from "@graphql-codegen/plugin-helpers"
 import { UrlLoader } from "@graphql-tools/url-loader"
 import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
 import { CodeFileLoader } from "@graphql-tools/code-file-loader";
 import { loadSchema, loadDocuments } from "@graphql-tools/load";
-/* import typescriptPlugin from "@graphql-codegen/typescript"
-import typescriptOperationsPlugin from "@graphql-codegen/typescript-operations"; */
-import { printSchema, parse } from "graphql";
+
 import getConfig from "../util/getConfig";
 import secret from "../util/secret";
 
@@ -18,6 +16,9 @@ const config = getConfig();
 
 export default async function runCodegen(){
 	if(!config.codegen) return;
+
+	// @ts-ignore
+	const { printSchema, parse } = await import(path.resolve(cwd, "node_modules", "graphql"));
 
 	try{
 		const schema = await fetchSchema();
@@ -42,7 +43,6 @@ export default async function runCodegen(){
 			await fs.promises.mkdir(config.codegen.outputFile.split("/").slice(0, -1).join("/"), { recursive: true })
 		}
 
-		
 		await fs.promises.writeFile(path.join(cwd, config.codegen.outputFile), output);
 		console.log("✔️  Generated GraphQL types, queries and mutations.");
 	}catch(err){
@@ -53,34 +53,37 @@ export default async function runCodegen(){
 async function getPlugins(){
 	if(!config.codegen) throw new Error("Codegen is not enabled");
 
-	const pluginOptions = config.codegen.pluginOptions;
+	const globalPluginOptions = config.codegen.pluginOptions;
 	const customPlugins = config.codegen.plugins || [];
 	const pluginMap: { [key: string]: CodegenPlugin } = {};
 	let plugins: Types.ConfiguredPlugin[] = [];
 	
-	if(!config.codegen.disableTypescript) {
-		plugins.push({ typescript: pluginOptions })
+	if(config.codegen.typescript) {
+		plugins.push({ typescript: globalPluginOptions })
 		pluginMap.typescript = await import("@graphql-codegen/typescript");
 	}
 
-	if(config.codegen.operations) {
-		plugins.push({ typescriptOperations: pluginOptions })
+	if(config.codegen.operations && config.codegen.typescript) {
+		plugins.push({ typescriptOperations: globalPluginOptions })
 		pluginMap.typescriptOperations = await import("@graphql-codegen/typescript-operations");
 	}
 
 	if(customPlugins.length > 0)
-		await Promise.all(customPlugins.map( async plugin => {
-			const name = plugin.split("/").slice(-1).join("");
-			const camelCased = camelize(name);
-			const pluginPath = await getPluginPath(plugin);
+		await Promise.all(customPlugins.map( async (plugin) => {
+			const name = typeof plugin === "string" ? plugin : plugin[0];
+			const localPluginOptions = Array.isArray(plugin) ? plugin[1] : {};
 
-			console.log(pluginPath);
+			// Remove scope of plugin if it exists
+			const parsedName = name.split("/").slice(-1).join("")
+			const camelCased = camelize(parsedName);
 
-			plugins.push({ [camelCased]: pluginOptions });
+			// Get the plugin path by its original name
+			const pluginPath = await getPluginPath(name);
+
+			const pluginOptions = { ...globalPluginOptions, ...localPluginOptions };
+			plugins.push({ [camelCased]: pluginOptions })
 			pluginMap[camelCased] = await import(pluginPath);
 		}))
-
-	console.log(pluginMap)
 
 	return {plugins, pluginMap};
 }
@@ -90,18 +93,10 @@ async function getPlugins(){
 	If it is not, we return the provided plugin path unaltered.
  */
 async function getPluginPath(plugin: string){
-	/* const officialPath = path.resolve(cwd, "node_modules", "@graphql-codegen", plugin);
-	const isOfficialPlugin = await import(officialPath).then( () => true).catch( () => false);
-
-	return isOfficialPlugin
-		? officialPath
-		: path.resolve(cwd, "node_modules", plugin); */
-
 	const nodeModules = path.resolve(cwd, "node_modules");
 
 	try{
 		const pluginPath = path.join(nodeModules, "@graphql-codegen", plugin);
-		console.log(pluginPath);
 		require(pluginPath)
 		return pluginPath;
 	}catch(err){

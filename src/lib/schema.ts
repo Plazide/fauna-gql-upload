@@ -69,4 +69,4 @@ async function uploadSchema(schemaPath: string, override = false){
 		console.log("✔️  Successfully updated schema");
 }
 
-module.exports = uploadSchema;
+export default uploadSchema;

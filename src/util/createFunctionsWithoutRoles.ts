@@ -1,3 +1,4 @@
+// @ts-ignore
 import { query as q } from "faunadb";
 import { IFunctionResource } from "../types";
 import client from "./client";

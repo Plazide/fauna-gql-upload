@@ -9,7 +9,7 @@ import { ResourceType, UploadResourcesOptions } from "../types";
 const cwd = process.cwd();
 const allowedExts = [".js", ".ts"];
 
-async function uploadResources(dir: string, type: ResourceType, options: UploadResourcesOptions){
+async function uploadResources(dir: string, type: ResourceType, options?: UploadResourcesOptions){
 	const failedUploadError = `❌  Failed to upload ${type}\n`;
 
 	const resourceDir = path.join(dir, "output");
@@ -82,7 +82,7 @@ async function uploadResources(dir: string, type: ResourceType, options: UploadR
 		await createOrUpdateResources(resourceFiles, type, options);
 
 		// Don't log success message on first function pass.
-		if(type === "functions" && !options.fnsWithRoles) return;
+		if(type === "functions" && !options?.fnsWithRoles) return;
 		
 		console.log("✔️  Successfully uploaded", type);
 		console.log();
@@ -102,4 +102,4 @@ function getExt(str: string){
 	return path.extname(str);
 }
 
-module.exports = uploadResources;
+export default uploadResources;

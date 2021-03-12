@@ -1,7 +1,6 @@
 import { IDataResource } from "../types";
 
-const { query: q } = require("faunadb");
-const client = require("./client");
+import client, { q } from "./client";
 
 /**
  * Creates or update domain data.

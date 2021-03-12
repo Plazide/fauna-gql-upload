@@ -1,3 +1,4 @@
+// @ts-ignore
 import { query as q } from "faunadb";
 import client from "./client";
 import { StandardResource, StandardResourceType } from "../types";

@@ -1,5 +1,6 @@
 import path from "path";
 import fs from "fs";
+import { Plugin } from "../types";
 
 interface IOptions{
 	schemaPath: string,
@@ -11,12 +12,12 @@ interface IOptions{
 	indexesDir: string,
 	dataDir: string,
 	codegen: {
-		disableTypescript: boolean,
+		typescript: boolean,
 		operations: boolean,
 		outputFile: string,
 		headers: { [key: string]: string },
 		documents: string[],
-		plugins: string[],
+		plugins: Plugin[],
 		pluginOptions: { [key: string]: string }
 	} | null
 }
@@ -35,17 +36,7 @@ export default function getConfig(){
 
 	const configPath = path.join(cwd, ".fauna.json");
 	const providedConfig = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath, "utf8")) : {};
-	const codegenDisableTypescript = (providedConfig.codegen && providedConfig.codegen.disableTypescript) || false;
-
-	const defaultCodegen = {
-		disableTypescript: codegenDisableTypescript,
-		operations: providedConfig.operations || true,
-		outputFile: providedConfig.codegen.outputFile || (codegenDisableTypescript ? "generated/graphql.js" : "generated/graphql.ts"),
-		headers: providedConfig.codegen.headers || {},
-		documents: providedConfig.codegen.documents || [],
-		plugins: providedConfig.codegen.plugins || [],
-		pluginOptions: providedConfig.pluginOptions || {}
-	}
+	const codegenTypescript = providedConfig.codegen.typescript ?? true;
 
 	const config: IOptions = {
 		schemaPath: providedConfig.schemaPath || "./fauna/schema.gql",
@@ -57,13 +48,13 @@ export default function getConfig(){
 		indexesDir: providedConfig.indexesDir || defaultIndexesDir,
 		dataDir: providedConfig.dataDir || defaultDataDir,
 		codegen: providedConfig.codegen ? {
-			disableTypescript: codegenDisableTypescript,
-			operations: providedConfig.operations || true,
-			outputFile: providedConfig.codegen.outputFile || (codegenDisableTypescript ? "generated/graphql.js" : "generated/graphql.ts"),
+			typescript: codegenTypescript,
+			operations: providedConfig.codegen.operations ?? true,
+			outputFile: providedConfig.codegen.outputFile || (codegenTypescript ? "generated/graphql.ts" : "generated/graphql.js"),
 			headers: providedConfig.codegen.headers || {},
 			documents: providedConfig.codegen.documents || [],
 			plugins: providedConfig.codegen.plugins || [],
-			pluginOptions: providedConfig.pluginOptions || {}
+			pluginOptions: providedConfig.codegen.pluginOptions || {}
 		} : null
 	}
 

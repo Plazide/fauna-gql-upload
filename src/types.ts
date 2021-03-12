@@ -1,3 +1,4 @@
+// @ts-ignore
 import { Expr } from "faunadb";
 
 export interface UploadResourcesOptions{
@@ -78,3 +79,5 @@ export interface IDataResource{
 	key: string;
 	data: { [key: string]: string | number | object }[]
 }
+
+export type Plugin = string | [string, Record<string, unknown>];

@@ -1,13 +1,15 @@
 {
 	"compilerOptions": {
-		"lib": ["ES2020"],
-		"module": "CommonJS",
+		"lib": ["DOM", "esnext"],
 		"moduleResolution": "node",
+		"resolveJsonModule": true,
 		"strict": true,
 		"esModuleInterop": true,
 		"outDir": "dist",
 		"forceConsistentCasingInFileNames": true,
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"allowSyntheticDefaultImports": true,
+		"module": "CommonJS"
 	},
 	"include": ["src/**/*.ts"],
 	"exclude": ["node_modules/*", "dist/*"]

@@ -1,3 +1,4 @@
+// @ts-ignore
 import { errors } from "faunadb";
 import { ResourceType } from "../types";
 
