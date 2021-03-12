@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"lib": ["DOM", "esnext"],
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"strict": true,
+		"esModuleInterop": true,
+		"outDir": "dist",
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+		"allowSyntheticDefaultImports": true,
+		"module": "CommonJS"
+	},
+	"include": ["src/**/*.ts"],
+	"exclude": ["node_modules/*", "dist/*"]
+}

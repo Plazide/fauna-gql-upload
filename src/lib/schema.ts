@@ -1,17 +1,19 @@
-const fs = require("fs");
-const path = require("path");
-const fetch = require("node-fetch");
-const yargs = require("yargs");
-const prompts = require("prompts");
-const Spinner = require("cli-spinner").Spinner;
-const secret = require("../util/secret");
-const wait = require("../util/wait");
+import fs from "fs";
+import path from "path";
+import fetch from "node-fetch";
+import yargs from "yargs";
+import prompts from "prompts";
+import CLISpinner from "cli-spinner";
+import secret from "../util/secret";
+import wait from "../util/wait";
+
+const Spinner = CLISpinner.Spinner;
 
 // Override the prompt if user supplies '-y' or '--yes'
 const defaultYes = yargs.argv.yes || yargs.argv.y
 prompts.override(defaultYes ? { shouldOverride: true } : {})
 
-async function uploadSchema(schemaPath, override = false){
+async function uploadSchema(schemaPath: string, override = false){
 	const schema = path.join(process.cwd(), schemaPath);
 	if(!fs.existsSync(schema)){
 		console.log("❌ Cannot find schema at", "\x1b[4m" + schema + "\x1b[0m");
@@ -21,12 +23,17 @@ async function uploadSchema(schemaPath, override = false){
 
 	const data = fs.createReadStream(schema);
 	const spinner = new Spinner("Overriding schema.. %s");
+	let shouldOverride = false;
 
-	const{ shouldOverride } = override ? await prompts({
-		type: "confirm",
-		name: "shouldOverride",
-		message: "Be careful! Overriding a schema will delete all collections, indexes, and documents. Do you want to continue?"
-	}) : false;
+	if(override){
+		const answer = await prompts({
+			type: "confirm",
+			name: "shouldOverride",
+			message: "Be careful! Overriding a schema will delete all collections, indexes, and documents. Do you want to continue?"
+		});
+
+		shouldOverride = answer.shouldOverride;
+	}
 
 	if(override && !shouldOverride) return;
 
@@ -44,7 +51,7 @@ async function uploadSchema(schemaPath, override = false){
 			"Content-Type": "text/plain"
 		},
 		body: data
-	}).catch(console.error);
+	});
 	const result = await res.text();
 
 	if(shouldOverride){
@@ -62,4 +69,4 @@ async function uploadSchema(schemaPath, override = false){
 		console.log("✔️  Successfully updated schema");
 }
 
-module.exports = uploadSchema;
+export default uploadSchema;

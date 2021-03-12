@@ -1,7 +1,9 @@
-const { query: q } = require("faunadb");
-const client = require("./client");
+// @ts-ignore
+import { query as q } from "faunadb";
+import { IFunctionResource } from "../types";
+import client from "./client";
 
-async function createFunctionsWithoutRoles(resources){
+async function createFunctionsWithoutRoles(resources: IFunctionResource[]){
 	// Remove the role property from all resources.
 	const resourcesWithoutRoles = resources.map( resource => {
 		return {

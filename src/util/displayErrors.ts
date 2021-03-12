@@ -1,4 +1,8 @@
-module.exports = function displayErrors(err, type){
+// @ts-ignore
+import { errors } from "faunadb";
+import { ResourceType } from "../types";
+
+export default function displayErrors(err: errors.FaunaHTTPError, type: ResourceType){
 	if (err.requestResult) {
 		const response = JSON.parse(err.requestResult.responseRaw);
 		const errors = response.errors;

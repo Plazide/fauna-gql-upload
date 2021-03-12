@@ -1,11 +1,14 @@
 {
   "name": "fauna-gql-upload",
-  "version": "1.9.3",
+  "version": "2.0.0",
   "description": "Upload a GraphQL schema to FaunaDB using the command line.",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "engines": {
+	  "node": ">=12.10.0"
+  },
   "bin": {
-    "fauna-gql": "./index.js",
-    "fgu": "./index.js"
+    "fauna-gql": "./dist/index.js",
+    "fgu": "./dist/index.js"
   },
   "keywords": [
     "faunadb",
@@ -15,29 +18,48 @@
   "author": "Carl Hallén Jansson <carl@chjweb.se>",
   "license": "ISC",
   "dependencies": {
+    "@graphql-codegen/core": "^1.17.8",
+    "@graphql-codegen/typescript": "^1.17.11",
+    "@graphql-codegen/typescript-operations": "^1.17.10",
+    "@graphql-tools/code-file-loader": "^6.2.6",
+    "@graphql-tools/graphql-file-loader": "^6.2.6",
+    "@graphql-tools/load": "^6.2.5",
+    "@graphql-tools/url-loader": "^6.4.0",
     "cli-spinner": "^0.2.10",
     "dotenv": "^8.2.0",
     "esbuild": "^0.8.2",
     "node-fetch": "^2.6.1",
     "prompts": "^2.3.2",
+    "typescript": "^4.0.5",
     "yargs": "^15.3.1"
   },
   "devDependencies": {
-    "babel-jest": "^26.0.1",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-typescript": "^7.12.7",
+    "@types/cli-spinner": "^0.2.0",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.20",
+    "@types/node-fetch": "^2.5.8",
+    "@types/prompts": "^2.0.9",
+    "@typescript-eslint/eslint-plugin": "^4.12.0",
+    "@typescript-eslint/parser": "^4.12.0",
+    "babel-jest": "^26.6.3",
     "eslint": "^6.8.0",
-    "eslint-config-plazide": "^0.1.6",
-    "faunadb": "^3.0.1",
     "jest": "^26.0.1",
     "typescript": "^4.0.5"
   },
   "peerDependencies": {
-    "faunadb": "^3.0.0"
+    "graphql": "^15.4.0"
   },
-  "directories": {
-    "lib": "lib"
+  "optionalDependencies": {
+    "typescript": "^4.0.5"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "prepack": "test && build"
   },
   "repository": {
     "type": "git",

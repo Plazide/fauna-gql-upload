@@ -1,10 +1,6 @@
 #!/usr/bin/env node
-const path = require("path");
-const yargs = require("yargs");
-const getConfig = require("./util/getConfig");
-const uploadSchema = require("./lib/schema");
-const uploadResources = require("./lib/resources");
-require("dotenv").config();
+import yargs from "yargs";
+import getConfig from "./util/getConfig";
 
 const argv = yargs
 	.option("override", {
@@ -19,22 +15,20 @@ const argv = yargs
 	})
 	.argv;
 
-const config = getConfig();
-
-const defaultRolesDir = path.join("fauna", "roles");
-const defaultFnsDir = path.join("fauna", "functions");
-const defaultIndexesDir = path.join("fauna", "indexes");
-const defaultDataDir = path.join("fauna", "data");
-
-const{
-	schemaPath = "./fauna/schema.gql",
-	fnsDir = defaultFnsDir,
-	rolesDir = defaultRolesDir,
-	indexesDir = defaultIndexesDir,
-	dataDir = defaultDataDir
-} = config;
+const {
+	schemaPath,
+	indexesDir,
+	fnsDir,
+	rolesDir,
+	dataDir,
+	codegen
+} = getConfig();
 
 (async () => {
+	ensurePackage("faunadb")
+	const uploadSchema = (await import("./lib/schema")).default;
+	const uploadResources = (await import("./lib/resources")).default;
+
 	// Upload schema
 	await uploadSchema(schemaPath, argv.override);
 	console.log();
@@ -55,4 +49,25 @@ const{
 
 	// Upload data
 	await uploadResources(dataDir, "data");
+
+	// If the codegen is specified
+	if(codegen){
+		ensurePackage("graphql");
+
+		const runCodegen = (await import("./lib/codegen")).default;
+		runCodegen()
+	}
+		
 })();
+
+function ensurePackage(name: string){
+	try{
+		require(name);
+	}catch(err){
+		throw `Missing required peer dependency "${name}".
+			
+Run "yarn add -D ${name}" to install it with yarn,
+or "npm i --save-dev ${name}" to install with npm.
+			`
+	}
+}

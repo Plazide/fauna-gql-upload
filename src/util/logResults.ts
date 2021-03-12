@@ -1,12 +1,18 @@
+interface LogResultsOptions{
+	type: string;
+	numFailed: number;
+	numUpdated: number;
+	numCreated: number;
+}
+
 /**
  * Log the results of a upload operation.
- * @param {Object} data - The log data.
  * @param {String} data.type - The type that was processed, can be `functions`, `roles`, or `indexes`
  * @param {Number} data.numFailed - The amount of entries that failed.
  * @param {Number} data.numUpdated - The amount of entries that were updated.
  * @param {Number} data.numCreated - The amount of entries that were created.
  */
-function logResults({ type, numUpdated, numCreated, numFailed }){
+function logResults({ type, numUpdated, numCreated, numFailed }: LogResultsOptions){
 	console.group(`✔️  Finished uploading ${type}.`);
 
 	if(numCreated > 0)

@@ -1,14 +1,15 @@
-const fs = require("fs");
-const path = require("path");
-const createOrUpdateResources = require("../util/createOrUpdateResources");
-const displayErrors = require("../util/displayErrors");
-const esbuild = require("esbuild");
+import fs from "fs";
+import path from "path";
+import createOrUpdateResources from "../util/createOrUpdateResources";
+import displayErrors from "../util/displayErrors";
+import esbuild from "esbuild";
+import { typeCheck } from "../util/typescript";
+import { ResourceType, UploadResourcesOptions } from "../types";
 
 const cwd = process.cwd();
+const allowedExts = [".js", ".ts"];
 
-const allowedExts = ['.js', '.ts']
-
-async function uploadResources(dir, type, options){
+async function uploadResources(dir: string, type: ResourceType, options?: UploadResourcesOptions){
 	const failedUploadError = `❌  Failed to upload ${type}\n`;
 
 	const resourceDir = path.join(dir, "output");
@@ -27,8 +28,7 @@ async function uploadResources(dir, type, options){
 			return true
 		}
 		return false
-	}).map( file => path.join(dir, file))
-
+	}).map( file => path.join(dir, file));
 	const containsTs = files.some( file => getExt(file) === ".ts");
 	if(containsTs) {
 		const { typeCheck } = require("../util/typescript");
@@ -66,6 +66,7 @@ async function uploadResources(dir, type, options){
 			const resourcePath = path.join(cwd, resourceDir, removeExt(file) + ".js");
 			const resource = await require(resourcePath);
 
+			console.log(resource);
 			return resource;
 		}catch(err){
 			console.error("❌ Error reading file", `${resourceDir}/${file}`);
@@ -82,8 +83,8 @@ async function uploadResources(dir, type, options){
 		await createOrUpdateResources(resourceFiles, type, options);
 
 		// Don't log success message on first function pass.
-		if(type === "functions" && !options.fnsWithRoles) return;
-
+		if(type === "functions" && !options?.fnsWithRoles) return;
+		
 		console.log("✔️  Successfully uploaded", type);
 		console.log();
 	}catch(err){
@@ -94,12 +95,12 @@ async function uploadResources(dir, type, options){
 
 }
 
-function removeExt(str){
+function removeExt(str: string){
 	return str.split(".").slice(0, -1).join("");
 }
 
-function getExt(str){
+function getExt(str: string){
 	return path.extname(str);
 }
 
-module.exports = uploadResources;
+export default uploadResources;

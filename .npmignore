@@ -1,3 +1,7 @@
 node_modules
 .eslintrc
 tests
+yarn-error.log
+.gitignore
+.gitattributes
+CHANGELOG.md
