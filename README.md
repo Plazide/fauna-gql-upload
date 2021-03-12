@@ -11,7 +11,7 @@ fauna-gql-upload is a simple CLI to update your database's GraphQL schema, resol
 - ✔️ Typescript support.
 - 🔥 GraphQL code generation (using [GraphQL codegen](https://graphql-code-generator.com/)).
 
-> **NOTE:** If you want to use this package with typescript, you do not need to build the resources manually. As of version 1.9.0, type-checking and typescript compilation is handled automatically without extra configuration. Read more about [typescript support](#typescript).
+> **NOTE:** If you want to use this package with typescript, you do **not** need to build the resources manually. As of version 1.9.0, type-checking and typescript compilation is handled automatically without extra configuration. Read more about [typescript support](#typescript).
 
 ## Install
 `fauna-gql-upload` needs a local installation of `faunadb`. That means you need to install both packages.
