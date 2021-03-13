@@ -6,6 +6,7 @@ import prompts from "prompts";
 import CLISpinner from "cli-spinner";
 import secret from "../util/secret";
 import wait from "../util/wait";
+import { status } from "../util/logger";
 
 const Spinner = CLISpinner.Spinner;
 
@@ -16,7 +17,7 @@ prompts.override(defaultYes ? { shouldOverride: true } : {})
 async function uploadSchema(schemaPath: string, override = false){
 	const schema = path.join(process.cwd(), schemaPath);
 	if(!fs.existsSync(schema)){
-		console.log("❌ Cannot find schema at", "\x1b[4m" + schema + "\x1b[0m");
+		status("Cannot find schema at \x1b[4m" + schema + "\x1b[0m", "error");
 
 		return;
 	}
@@ -38,8 +39,7 @@ async function uploadSchema(schemaPath: string, override = false){
 	if(override && !shouldOverride) return;
 
 	if(shouldOverride){
-		console.log();
-		console.log("Okay, this could take a while. Sit tight...");
+		status("Okay, this could take a while. Sit tight...");
 		spinner.start();
 	}
 
@@ -55,18 +55,17 @@ async function uploadSchema(schemaPath: string, override = false){
 	const result = await res.text();
 
 	if(shouldOverride){
-		console.log("Waiting 65 seconds before uploading resources.")
+		status("Waiting 65 seconds before uploading resources.")
 		await wait(65 * 1000);
 		spinner.stop(true);
 	}
 
 	if(!res.ok){
-		console.error("Error:", result);
-		console.log();
+		status(result);
 	}
 
 	if(res.ok)
-		console.log("✔️  Successfully updated schema");
+		status("updated schema", "success");
 }
 
 export default uploadSchema;

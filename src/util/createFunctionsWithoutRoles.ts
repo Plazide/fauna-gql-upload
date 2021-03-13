@@ -1,9 +1,9 @@
 // @ts-ignore
 import { query as q } from "faunadb";
-import { IFunctionResource } from "../types";
+import { Resource } from "../types";
 import client from "./client";
 
-async function createFunctionsWithoutRoles(resources: IFunctionResource[]){
+export default async function createFunctionsWithoutRoles(resources: Resource[]){
 	// Remove the role property from all resources.
 	const resourcesWithoutRoles = resources.map( resource => {
 		return {
@@ -34,5 +34,3 @@ async function createFunctionsWithoutRoles(resources: IFunctionResource[]){
 		)
 	)
 }
-
-module.exports = createFunctionsWithoutRoles;

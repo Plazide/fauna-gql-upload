@@ -10,6 +10,7 @@ import { loadSchema, loadDocuments } from "@graphql-tools/load";
 
 import getConfig from "../util/getConfig";
 import secret from "../util/secret";
+import { status } from "../util/logger";
 
 const cwd = process.cwd();
 const config = getConfig();
@@ -36,7 +37,7 @@ export default async function runCodegen(){
 		const outputExists = fs.existsSync(config.codegen.outputFile);
 
 		if(!output){
-			console.log("🛈  Generated GraphQL output is empty.")
+			status("generated GraphQL output is empty", "info")
 		}
 
 		if(!outputExists){
@@ -44,7 +45,7 @@ export default async function runCodegen(){
 		}
 
 		await fs.promises.writeFile(path.join(cwd, config.codegen.outputFile), output);
-		console.log("✔️  Generated GraphQL types, queries and mutations.");
+		status("generated GraphQL types, queries and mutations", "success");
 	}catch(err){
 		console.error(err);
 	}

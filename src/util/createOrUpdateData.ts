@@ -1,4 +1,4 @@
-import { IDataResource } from "../types";
+import { IDataResource, Resource } from "../types";
 
 import client, { q } from "./client";
 
@@ -7,7 +7,7 @@ import client, { q } from "./client";
  * @param {Array} resources - An array of domain data definitions.
  * @returns {Promise<string>} Promise that resolves to either `created` or `updated`
  */
-export default async function createOrUpdateData(resources: IDataResource[]){
+export default async function createOrUpdateData(resources: Resource[]){
 	const result = await client.query(
 		q.Foreach(
 			resources,

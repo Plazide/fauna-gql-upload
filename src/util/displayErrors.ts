@@ -22,6 +22,6 @@ export default function displayErrors(err: errors.FaunaHTTPError, type: Resource
 		}
 		console.groupEnd();
 	} else {
-		console.log(err);
+		throw err;
 	}
 };

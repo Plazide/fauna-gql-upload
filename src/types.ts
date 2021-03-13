@@ -49,7 +49,7 @@ export interface IMembership{
 
 export interface IResource{
 	name: string;
-	data?: { [key: string]: string | number | object }
+	// data?: { [key: string]: string | number | object }
 }
 
 export interface IFunctionResource extends IResource{

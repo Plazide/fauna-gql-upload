@@ -1,16 +1,15 @@
 import fs from "fs";
 import path from "path";
 import createOrUpdateResources from "../util/createOrUpdateResources";
-import displayErrors from "../util/displayErrors";
-import esbuild from "esbuild";
-import { typeCheck } from "../util/typescript";
+import * as esbuild from "esbuild";
 import { ResourceType, UploadResourcesOptions } from "../types";
+import { detailedError, status } from "../util/logger";
 
 const cwd = process.cwd();
 const allowedExts = [".js", ".ts"];
 
 async function uploadResources(dir: string, type: ResourceType, options?: UploadResourcesOptions){
-	const failedUploadError = `❌  Failed to upload ${type}\n`;
+	const failedUploadError = `Failed to upload ${type}\n`;
 
 	const resourceDir = path.join(dir, "output");
 	const files = await fs.promises.readdir(dir).catch(err => {
@@ -36,7 +35,7 @@ async function uploadResources(dir: string, type: ResourceType, options?: Upload
 
 		if(!ok){
 			// Log status message for failed upload.
-			console.log(failedUploadError);
+			status(failedUploadError, "error");
 
 			// Cancel execution.
 			return;
@@ -50,12 +49,10 @@ async function uploadResources(dir: string, type: ResourceType, options?: Upload
 			outdir: resourceDir,
 			bundle: true,
 			platform: "node",
-			format: "cjs",
-			target: ["node10.4"]
+			target: ["node12.10.0"]
 		});
 	}catch(err){
-		console.log();
-		console.log(failedUploadError);
+		status(failedUploadError, "error");
 		return;
 	}
 
@@ -64,12 +61,11 @@ async function uploadResources(dir: string, type: ResourceType, options?: Upload
 		try{
 			if(!allowedExts.includes(getExt(file))) return null;
 			const resourcePath = path.join(cwd, resourceDir, removeExt(file) + ".js");
-			const resource = await require(resourcePath);
+			const resource = await import(resourcePath);
 
-			console.log(resource);
 			return resource;
 		}catch(err){
-			console.error("❌ Error reading file", `${resourceDir}/${file}`);
+			status(`Error reading file ${dir}/${file}`, "error");
 			console.error(err);
 
 			return null;
@@ -85,12 +81,12 @@ async function uploadResources(dir: string, type: ResourceType, options?: Upload
 		// Don't log success message on first function pass.
 		if(type === "functions" && !options?.fnsWithRoles) return;
 		
-		console.log("✔️  Successfully uploaded", type);
-		console.log();
+		status(`successfully uploaded ${type}`, "success");
 	}catch(err){
-		console.error(failedUploadError);
-		displayErrors(err, type);
-		console.log();
+		// Don't log error message on first function pass.
+		if(type === "functions" && !options?.fnsWithRoles) return;
+		
+		detailedError(err, type);
 	}
 
 }

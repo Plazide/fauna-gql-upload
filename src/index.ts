@@ -31,7 +31,6 @@ const {
 
 	// Upload schema
 	await uploadSchema(schemaPath, argv.override);
-	console.log();
 
 	// Upload indexes
 	await uploadResources(indexesDir, "indexes");

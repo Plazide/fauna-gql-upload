@@ -1,8 +1,8 @@
 import { Resource, ResourceType, UploadResourcesOptions } from "../types";
 
-const createOrUpdateData = require('./createOrUpdateData');
-const createOrUpdateStandardResources = require('./createOrUpdateStandardResources');
-const createFunctionsWithoutRoles = require("./createFunctionsWithoutRoles");
+import createOrUpdateData from "./createOrUpdateData";
+import createOrUpdateStandardResources from "./createOrUpdateStandardResources";
+import createFunctionsWithoutRoles from "./createFunctionsWithoutRoles";
 
 /**
  * Create or update resources.
@@ -17,7 +17,7 @@ export default async function createOrUpdateResources(
 ){
 	const resourcesArray = resources//resources.map(r => r.default || r); // Support default exports
 
-	if (type === 'data') {
+	if (type === "data") {
 		return createOrUpdateData(resourcesArray);
 	}
 

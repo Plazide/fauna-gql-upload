@@ -1,7 +1,7 @@
 // @ts-ignore
 import { query as q } from "faunadb";
 import client from "./client";
-import { StandardResource, StandardResourceType } from "../types";
+import { Resource, StandardResourceType } from "../types";
 
 const actions = {
 	functions: {
@@ -26,7 +26,7 @@ const actions = {
  * @param {String} [obj.role] - The role of the function
  * @returns {Promise<string>} Promise that resolves to either `created` or `updated`
  */
-export default async function createOrUpdateResources(resources: StandardResource[], type: StandardResourceType){
+export default async function createOrUpdateResources(resources: Resource[], type: StandardResourceType): Promise<object>{
 	const result = await client.query(
 		q.Foreach(
 			resources,
