@@ -1,19 +1,5 @@
-#!/usr/bin/env node
-import yargs from "yargs";
+import { UploadOptions } from "./types";
 import getConfig from "./util/getConfig";
-
-const argv = yargs
-	.option("override", {
-		alias: "o",
-		description: "Override the schema, this will delete all your data in the database.",
-		type: "boolean"
-	})
-	.option("yes", {
-		alias: "y",
-		description: "Answer yes to all potential prompts.",
-		type: "boolean"
-	})
-	.argv;
 
 const {
 	schemaPath,
@@ -25,43 +11,54 @@ const {
 	codegen
 } = getConfig();
 
-(async () => {
+export async function upload({
+	override = false,
+	resources = ["schema", "data", "functions", "indexes", "providers", "roles"],
+	runCodegen = true
+}: UploadOptions = {}) {
 	ensurePackage("faunadb")
 	const uploadSchema = (await import("./lib/schema")).default;
 	const uploadResources = (await import("./lib/resources")).default;
 
 	// Upload schema
-	await uploadSchema(schemaPath, argv.override);
+	if(resources.includes("schema"))
+		await uploadSchema(schemaPath, override);
 
 	// Upload indexes
-	await uploadResources(indexesDir, "indexes");
+	if(resources.includes("indexes"))
+		await uploadResources(indexesDir, "indexes");
 
 	// Upload functions without their role property.
 	// This solves a problem where the fauna would throw an invalid reference error
 	// when referencing user defined roles before they exist.
-	await uploadResources(fnsDir, "functions", { fnsWithRoles: false });
+	if(resources.includes("functions"))
+		await uploadResources(fnsDir, "functions", { fnsWithRoles: false });
 
 	// Upload roles
-	await uploadResources(rolesDir, "roles");
+	if(resources.includes("roles"))
+		await uploadResources(rolesDir, "roles");
 
 	// Upload functions with roles
-	await uploadResources(fnsDir, "functions", { fnsWithRoles: true })
+	if(resources.includes("functions"))
+		await uploadResources(fnsDir, "functions", { fnsWithRoles: true })
 
 	// Upload data
-	await uploadResources(dataDir, "data");
+	if(resources.includes("data"))
+		await uploadResources(dataDir, "data");
 
 	// Create access providers
-	await uploadResources(providersDir, "providers");
+	if(resources.includes("providers"))
+		await uploadResources(providersDir, "providers");
 
 	// If the codegen is specified
-	if(codegen){
+	if(codegen && runCodegen){
 		ensurePackage("graphql");
 
 		const runCodegen = (await import("./lib/codegen")).default;
 		runCodegen()
 	}
 		
-})();
+};
 
 function ensurePackage(name: string){
 	try{

@@ -7,8 +7,8 @@
     "node": ">=12.10.0"
   },
   "bin": {
-    "fauna-gql": "./dist/index.js",
-    "fgu": "./dist/index.js"
+    "fauna-gql": "./dist/cli.js",
+    "fgu": "./dist/cli.js"
   },
   "keywords": [
     "faunadb",

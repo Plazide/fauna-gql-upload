@@ -97,4 +97,10 @@ export interface IProviderResult{
 	roles: Expr[]
 }
 
+export interface UploadOptions{
+	override?: boolean;
+	resources?: (ResourceType | "schema")[]
+	runCodegen?: boolean;
+}
+
 export type Plugin = string | [string, Record<string, unknown>];
