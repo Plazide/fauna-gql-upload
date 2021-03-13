@@ -84,7 +84,7 @@ export interface IProviderResource extends IResource{
 	issuer: string;
 	jwks_uri: string;
 	roles?: Expr[] | string[];
-	data: { [key: string]: string | number }
+	data?: { [key: string]: string | number }
 }
 
 export interface IProviderResult{

@@ -258,6 +258,7 @@ This package supports type-checking and automatic compilation of typescript file
 
 ```ts
 import{ query as q } from "faunadb";
+import { IFunctionResource } from "fauna-gql-upload";
 
 export default {
   name: "current_user",
@@ -265,7 +266,7 @@ export default {
   q.Query(
     q.Lambda([], q.Let({ userRef: q.Identity() }, q.Select([], q.Get(q.Var("userRef")))))
   )
-}
+} as IFunctionResource;
 ```
 
 #### Configuration file

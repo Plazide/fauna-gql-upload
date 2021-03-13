@@ -1,5 +1,14 @@
 import { UploadOptions } from "./types";
 import getConfig from "./util/getConfig";
+export {
+	IDataResource,
+	IFunctionResource,
+	IIndexResource,
+	IMembership,
+	IPrivilege,
+	IProviderResource,
+	ResourceType
+} from "./types";
 
 const {
 	schemaPath,
