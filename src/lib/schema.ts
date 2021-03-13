@@ -61,7 +61,7 @@ async function uploadSchema(schemaPath: string, override = false){
 	}
 
 	if(!res.ok){
-		status(result);
+		status(result, "error");
 	}
 
 	if(res.ok)

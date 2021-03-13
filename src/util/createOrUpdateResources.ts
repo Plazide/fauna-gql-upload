@@ -15,7 +15,7 @@ export default async function createOrUpdateResources(
 	type: ResourceType, 
 	{ fnsWithRoles = true }: UploadResourcesOptions = {}
 ){
-	const resourcesArray = resources//resources.map(r => r.default || r); // Support default exports
+	const resourcesArray = resources;
 
 	if (type === "data") {
 		return createOrUpdateData(resourcesArray);

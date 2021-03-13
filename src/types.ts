@@ -5,10 +5,10 @@ export interface UploadResourcesOptions{
 	fnsWithRoles?: boolean;
 }
 
-export type ResourceType = "data" | "functions" | "roles" | "indexes";
+export type ResourceType = "data" | "functions" | "roles" | "indexes" | "providers";
 export type Resource = IFunctionResource | IRoleResource | IIndexResource | IDataResource;
-export type StandardResourceType = "functions" | "roles" | "indexes";
-export type StandardResource = IFunctionResource | IRoleResource | IIndexResource;
+export type StandardResourceType = "functions" | "roles" | "indexes" | "providers";
+export type StandardResource = IFunctionResource | IRoleResource | IIndexResource | IProviderResource;
 
 export type ISource = Expr | {
 	collection: Expr;
@@ -78,6 +78,23 @@ export interface IDataResource{
 	index: string;
 	key: string;
 	data: { [key: string]: string | number | object }[]
+}
+
+export interface IProviderResource extends IResource{
+	issuer: string;
+	jwks_uri: string;
+	roles?: Expr[] | string[];
+	data: { [key: string]: string | number }
+}
+
+export interface IProviderResult{
+	ref: Expr;
+	ts: number;
+	name: string;
+	issuer: string;
+	jwks_uri: string;
+	audience: string;
+	roles: Expr[]
 }
 
 export type Plugin = string | [string, Record<string, unknown>];

@@ -11,6 +11,7 @@ interface IOptions{
 	rolesDir: string,
 	indexesDir: string,
 	dataDir: string,
+	providersDir: string;
 	codegen: {
 		typescript: boolean,
 		operations: boolean,
@@ -27,6 +28,7 @@ const defaultRolesDir = path.join("fauna", "roles");
 const defaultFnsDir = path.join("fauna", "functions");
 const defaultIndexesDir = path.join("fauna", "indexes");
 const defaultDataDir = path.join("fauna", "data");
+const defaultProvidersDir = path.join("fauna", "providers");
 const defaultSecretEnv = "FAUNADB_SECRET";
 
 let globalConfig: IOptions | null = null;
@@ -47,6 +49,7 @@ export default function getConfig(){
 		rolesDir: providedConfig.rolesDir || defaultRolesDir,
 		indexesDir: providedConfig.indexesDir || defaultIndexesDir,
 		dataDir: providedConfig.dataDir || defaultDataDir,
+		providersDir: providedConfig.providersDir || defaultProvidersDir,
 		codegen: providedConfig.codegen ? {
 			typescript: codegenTypescript,
 			operations: providedConfig.codegen.operations ?? true,

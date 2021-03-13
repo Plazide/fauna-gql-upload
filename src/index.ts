@@ -21,6 +21,7 @@ const {
 	fnsDir,
 	rolesDir,
 	dataDir,
+	providersDir,
 	codegen
 } = getConfig();
 
@@ -48,6 +49,9 @@ const {
 
 	// Upload data
 	await uploadResources(dataDir, "data");
+
+	// Create access providers
+	await uploadResources(providersDir, "providers");
 
 	// If the codegen is specified
 	if(codegen){

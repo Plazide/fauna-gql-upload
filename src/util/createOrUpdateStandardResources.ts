@@ -15,6 +15,10 @@ const actions = {
 	roles: {
 		create: q.CreateRole,
 		index: q.Role
+	},
+	providers: {
+		create: q.CreateAccessProvider,
+		index: q.AccessProvider
 	}
 }
 
@@ -26,7 +30,10 @@ const actions = {
  * @param {String} [obj.role] - The role of the function
  * @returns {Promise<string>} Promise that resolves to either `created` or `updated`
  */
-export default async function createOrUpdateResources(resources: Resource[], type: StandardResourceType): Promise<object>{
+export default async function createOrUpdateResources(
+	resources: Resource[], 
+	type: StandardResourceType
+): Promise<object>{
 	const result = await client.query(
 		q.Foreach(
 			resources,

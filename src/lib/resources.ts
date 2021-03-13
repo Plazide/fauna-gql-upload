@@ -2,8 +2,9 @@ import fs from "fs";
 import path from "path";
 import createOrUpdateResources from "../util/createOrUpdateResources";
 import * as esbuild from "esbuild";
-import { ResourceType, UploadResourcesOptions } from "../types";
+import { IProviderResource, ResourceType, UploadResourcesOptions } from "../types";
 import { detailedError, status } from "../util/logger";
+import getProviders from "../util/getProviders";
 
 const cwd = process.cwd();
 const allowedExts = [".js", ".ts"];
@@ -63,7 +64,8 @@ async function uploadResources(dir: string, type: ResourceType, options?: Upload
 			const resourcePath = path.join(cwd, resourceDir, removeExt(file) + ".js");
 			const resource = await import(resourcePath);
 
-			return resource;
+			// Handle default exports
+			return resource.default || resource;
 		}catch(err){
 			status(`Error reading file ${dir}/${file}`, "error");
 			console.error(err);
@@ -76,12 +78,21 @@ async function uploadResources(dir: string, type: ResourceType, options?: Upload
 	await fs.promises.rmdir(resourceDir, { recursive: true });
 
 	try{
-		await createOrUpdateResources(resourceFiles, type, options);
+		const result = await createOrUpdateResources(resourceFiles, type, options);
 
 		// Don't log success message on first function pass.
 		if(type === "functions" && !options?.fnsWithRoles) return;
 		
 		status(`successfully uploaded ${type}`, "success");
+
+		// Get and log the audience value of the uploaded providers
+		if(type === "providers"){
+			const providers = await getProviders(result as IProviderResource[]);
+			
+			providers.forEach( provider => {
+				status(`audience for ${provider.name}: ${provider.audience}`, "info");
+			})
+		}
 	}catch(err){
 		// Don't log error message on first function pass.
 		if(type === "functions" && !options?.fnsWithRoles) return;
