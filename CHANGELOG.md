@@ -1,5 +1,24 @@
 # Changelog
 
+## 2.0.0 - March 13th, 2021
+
+### Added
+- Support for uploading [access providers](https://docs.fauna.com/fauna/current/security/external/access_provider). See [uploading access providers](https://github.com/Plazide/fauna-gql-upload#uploading-access-providers) section in readme for more information.
+- Ability to import interfaces to help with writing resources when using Typescript. See [Typescript](https://github.com/Plazide/fauna-gql-upload#typescript) section in readme for an example of this.
+- Low-config GraphQL code generation. See [GraphQL code generation](https://github.com/Plazide/fauna-gql-upload#graphql-code-generation) section in readme for more information.
+
+### Changed
+- Converted project to Typescript
+- Look of logging output
+
+### Removed
+- Support for global installations. You must now install the package locally and add an npm script.
+
+### Fixed
+- A few bugs
+
+---
+
 ## 1.9.3 - December 22nd, 2020
 
 ### Fixed
