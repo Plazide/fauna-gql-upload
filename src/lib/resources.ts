@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import createOrUpdateResources from "../util/createOrUpdateResources";
 import * as esbuild from "esbuild";
-import { IProviderResource, ResourceType, UploadResourcesOptions } from "../types";
+import { ProviderResource, ResourceType, UploadResourcesOptions } from "../types";
 import { detailedError, status } from "../util/logger";
 import getProviders from "../util/getProviders";
 
@@ -87,7 +87,7 @@ async function uploadResources(dir: string, type: ResourceType, options?: Upload
 
 		// Get and log the audience value of the uploaded providers
 		if(type === "providers"){
-			const providers = await getProviders(result as IProviderResource[]);
+			const providers = await getProviders(result as ProviderResource[]);
 			
 			providers.forEach( provider => {
 				status(`audience for ${provider.name}: ${provider.audience}`, "info");

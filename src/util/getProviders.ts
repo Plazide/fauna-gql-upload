@@ -1,7 +1,7 @@
-import { IProviderResource, IProviderResult } from "../types";
+import { ProviderResource, ProviderResult } from "../types";
 import client, { q } from "./client";
 
-export default function getProviders(providers: IProviderResource[]): Promise<IProviderResult[]>{
+export default function getProviders(providers: ProviderResource[]): Promise<ProviderResult[]>{
 	return client.query(
 		q.Map(
 			providers,

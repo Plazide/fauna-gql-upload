@@ -1,4 +1,4 @@
-import { IDataResource, Resource } from "../types";
+import { Resource } from "../types";
 
 import client, { q } from "./client";
 

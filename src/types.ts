@@ -6,29 +6,29 @@ export interface UploadResourcesOptions{
 }
 
 export type ResourceType = "data" | "functions" | "roles" | "indexes" | "providers";
-export type Resource = IFunctionResource | IRoleResource | IIndexResource | IDataResource;
+export type Resource = FunctionResource | RoleResource | IndexResource | DataResource;
 export type StandardResourceType = "functions" | "roles" | "indexes" | "providers";
-export type StandardResource = IFunctionResource | IRoleResource | IIndexResource | IProviderResource;
+export type StandardResource = FunctionResource | RoleResource | IndexResource | ProviderResource;
 
-export type ISource = Expr | {
+export type IndexSource = Expr | {
 	collection: Expr;
 	fields?: {
 		[key: string]: Expr
 	}
 }
 
-export interface ITerm{
+export interface IndexTerm{
 	field: string[];
 	binding?: string;
 }
 
-export interface IValue{
+export interface IndexValue{
 	field: string[];
 	binding?: string;
 	reverse?: boolean;
 }
 
-export interface IPrivilege{
+export interface Privilege{
 	resource: Expr;
 	actions?: {
 		create?: Expr | boolean;
@@ -42,52 +42,52 @@ export interface IPrivilege{
 	}
 }
 
-export interface IMembership{
+export interface Membership{
 	resource: Expr;
 	predicate?: Expr;
 }
 
-export interface IResource{
+export interface BaseResource{
 	name: string;
 	// data?: { [key: string]: string | number | object }
 }
 
-export interface IFunctionResource extends IResource{
+export interface FunctionResource extends BaseResource{
 	body: Expr;
 	role?: string | Expr
 }
 
-export interface IIndexResource extends IResource{
-	source: ISource;
-	terms?: ITerm[];
+export interface IndexResource extends BaseResource{
+	source: IndexSource;
+	terms?: IndexTerm[];
 	unique?: boolean;
-	values?: IValue[];
+	values?: IndexValue[];
 	serialized?: boolean;
 	permissions?: { [key: string]: Expr | boolean }
 	data?: { [key: string]: string | number }
 	role?: string | Expr
 }
 
-export interface IRoleResource extends IResource{
-	privileges: IPrivilege[];
-	membership: IMembership[];
+export interface RoleResource extends BaseResource{
+	privileges: Privilege[];
+	membership: Membership[];
 }
 
-export interface IDataResource{
+export interface DataResource{
 	collection: string;
 	index: string;
 	key: string;
 	data: { [key: string]: string | number | object }[]
 }
 
-export interface IProviderResource extends IResource{
+export interface ProviderResource extends BaseResource{
 	issuer: string;
 	jwks_uri: string;
 	roles?: Expr[] | string[];
 	data?: { [key: string]: string | number }
 }
 
-export interface IProviderResult{
+export interface ProviderResult{
 	ref: Expr;
 	ts: number;
 	name: string;

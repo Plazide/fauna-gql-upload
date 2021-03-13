@@ -1,12 +1,13 @@
 import { UploadOptions } from "./types";
 import getConfig from "./util/getConfig";
 export {
-	IDataResource,
-	IFunctionResource,
-	IIndexResource,
-	IMembership,
-	IPrivilege,
-	IProviderResource,
+	DataResource,
+	FunctionResource,
+	IndexResource,
+	Membership,
+	Privilege,
+	ProviderResource,
+	RoleResource,
 	ResourceType
 } from "./types";
 
