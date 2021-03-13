@@ -3,6 +3,33 @@
 # fauna-gql-upload
 fauna-gql-upload is a simple CLI to update your database's GraphQL schema, resolver functions, indexes, and database roles without going to the FaunaDB dashboard. It uses the `https://graphql.fauna.com/import` endpoint to update the schema from a file within your project, and the FQL driver for JavaScript to update/create functions, roles, and indexes.
 
+## Table of contents
+- [fauna-gql-upload](#fauna-gql-upload)
+	- [Table of contents](#table-of-contents)
+	- [Main features](#main-features)
+	- [Install](#install)
+	- [Configuration](#configuration)
+		- [Adding a npm script](#adding-a-npm-script)
+		- [Files and directories](#files-and-directories)
+		- [Config file](#config-file)
+	- [Usage](#usage)
+		- [Uploading schema](#uploading-schema)
+			- [Overriding the schema](#overriding-the-schema)
+		- [Uploading functions](#uploading-functions)
+		- [Uploading roles](#uploading-roles)
+		- [Uploading indexes](#uploading-indexes)
+			- [Predicate functions](#predicate-functions)
+		- [Uploading data](#uploading-data)
+		- [Uploading access providers](#uploading-access-providers)
+		- [Typescript](#typescript)
+			- [Configuration file](#configuration-file)
+			- [Incremental adoption](#incremental-adoption)
+		- [GraphQL code generation](#graphql-code-generation)
+			- [Plugins](#plugins)
+			- [Configuring plugins](#configuring-plugins)
+	- [Problems or issues](#problems-or-issues)
+	- [Get in touch](#get-in-touch)
+
 ## Main features
 - 🗄️ Store all your User-defined functions, roles, indexes, and domain data within your project.
 - 📜 Update your schema and other resources without leaving your editor.
@@ -35,7 +62,7 @@ yarn add -D fauna-gql-upload faunadb
 You will need to add a npm script to the command.
 
 Package.json:
-```json
+```js
 {
 ...
 "scripts": {
@@ -60,7 +87,7 @@ For the command to work properly, you need to have certain information in your p
 5. To upload indexes, you need a directory called `fauna/indexes`. Within this directory, you should have one `.js` file for each of your indexes. See [Uploading indexes](#uploading-indexes) for an example of such a file.
 6. To upload domain data, you need a directory called `fauna/data`. Within this directory, you should have one `.js` file for each of your data sets. See [Uploading data](#uploading-data) for an example of such a file.
 
-#### Config file
+### Config file
 
 If you need to customize paths or set a different environment variable name for your secret key, you can create a `.fauna.json` file.
 
@@ -304,6 +331,8 @@ yarn fauna
 ```
 
 This would create a file at `generated/graphql.ts` containing your GraphQL types.
+
+For a full list of `codegen` options, see the [config file section](#config-file) .
 
 #### Plugins
 
