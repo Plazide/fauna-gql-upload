@@ -7,6 +7,10 @@ fauna-gql-upload is a simple CLI to update your database's GraphQL schema, resol
 - [fauna-gql-upload](#fauna-gql-upload)
 	- [Table of contents](#table-of-contents)
 	- [Main features](#main-features)
+	- [Migrating to v2.0.0](#migrating-to-v200)
+		- [No more global installs](#no-more-global-installs)
+		- [You need a local installation of `faunadb`](#you-need-a-local-installation-of-faunadb)
+		- [You might need `faunadb@>=4.0.0`](#you-might-need-faunadb400)
 	- [Install](#install)
 	- [Configuration](#configuration)
 		- [Adding a npm script](#adding-a-npm-script)
@@ -39,6 +43,20 @@ fauna-gql-upload is a simple CLI to update your database's GraphQL schema, resol
 - 🔥 GraphQL code generation (using [GraphQL codegen](https://graphql-code-generator.com/)).
 
 > **NOTE:** If you want to use this package with typescript, you do **not** need to build the resources manually. As of version 1.9.0, type-checking and typescript compilation is handled automatically without extra configuration. Read more about [typescript support](#typescript).
+
+## Migrating to v2.0.0
+Version `2.0.0` hasn't introduced too many breaking changes, so migration should be fairly simple. Here are the changes that might cause issues.
+
+### No more global installs
+`fauna-gql-upload` previously supported global installation to be used as a CLI. Support for global installations have been removed. If you have a previous global installation, I suggest removing that from your system. To continure using the package, you'll simple have to follow the [installation](#install) and [configuration](#configuration) sections below.
+
+### You need a local installation of `faunadb`
+It was previously possible to use `fauna-gql-upload` without a local `faunadb` installation. This is no longer possible, the package now relies solely on the `faunadb` version that you install.
+
+### You might need `faunadb@>=4.0.0`
+It is still possible to upload resources with versions before `4.0.0`, but if you are configuring access providers in your project, you will have to use `faunadb@>=4.0.0` since that's when the `AccessProvider` and `CreateAccessProvider` functions where added.
+
+The version of `faunadb` specified in `peerDependencies` uses `>=4.0.0`, but if you won't be using access providers you should still be able to install older versions. You'll just have to ignore the "incorrect peer depencency" warnings.
 
 ## Install
 `fauna-gql-upload` needs a local installation of `faunadb`. That means you need to install both packages.
