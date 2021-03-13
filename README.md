@@ -17,8 +17,8 @@ fauna-gql-upload is a simple CLI to update your database's GraphQL schema, resol
 			- [Overriding the schema](#overriding-the-schema)
 		- [Uploading functions](#uploading-functions)
 		- [Uploading roles](#uploading-roles)
-		- [Uploading indexes](#uploading-indexes)
 			- [Predicate functions](#predicate-functions)
+		- [Uploading indexes](#uploading-indexes)
 		- [Uploading data](#uploading-data)
 		- [Uploading access providers](#uploading-access-providers)
 		- [Typescript](#typescript)
@@ -207,6 +207,21 @@ export default {
 }
 ```
 
+#### Predicate functions
+Another detail that you've probably noticed is the `onlyDeleteByOwner` function. This is a [predicate function](https://docs.fauna.com/fauna/current/security/roles#mco). It lets you define your own permissions based on the user making the request and the document's fields. You would normally have to write these inline with the permissions. But in this case, we can create these in separate files and reuse them multiple times for different resources.
+
+The `onlyDeleteByOwner.js` file would like this:
+```js
+import { query as q } from "faunadb";
+
+export default q.Query(
+  q.Lambda(
+    "ref",
+    q.Equals(q.CurrentIdentity(), q.Select(["data", "user"], q.Get(q.Var("ref"))))
+  )
+);
+```
+
 ### Uploading indexes
 To upload indexes, you need a `fauna/indexes` directory containing a `.js` file for each of your indexes. These files describe the index and look like the following example.
 
@@ -224,21 +239,6 @@ export default {
 ```
 
 Fauna does actually create indexes based on your schema. But in certain situations it might be necessary to create custom indexes. The index above sorts people in ascending order by their age.
-
-#### Predicate functions
-Another detail that you've probably noticed is the `onlyDeleteByOwner` function. This is a [predicate function](https://docs.fauna.com/fauna/current/security/roles#mco). It lets you define your own permissions based on the user making the request and the document's fields. You would normally have to write these inline with the permissions. But in this case, we can create these in seperate files and reuse them multiple times for different resources.
-
-The `onlyDeleteByOwner.js` file would like this:
-```js
-import { query as q } from "faunadb";
-
-export default q.Query(
-  q.Lambda(
-    "ref",
-    q.Equals(q.CurrentIdentity(), q.Select(["data", "user"], q.Get(q.Var("ref"))))
-  )
-);
-```
 
 ### Uploading data
 To upload data, you need a `fauna/data` directory containing a `.js` file for each of your data definition sets. These files describe the data and look like the following example.
