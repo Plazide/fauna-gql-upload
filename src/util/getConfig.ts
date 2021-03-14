@@ -24,6 +24,7 @@ interface IOptions{
 }
 
 const cwd = process.cwd();
+const defaultSchema = fs.existsSync("./fauna/schema.gql") ? "./fauna/schema.gql" : "./fauna/schema.graphql"
 const defaultRolesDir = path.join("fauna", "roles");
 const defaultFnsDir = path.join("fauna", "functions");
 const defaultIndexesDir = path.join("fauna", "indexes");
@@ -41,7 +42,7 @@ export default function getConfig(){
 	const codegenTypescript = providedConfig.codegen?.typescript ?? true;
 
 	const config: IOptions = {
-		schemaPath: providedConfig.schemaPath || "./fauna/schema.gql",
+		schemaPath: providedConfig.schemaPath || defaultSchema,
 		tsconfigPath: providedConfig.tsconfigPath,
 		envPath: providedConfig.envPath || ".env",
 		secretEnv: providedConfig.secretEnv || defaultSecretEnv,
