@@ -12,7 +12,7 @@ interface IOptions{
 	indexesDir: string,
 	dataDir: string,
 	providersDir: string;
-	codegen: {
+	codegen?: {
 		typescript: boolean,
 		operations: boolean,
 		outputFile: string,
@@ -38,7 +38,7 @@ export default function getConfig(){
 
 	const configPath = path.join(cwd, ".fauna.json");
 	const providedConfig = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath, "utf8")) : {};
-	const codegenTypescript = providedConfig.codegen.typescript ?? true;
+	const codegenTypescript = providedConfig.codegen?.typescript ?? true;
 
 	const config: IOptions = {
 		schemaPath: providedConfig.schemaPath || "./fauna/schema.gql",
