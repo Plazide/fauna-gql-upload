@@ -155,7 +155,7 @@ export interface RoleResource extends BaseResource{
 	privileges: Privilege[];
 
 	/** Tells FaunaDB which collection the `privileges` will be applied to, ie. `q.Collection("Users")` */
-	membership: Membership[];
+	membership?: Membership[];
 }
 
 /** Describes a domain data resource */
