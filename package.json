@@ -1,7 +1,7 @@
 {
   "name": "fauna-gql-upload",
   "version": "2.0.0",
-  "description": "Upload a GraphQL schema to FaunaDB using the command line.",
+  "description": "Manage your FaunaDB resources in within your project and upload them using a single command",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
