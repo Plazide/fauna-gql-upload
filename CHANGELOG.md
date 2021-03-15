@@ -11,6 +11,7 @@
 ### Changed
 - Converted project to Typescript
 - Look of logging output
+- The default environment variable for the secret key to `FGU_SECRET`
 
 ### Removed
 - Support for global installations. You must now install the package locally and add an npm script.

@@ -32,7 +32,7 @@ const defaultFnsDir = path.join("fauna", "functions");
 const defaultIndexesDir = path.join("fauna", "indexes");
 const defaultDataDir = path.join("fauna", "data");
 const defaultProvidersDir = path.join("fauna", "providers");
-const defaultSecretEnv = "FAUNADB_SECRET";
+const defaultSecretEnv = "FGU_SECRET";
 const defaultApiEndpointEnv = "FGU_API_ENDPOINT";
 const defaultGraphqlEndpointEnv = "FGU_GRAPHQL_ENDPOINT"
 

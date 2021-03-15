@@ -11,6 +11,7 @@ Fauna GQL Upload is a simple CLI to update your database's GraphQL schema, resol
 		- [No more global installs](#no-more-global-installs)
 		- [You need a local installation of `faunadb`](#you-need-a-local-installation-of-faunadb)
 		- [You might need `faunadb@>=4.0.0`](#you-might-need-faunadb400)
+		- [Changing the secret environment variable](#changing-the-secret-environment-variable)
 	- [Install](#install)
 	- [Configuration](#configuration)
 		- [Adding a npm script](#adding-a-npm-script)
@@ -49,7 +50,7 @@ Fauna GQL Upload is a simple CLI to update your database's GraphQL schema, resol
 Version `2.0.0` hasn't introduced too many breaking changes, so migration should be fairly simple. Here are the changes that might cause issues.
 
 ### No more global installs
-Fauna GQL Upload previously supported global installation to be used as a CLI. Support for global installations have been removed. If you have a previous global installation, I suggest removing that from your system. To continure using the package, you'll simple have to follow the [installation](#install) and [configuration](#configuration) sections below.
+Fauna GQL Upload previously supported global installation to be used as a CLI. Support for global installations have been removed. If you have a previous global installation, I suggest removing that from your system. To continue using the package, you'll simple have to follow the [installation](#install) and [configuration](#configuration) sections below.
 
 ### You need a local installation of `faunadb`
 It was previously possible to use Fauna GQL Upload without a local `faunadb` installation. This is no longer possible, the package now relies solely on the `faunadb` version that you install.
@@ -57,7 +58,15 @@ It was previously possible to use Fauna GQL Upload without a local `faunadb` ins
 ### You might need `faunadb@>=4.0.0`
 It is still possible to upload resources with versions before `4.0.0`, but if you are configuring access providers in your project, you will have to use `faunadb@>=4.0.0` since that's when the `AccessProvider` and `CreateAccessProvider` functions where added.
 
-The version of `faunadb` specified in `peerDependencies` uses `>=4.0.0`, but if you won't be using access providers you should still be able to install older versions. You'll just have to ignore the "incorrect peer depencency" warnings.
+The version of `faunadb` specified in `peerDependencies` is `>=4.0.0`, but if you won't be using access providers you should still be able to install older versions. You'll just have to ignore the "incorrect peer depencency" warnings.
+
+### Changing the secret environment variable
+The default environment variable for your FaunaDB admin key used to be `FAUNADB_SECRET`. This has now changed to `FGU_SECRET`.
+
+If you have previously used the default environment variable you now need to either:
+
+- Rename `FAUNADB_SECRET` to `FGU_SECRET` in your environment file
+- Or set the `secretEnv` property in `.fauna.json` to `FAUNADB_SECRET` 
 
 ## Install
 Fauna GQL Upload needs a local installation of `faunadb`. That means you need to install both packages.
@@ -82,25 +91,29 @@ You will need to add a npm script to the command.
 
 Package.json:
 ```js
-{
 ...
 "scripts": {
   "fauna": "fgu" // you can use 'fgu' or 'fauna-gql'
 }
 ...
-}
 ```
 
 Running it:
 ```sh
 npm run fauna
 ```
+
+or:
+
+```sh
+yarn fauna
+```
 ### Files and directories
 
 For the command to work properly, you need to have certain information in your project.
 
-1. You need a `.env` file with a variable called `FAUNADB_SECRET`. __This is required__ 
-2. You need a valid schema file to upload. This file should be located at `fauna/schema.gql` relative to the working directory where the command is executed. __This is required__ 
+1. You need a `.env` file with a variable called `FGU_SECRET`. ***This is required*** 
+2. You need a valid schema file to upload. This file should be located at `fauna/schema.gql` relative to the working directory where the command is executed. ***This is required*** 
 3. To upload functions, you need a directory called `fauna/functions`. Within this directory, you should have one `.js` file for each of you functions. See [Uploading Functions](#uploading-functions) for an example of such a file.
 4. To upload roles, you need a directory called `fauna/roles`. Within this directory, you should have one `.js` file for each of your roles. See [Uploading Roles](#uploading-roles) for an example of such a file.
 5. To upload indexes, you need a directory called `fauna/indexes`. Within this directory, you should have one `.js` file for each of your indexes. See [Uploading indexes](#uploading-indexes) for an example of such a file.
@@ -115,7 +128,7 @@ It takes the following properties:
 |Property|Default|Description|
 |--------|-------|-------|
 |`schemaPath`|`models/schema.gql`|Path to your GraphQL schema.
-|`secretEnv`|`FAUNADB_SECRET`|The key used to access the your FaunaDB database.
+|`secretEnv`|`FGU_SECRET`|The key used to access the your FaunaDB database.
 |`apiEndpointEnv`|`FGU_API_ENDPOINT`|Environment variable for custom api endpoint, useful for local development
 |`graphqlEndpointEnv`|`FGU_GRAPHQL_ENDPOINT`|Environment variable for custom graphql endpoint, useful for local development
 |`tsconfigPath`|`tsconfig.json`|Path to a `tsconfig.json` file.
@@ -164,14 +177,12 @@ fgu --override
 
 Your npm script would then look like this:
 ```json
-{
 ...
 "scripts": {
   "fauna": "fgu",
   "fauna-override": "fgu --override",
 }
 ...
-}
 ```
 
 and then run:
