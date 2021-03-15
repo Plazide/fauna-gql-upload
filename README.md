@@ -380,9 +380,9 @@ and then adding it to the `.fauna.json` file, like so:
 
 ```json
 {
-	"codegen": {
-		"plugins": "typescript-react-apollo"
-	}
+  "codegen": {
+    "plugins": "typescript-react-apollo"
+  }
 }
 ```
 
@@ -398,11 +398,11 @@ The first way is through the `codegen.pluginOptions` property in `.fauna.json`. 
 
 ```JSON
 {
-	"codegen": {
-		"pluginOptions": {
-			"omitOperationSuffix": true
-		}
-	}
+  "codegen": {
+    "pluginOptions": {
+      "omitOperationSuffix": true
+    }
+  }
 }
 ```
 
@@ -410,13 +410,13 @@ The above method is useful when you want to configure many plugins that use the 
 
 ```JSON
 {
-	"codegen": {
-		"plugins": [
-			["typescript-react-apollo", {
-				"withHooks": false
-			}]
-		]
-	}
+  "codegen": {
+    "plugins": [
+      ["typescript-react-apollo", {
+        "withHooks": false
+      }]
+    ]
+  }
 }
 ```
 
