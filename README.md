@@ -14,7 +14,7 @@ Fauna GQL Upload is a simple CLI to update your database's GraphQL schema, resol
 		- [Changing the secret environment variable](#changing-the-secret-environment-variable)
 	- [Install](#install)
 	- [Configuration](#configuration)
-		- [Adding a npm script](#adding-a-npm-script)
+		- [Adding an npm script](#adding-an-npm-script)
 		- [Files and directories](#files-and-directories)
 		- [Config file](#config-file)
 	- [Usage](#usage)
@@ -85,9 +85,9 @@ yarn add -D fauna-gql-upload faunadb
 
 ## Configuration
 
-### Adding a npm script
+### Adding an npm script
 
-You will need to add a npm script to the command.
+You will need to add an npm script to the command.
 
 Package.json:
 ```js
@@ -128,7 +128,7 @@ It takes the following properties:
 |Property|Default|Description|
 |--------|-------|-------|
 |`schemaPath`|`models/schema.gql`|Path to your GraphQL schema.
-|`secretEnv`|`FGU_SECRET`|The key used to access the your FaunaDB database.
+|`secretEnv`|`FGU_SECRET`|The key used to access your FaunaDB database.
 |`apiEndpointEnv`|`FGU_API_ENDPOINT`|Environment variable for custom api endpoint, useful for local development
 |`graphqlEndpointEnv`|`FGU_GRAPHQL_ENDPOINT`|Environment variable for custom graphql endpoint, useful for local development
 |`tsconfigPath`|`tsconfig.json`|Path to a `tsconfig.json` file.
