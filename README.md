@@ -50,7 +50,7 @@ Fauna GQL Upload is a simple CLI to update your database's GraphQL schema, resol
 Version `2.0.0` hasn't introduced too many breaking changes, so migration should be fairly simple. Here are the changes that might cause issues.
 
 ### No more global installs
-Fauna GQL Upload previously supported global installation to be used as a CLI. Support for global installations have been removed. If you have a previous global installation, I suggest removing that from your system. To continue using the package, you'll simply have to follow the [installation](#install) and [configuration](#configuration) sections below.
+Fauna GQL Upload previously supported global installation to be used as a CLI. Support for global installations has been removed. If you have a previous global installation, I suggest removing that from your system. To continue using the package, you'll simply have to follow the [installation](#install) and [configuration](#configuration) sections below.
 
 ### You need a local installation of `faunadb`
 It was previously possible to use Fauna GQL Upload without a local `faunadb` installation. This is no longer possible, the package now relies solely on the `faunadb` version that you install.
