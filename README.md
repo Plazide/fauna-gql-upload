@@ -50,13 +50,13 @@ Fauna GQL Upload is a simple CLI to update your database's GraphQL schema, resol
 Version `2.0.0` hasn't introduced too many breaking changes, so migration should be fairly simple. Here are the changes that might cause issues.
 
 ### No more global installs
-Fauna GQL Upload previously supported global installation to be used as a CLI. Support for global installations have been removed. If you have a previous global installation, I suggest removing that from your system. To continue using the package, you'll simple have to follow the [installation](#install) and [configuration](#configuration) sections below.
+Fauna GQL Upload previously supported global installation to be used as a CLI. Support for global installations have been removed. If you have a previous global installation, I suggest removing that from your system. To continue using the package, you'll simply have to follow the [installation](#install) and [configuration](#configuration) sections below.
 
 ### You need a local installation of `faunadb`
 It was previously possible to use Fauna GQL Upload without a local `faunadb` installation. This is no longer possible, the package now relies solely on the `faunadb` version that you install.
 
 ### You might need `faunadb@>=4.0.0`
-It is still possible to upload resources with versions before `4.0.0`, but if you are configuring access providers in your project, you will have to use `faunadb@>=4.0.0` since that's when the `AccessProvider` and `CreateAccessProvider` functions where added.
+It is still possible to upload resources with versions before `4.0.0`, but if you are configuring access providers in your project, you will have to use `faunadb@>=4.0.0` since that's when the `AccessProvider` and `CreateAccessProvider` functions were added.
 
 The version of `faunadb` specified in `peerDependencies` is `>=4.0.0`, but if you won't be using access providers you should still be able to install older versions. You'll just have to ignore the "incorrect peer depencency" warnings.
 
