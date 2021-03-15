@@ -1,10 +1,10 @@
 > **Important note:** The minimum supported node version is v12.10.0 
 
-# fauna-gql-upload
-fauna-gql-upload is a simple CLI to update your database's GraphQL schema, resolver functions, indexes, and database roles without going to the FaunaDB dashboard. It uses the `https://graphql.fauna.com/import` endpoint to update the schema from a file within your project, and the FQL driver for JavaScript to update/create functions, roles, and indexes.
+# Fauna GQL Upload
+Fauna GQL Upload is a simple CLI to update your database's GraphQL schema, resolver functions, indexes, and database roles without going to the FaunaDB dashboard. It uses the `https://graphql.fauna.com/import` endpoint to update the schema from a file within your project, and the FQL driver for JavaScript to update/create functions, roles, and indexes.
 
 ## Table of contents
-- [fauna-gql-upload](#fauna-gql-upload)
+- [Fauna GQL Upload](#fauna-gql-upload)
 	- [Table of contents](#table-of-contents)
 	- [Main features](#main-features)
 	- [Migrating to v2.0.0](#migrating-to-v200)
@@ -49,10 +49,10 @@ fauna-gql-upload is a simple CLI to update your database's GraphQL schema, resol
 Version `2.0.0` hasn't introduced too many breaking changes, so migration should be fairly simple. Here are the changes that might cause issues.
 
 ### No more global installs
-`fauna-gql-upload` previously supported global installation to be used as a CLI. Support for global installations have been removed. If you have a previous global installation, I suggest removing that from your system. To continure using the package, you'll simple have to follow the [installation](#install) and [configuration](#configuration) sections below.
+Fauna GQL Upload previously supported global installation to be used as a CLI. Support for global installations have been removed. If you have a previous global installation, I suggest removing that from your system. To continure using the package, you'll simple have to follow the [installation](#install) and [configuration](#configuration) sections below.
 
 ### You need a local installation of `faunadb`
-It was previously possible to use `fauna-gql-upload` without a local `faunadb` installation. This is no longer possible, the package now relies solely on the `faunadb` version that you install.
+It was previously possible to use Fauna GQL Upload without a local `faunadb` installation. This is no longer possible, the package now relies solely on the `faunadb` version that you install.
 
 ### You might need `faunadb@>=4.0.0`
 It is still possible to upload resources with versions before `4.0.0`, but if you are configuring access providers in your project, you will have to use `faunadb@>=4.0.0` since that's when the `AccessProvider` and `CreateAccessProvider` functions where added.
@@ -60,7 +60,7 @@ It is still possible to upload resources with versions before `4.0.0`, but if yo
 The version of `faunadb` specified in `peerDependencies` uses `>=4.0.0`, but if you won't be using access providers you should still be able to install older versions. You'll just have to ignore the "incorrect peer depencency" warnings.
 
 ## Install
-`fauna-gql-upload` needs a local installation of `faunadb`. That means you need to install both packages.
+Fauna GQL Upload needs a local installation of `faunadb`. That means you need to install both packages.
 
 With npm:
 ```sh
@@ -149,7 +149,7 @@ with yarn:
 yarn fauna
 ```
 
-> **NOTE:** As you will notice, all of the resource examples below are using import/export syntax. This is not supported in node by default, but `fauna-gql-upload` builds all of your resources using [esbuild](https://esbuild.github.io/) which makes this syntax work without extra configuration on your part.
+> **NOTE:** As you will notice, all of the resource examples below are using import/export syntax. This is not supported in node by default, but Fauna GQL Upload builds all of your resources using [esbuild](https://esbuild.github.io/) which makes this syntax work without extra configuration on your part.
 
 ### Uploading schema
 To upload your schema, it has to be placed at `fauna/schema.gql` or the path specified in `.fauna.json`. It also needs to be valid, otherwise you would get back an error. For more information on writing a GraphQL schema for FaunaDB, see the [official documentation](https://docs.fauna.com/fauna/current/api/graphql/).
@@ -319,7 +319,7 @@ export default {
 
 #### Configuration file
 
-`fauna-gql-upload` looks for a `tsconfig.json` file in the following order:
+Fauna GQL Upload looks for a `tsconfig.json` file in the following order:
 
 1. The file specified in `.fauna.json` under the `tsconfigPath` property.
 2. The closest `tsconfig.json` to the current resource, ie. if you have a `tsconfig.json` in your functions directory, it will be used for your functions but not for other resources.
@@ -327,10 +327,10 @@ export default {
 
 
 #### Incremental adoption
-If you've already started a project using `.js` files, you can just add new files with the `.ts` extension and `fauna-gql-upload` will pick up both file extensions and treat them correctly.
+If you've already started a project using `.js` files, you can just add new files with the `.ts` extension and Fauna GQL Upload will pick up both file extensions and treat them correctly.
 
 ### GraphQL code generation
-`fauna-gql-upload` supports offers low-config GraphQL code generation.
+Fauna GQL Upload supports offers low-config GraphQL code generation.
 
 All you need to do is to install the `graphql` package, like so:
 ```sh
@@ -357,7 +357,7 @@ For a full list of `codegen` options, see the [config file section](#config-file
 
 #### Plugins
 
-One of the most useful features of the GraphQL Codegen package is the ability to extend its functionality, this is done through plugins. `fauna-gql-upload` has two of the most ubiquitous plugins installed by default, `typescript` and `typescript-operations`, making it slightly easier to install other plugins.
+One of the most useful features of the GraphQL Codegen package is the ability to extend its functionality, this is done through plugins. Fauna GQL Upload has two of the most ubiquitous plugins installed by default, `typescript` and `typescript-operations`, making it slightly easier to install other plugins.
 
 If you'd want to generate types and operations that can be used with React Apollo, you would install the `typescript-react-apollo` plugin, like so:
 
@@ -414,7 +414,7 @@ If you pass the same option to both the `pluginOptions` and the local plugin opt
 You find the plugin options under each specific plugin in the [GraphQL codegen documentation](https://graphql-code-generator.com/docs/plugins/index)
 
 ### Local development
-The default endpoints in `fauna-gql-upload` do not work when developing locally using the [Fauna Dev](https://docs.fauna.com/fauna/current/integrations/dev) docker image. To solve this, you can set two environment variables, `FGU_API_ENDPOINT` and `FGU_GRAPHQL_ENDPOINT`, to your local endpoints.
+The default endpoints in Fauna GQL Upload do not work when developing locally using the [Fauna Dev](https://docs.fauna.com/fauna/current/integrations/dev) docker image. To solve this, you can set two environment variables, `FGU_API_ENDPOINT` and `FGU_GRAPHQL_ENDPOINT`, to your local endpoints.
 
 The names of these variables can be customized using the `apiEndpointEnv` and `graphqlEndpointEnv` options.
 
