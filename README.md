@@ -300,10 +300,10 @@ These files look like the following example:
 import { query as q } from "faunadb";
 
 export default {
-	name: "auth0",
-	issuer: "https://<your-auth0-domain>.auth0.com",
-	jwks_uri: "https://<your-auth0-domain>.auth0.com/.well-known/jwks.json",
-	roles: [ q.Role("user") ]
+  name: "auth0",
+  issuer: "https://<your-auth0-domain>.auth0.com",
+  jwks_uri: "https://<your-auth0-domain>.auth0.com/.well-known/jwks.json",
+  roles: [ q.Role("user") ]
 }
 ```
 
