@@ -9,7 +9,7 @@ import { CodeFileLoader } from "@graphql-tools/code-file-loader";
 import { loadSchema, loadDocuments } from "@graphql-tools/load";
 
 import getConfig from "../util/getConfig";
-import secret from "../util/secret";
+import { secret, graphqlEndpoint } from "../util/env";
 import { status } from "../util/logger";
 
 const cwd = process.cwd();
@@ -107,7 +107,7 @@ async function getPluginPath(plugin: string){
 }
 
 async function fetchSchema(){
-	const schema = await loadSchema("https://graphql.fauna.com/graphql", {
+	const schema = await loadSchema(`${graphqlEndpoint}/graphql`, {
 		loaders: [
 			new UrlLoader()
 		],

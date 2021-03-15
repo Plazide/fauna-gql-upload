@@ -3,6 +3,8 @@ import fs from "fs";
 import { Plugin } from "../types";
 
 interface IOptions{
+	apiEndpointEnv: string;
+	graphqlEndpointEnv: string;
 	schemaPath: string,
 	tsconfigPath?: string;
 	envPath: string,
@@ -31,6 +33,8 @@ const defaultIndexesDir = path.join("fauna", "indexes");
 const defaultDataDir = path.join("fauna", "data");
 const defaultProvidersDir = path.join("fauna", "providers");
 const defaultSecretEnv = "FAUNADB_SECRET";
+const defaultApiEndpointEnv = "FGU_API_ENDPOINT";
+const defaultGraphqlEndpointEnv = "FGU_GRAPHQL_ENDPOINT"
 
 let globalConfig: IOptions | null = null;
 
@@ -42,6 +46,8 @@ export default function getConfig(){
 	const codegenTypescript = providedConfig.codegen?.typescript ?? true;
 
 	const config: IOptions = {
+		apiEndpointEnv: providedConfig.apiEndpointEnv || defaultApiEndpointEnv,
+		graphqlEndpointEnv: providedConfig.graphqlEndpointEnv || defaultGraphqlEndpointEnv,
 		schemaPath: providedConfig.schemaPath || defaultSchema,
 		tsconfigPath: providedConfig.tsconfigPath,
 		envPath: providedConfig.envPath || ".env",

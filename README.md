@@ -31,6 +31,7 @@ fauna-gql-upload is a simple CLI to update your database's GraphQL schema, resol
 		- [GraphQL code generation](#graphql-code-generation)
 			- [Plugins](#plugins)
 			- [Configuring plugins](#configuring-plugins)
+		- [Local development](#local-development)
 	- [Problems or issues](#problems-or-issues)
 	- [Get in touch](#get-in-touch)
 
@@ -115,6 +116,8 @@ It takes the following properties:
 |--------|-------|-------|
 |`schemaPath`|`models/schema.gql`|Path to your GraphQL schema.
 |`secretEnv`|`FAUNADB_SECRET`|The key used to access the your FaunaDB database.
+|`apiEndpointEnv`|`FGU_API_ENDPOINT`|Environment variable for custom api endpoint, useful for local development
+|`graphqlEndpointEnv`|`FGU_GRAPHQL_ENDPOINT`|Environment variable for custom graphql endpoint, useful for local development
 |`tsconfigPath`|`tsconfig.json`|Path to a `tsconfig.json` file.
 |`envPath`|`.env`|Path to the environment file that holds your `secretEnv`
 |`fnsDir`|`fauna/functions`|Path to directory that holds your FQL UDFs.
@@ -409,6 +412,13 @@ The above method is useful when you want to configure many plugins that use the 
 If you pass the same option to both the `pluginOptions` and the local plugin options, the local plugin options will take precedence.
 
 You find the plugin options under each specific plugin in the [GraphQL codegen documentation](https://graphql-code-generator.com/docs/plugins/index)
+
+### Local development
+The default endpoints in `fauna-gql-upload` do not work when developing locally using the [Fauna Dev](https://docs.fauna.com/fauna/current/integrations/dev) docker image. To solve this, you can set two environment variables, `FGU_API_ENDPOINT` and `FGU_GRAPHQL_ENDPOINT`, to your local endpoints.
+
+The names of these variables can be customized using the `apiEndpointEnv` and `graphqlEndpointEnv` options.
+
+For a full guide on how to setup Fauna Dev with Fauna GQL Upload, see [Set up Fauna GQL Upload with Fauna Dev](https://blog.chjweb.se/set-up-fauna-gql-upload-with-fauna-dev).
 
 ## Problems or issues
 

@@ -4,9 +4,9 @@ import fetch from "node-fetch";
 import yargs from "yargs";
 import prompts from "prompts";
 import CLISpinner from "cli-spinner";
-import secret from "../util/secret";
 import wait from "../util/wait";
 import { status } from "../util/logger";
+import { secret, graphqlEndpoint } from "../util/env";
 
 const Spinner = CLISpinner.Spinner;
 
@@ -43,7 +43,7 @@ async function uploadSchema(schemaPath: string, override = false){
 		spinner.start();
 	}
 
-	const endpoint = `https://graphql.fauna.com/import${shouldOverride ? "?mode=override" : "?mode=merge"}`;
+	const endpoint = `${graphqlEndpoint}/import${shouldOverride ? "?mode=override" : "?mode=merge"}`;
 	const res = await fetch(endpoint, {
 		method: "POST",
 		headers: {
