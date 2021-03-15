@@ -61,7 +61,7 @@
     "test": "jest",
     "build": "tsc",
     "watch": "tsc --watch",
-    "prepack": "test && build"
+    "prepublish": "test && build"
   },
   "repository": {
     "type": "git",
