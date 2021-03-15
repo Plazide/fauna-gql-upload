@@ -61,7 +61,7 @@
     "test": "jest",
     "build": "tsc",
     "watch": "tsc --watch",
-    "prepublish": "test && build"
+    "prepublish": "yarn test && yarn build"
   },
   "repository": {
     "type": "git",
