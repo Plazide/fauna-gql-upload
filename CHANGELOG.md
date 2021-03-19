@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.0.2 - March 19th, 2021
+### Fixed
+- Typo in README.md that suggested the default schema path was `models/schema.gql`, it is actually `fauna/schema.gql` or `fauna/schema.graphql`.
+
+---
+
+## 2.0.1 - March 15th, 2021
+
+### Fixed
+- `membership` property in `RoleResource` interface. It was defined as required, but is actually optional.
+
+---
+
 ## 2.0.0 - March 15th, 2021
 
 ### Added
