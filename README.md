@@ -127,7 +127,7 @@ It takes the following properties:
 
 |Property|Default|Description|
 |--------|-------|-------|
-|`schemaPath`|`models/schema.gql`|Path to your GraphQL schema.
+|`schemaPath`|`fauna/schema.gql`|Path to your GraphQL schema.
 |`secretEnv`|`FGU_SECRET`|The key used to access your FaunaDB database.
 |`apiEndpointEnv`|`FGU_API_ENDPOINT`|Environment variable for custom api endpoint, useful for local development
 |`graphqlEndpointEnv`|`FGU_GRAPHQL_ENDPOINT`|Environment variable for custom graphql endpoint, useful for local development
