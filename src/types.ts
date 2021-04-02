@@ -223,6 +223,9 @@ export interface UploadOptions{
 
 	/** Whether or not to run code generation */
 	runCodegen?: boolean;
+
+	/** Path to a custom config file */
+	config?: string;
 }
 
 export type Plugin = string | [string, Record<string, unknown>];

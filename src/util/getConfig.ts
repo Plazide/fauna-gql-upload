@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs";
 import { Plugin } from "../types";
+import yargs from "yargs";
 
 interface IOptions{
 	apiEndpointEnv: string;
@@ -25,6 +26,24 @@ interface IOptions{
 	} | null
 }
 
+export const argv = yargs
+	.option("override", {
+		alias: "o",
+		description: "Override the schema, this will delete all your data in the database.",
+		type: "boolean"
+	})
+	.option("yes", {
+		alias: "y",
+		description: "Answer yes to all potential prompts.",
+		type: "boolean"
+	})
+	.option("config", {
+		alias: "c",
+		description: "Specify custom path to config file",
+		type: "string"
+	})
+	.argv;
+
 const cwd = process.cwd();
 const defaultSchema = fs.existsSync("./fauna/schema.gql") ? "./fauna/schema.gql" : "./fauna/schema.graphql"
 const defaultRolesDir = path.join("fauna", "roles");
@@ -41,7 +60,13 @@ let globalConfig: IOptions | null = null;
 export default function getConfig(){
 	if(globalConfig) return globalConfig;
 
-	const configPath = path.join(cwd, ".fauna.json");
+	const customConfig = argv?.config;
+	const configPath = path.join(cwd, (customConfig || ".fauna.json"));
+
+	if(customConfig && !fs.existsSync(configPath)){
+		throw new Error("Could not find custom config at path " + configPath)
+	}
+
 	const providedConfig = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath, "utf8")) : {};
 	const codegenTypescript = providedConfig.codegen?.typescript ?? true;
 
