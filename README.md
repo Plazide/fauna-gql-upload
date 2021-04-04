@@ -134,6 +134,7 @@ It takes the following properties:
 |`tsconfigPath`|`tsconfig.json`|Path to a `tsconfig.json` file.
 |`envPath`|`.env`|Path to the environment file that holds your `secretEnv`
 |`fnsDir`|`fauna/functions`|Path to directory that holds your FQL UDFs.
+|`indexesDir`|`fauna/indexes`|Path to directory that holds your FaunaDB indexes
 |`rolesDir`|`fauna/roles`|Path to directory that holds your FaunaDB roles
 |`dataDir`|`fauna/data`|Path to directory that holds your domain data.
 |`providersDir`|`fauna/providers`|Path to directory that holds your access providers.
