@@ -42,6 +42,82 @@ export const argv = yargs
 		description: "Specify custom path to config file",
 		type: "string"
 	})
+	.option("apiEndpointEnv", {
+		description: "Specify environment variable for custom API endpoint",
+		type: "string"
+	})
+	.option("graphqlEndpointEnv", {
+		description: "Specify environment variable for custom GraphQL endpoint",
+		type: "string"
+	})
+	.option("schemaPath", {
+		description: "Specify custom path for GraphQL schema",
+		type: "string"
+	})
+	.option("tsconfigPath", {
+		description: "Specify custom path for tsconfig file",
+		type: "string"
+	})
+	.option("envPath", {
+		description: "Specify custom path to environment file",
+		type: "string"
+	})
+	.option("secretEnv", {
+		description: "Specify custom environment variable for database secret",
+		type: "string"
+	})
+	.option("fnsDir", {
+		description: "Specify custom path to functions directory",
+		type: "string"
+	})
+	.option("rolesDir", {
+		description: "Specify custom path to roles directory",
+		type: "string"
+	})
+	.option("indexesDir", {
+		description: "Specify custom path to indexes directory",
+		type: "string"
+	})
+	.option("dataDir", {
+		description: "Specify custom path to data directory",
+		type: "string"
+	})
+	.option("providersDir", {
+		description: "Specify custom path to providers directory",
+		type: "string"
+	})
+	.option("codegen", {
+		description: "Whether or not to enable codegen",
+		type: "boolean"
+	})
+	.option("codegenDisableTypescript", {
+		description: "Whether or not to enable typescript plugin",
+		type: "boolean"
+	})
+	.option("codegenDisableOperations", {
+		description: "Whether or not to enable typescript operations plugin",
+		type: "boolean"
+	})
+	.option("codegenOutputFile", {
+		description: "Specify destination file for generated code",
+		type: "string"
+	})
+	.option("codegenHeaders", {
+		description: "Optional headers to include when fetching GraphQL schema",
+		type: "string"
+	})
+	.option("codegenDocuments", {
+		description: "Specify documents containing GraphQL operations and/or fragments",
+		type: "array"
+	})
+	.option("codegenPlugins", {
+		description: "Specify plugins to use with GraphQL Codegen",
+		type: "array"
+	})
+	.option("codegenPluginOptions", {
+		description: "Specify options for GraphQL codegen plugins",
+		type: "string"
+	})
 	.argv;
 
 const cwd = process.cwd();
@@ -71,28 +147,29 @@ export default function getConfig(){
 	const codegenTypescript = providedConfig.codegen?.typescript ?? true;
 
 	const config: IOptions = {
-		apiEndpointEnv: providedConfig.apiEndpointEnv || defaultApiEndpointEnv,
-		graphqlEndpointEnv: providedConfig.graphqlEndpointEnv || defaultGraphqlEndpointEnv,
-		schemaPath: providedConfig.schemaPath || defaultSchema,
-		tsconfigPath: providedConfig.tsconfigPath,
-		envPath: providedConfig.envPath || ".env",
-		secretEnv: providedConfig.secretEnv || defaultSecretEnv,
-		fnsDir: providedConfig.fnsDir || defaultFnsDir,
-		rolesDir: providedConfig.rolesDir || defaultRolesDir,
-		indexesDir: providedConfig.indexesDir || defaultIndexesDir,
-		dataDir: providedConfig.dataDir || defaultDataDir,
-		providersDir: providedConfig.providersDir || defaultProvidersDir,
-		codegen: providedConfig.codegen ? {
-			typescript: codegenTypescript,
-			operations: providedConfig.codegen.operations ?? true,
-			outputFile: providedConfig.codegen.outputFile || (codegenTypescript ? "generated/graphql.ts" : "generated/graphql.js"),
-			headers: providedConfig.codegen.headers || {},
-			documents: providedConfig.codegen.documents || [],
-			plugins: providedConfig.codegen.plugins || [],
-			pluginOptions: providedConfig.codegen.pluginOptions || {}
+		apiEndpointEnv: argv?.apiEndpointEnv || providedConfig.apiEndpointEnv || defaultApiEndpointEnv,
+		graphqlEndpointEnv: argv?.graphqlEndpointEnv || providedConfig.graphqlEndpointEnv || defaultGraphqlEndpointEnv,
+		schemaPath: argv?.schemaPath || providedConfig.schemaPath || defaultSchema,
+		tsconfigPath: argv?.tsconfigPath || providedConfig.tsconfigPath,
+		envPath: argv?.envPath || providedConfig.envPath || ".env",
+		secretEnv: argv?.secretEnv || providedConfig.secretEnv || defaultSecretEnv,
+		fnsDir: argv?.fnsDir || providedConfig.fnsDir || defaultFnsDir,
+		rolesDir: argv?.rolesDir || providedConfig.rolesDir || defaultRolesDir,
+		indexesDir: argv?.indexesDir || providedConfig.indexesDir || defaultIndexesDir,
+		dataDir: argv?.dataDir || providedConfig.dataDir || defaultDataDir,
+		providersDir: argv?.providersDir || providedConfig.providersDir || defaultProvidersDir,
+		codegen: (argv?.codegen ?? providedConfig.codegen) ? {
+			typescript: !argv?.codegenDisableTypescript ?? codegenTypescript,
+			operations: !argv?.codegenDisableOperations ?? providedConfig?.codegen?.operations ?? true,
+			outputFile: argv?.codegenOutputFile || providedConfig?.codegen?.outputFile || (codegenTypescript ? "generated/graphql.ts" : "generated/graphql.js"),
+			headers: (argv?.codegenHeaders ? JSON.parse(argv.codegenHeaders) : null) || providedConfig?.codegen?.headers || {},
+			documents: argv?.codegenDocuments || providedConfig?.codegen?.documents || [],
+			plugins: argv?.codegenPlugins || providedConfig?.codegen?.plugins || [],
+			pluginOptions: (argv?.codegenPluginOptions ? JSON.parse(argv.codegenPluginOptions) : null) || providedConfig?.codegen?.pluginOptions || {}
 		} : null
 	}
 
 	globalConfig = config;
+	console.log(config)
 	return config;
 }
