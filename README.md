@@ -17,6 +17,7 @@ Fauna GQL Upload is a simple CLI to update your database's GraphQL schema, resol
 		- [Adding an npm script](#adding-an-npm-script)
 		- [Files and directories](#files-and-directories)
 		- [Config file](#config-file)
+		- [Command-line options](#command-line-options)
 	- [Usage](#usage)
 		- [Uploading schema](#uploading-schema)
 			- [Overriding the schema](#overriding-the-schema)
@@ -42,7 +43,7 @@ Fauna GQL Upload is a simple CLI to update your database's GraphQL schema, resol
 - 🔃 Easily replicate FaunaDB resources across databases and accounts.
 - 📑 Include FaunaDB resources in version control and source code.
 - ✔️ Typescript support.
-- 🔥 GraphQL code generation (using [GraphQL codegen](https://graphql-code-generator.com/)).
+- 🔥 GraphQL codegen (using [GraphQL codegen](https://graphql-code-generator.com/)).
 
 > **NOTE:** If you want to use this package with typescript, you do **not** need to build the resources manually. As of version 1.9.0, type-checking and typescript compilation is handled automatically without extra configuration. Read more about [typescript support](#typescript).
 
@@ -121,7 +122,7 @@ For the command to work properly, you need to have certain information in your p
 
 ### Config file
 
-If you need to customize paths or set a different environment variable name for your secret key, you can create a `.fauna.json` file.
+If you need to customize paths or set a different environment variable name for your secret key, you can create a configuration file called `.fauna.json` in your project root. The name of this file can be customized using the `--config` command-line option (see [Command-line options](#command-line-options) for more info).
 
 It takes the following properties:
 
@@ -148,6 +149,37 @@ It takes the following properties:
 |`codegen.typescript`|`true`|Whether or not to enable the `typescript` plugin. Setting this to false will change your `outputFile` to use a `.js` extension, unless you've set a custom `outputFile` and won't generate types.
 
 *All properties are optional, you can omit `.fauna.json` completely if you are happy with the defaults.*
+
+### Command-line options
+
+The properties listed under [config file](#config-file) can also be specified as command-line options. You would use the name of the property in either camelCase, `fgu --secretEnv SECRET`, or kebab-case, `fgu --secret-env SECRET`.
+
+The main use-cases for command-line options are to specify different config files or environment files.
+
+To change the config file to be used, you would use something like this:
+
+```sh
+fgu --config fauna.prod.json
+```
+
+> **NOTE:** The config file still has to be in a JSON format.
+
+To specify a different environment file, you would do something like this:
+
+```sh
+fgu --envPath .production.env
+```
+
+To use GraphQL codegen through command-line options, you need to first provide the `--codegen` option and then the desired options. All of the codegen options are prefixed with `codegen` followed by the name specified in the [config file table](#config-file).
+
+The only options that are not the same as their config property counter-parts are the `--codegenDisableTypescript`, which corresponds to `codegen.typescript`, and `--codegenDisableOperations`, which corresponds to `codegen.operations`, options. These control default GraphQL codegen plugins which are enabled by default.
+
+An example of usage with GraphQL codegen would be:
+```sh
+fgu --codegen --codegenPlugins typescript-urql --codegenPluginOptions '{ \"omitOperationSuffix\": true }'
+```
+
+> **NOTE:** It is not recommended to configure Fauna GQL Upload with command-line options, they only exist to provide flexibility. You would want to use a config file in most cases.
 
 ## Usage
 
