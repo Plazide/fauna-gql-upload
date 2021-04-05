@@ -5,6 +5,8 @@
 - Custom config path. You can now specify a custom config path using the `--config` command-line option.
 - Support for command-line options. You can now use every option available in the config file as command-line options.
 
+---
+
 ## 2.0.2 - March 19th, 2021
 ### Fixed
 - Typo in README.md that suggested the default schema path was `models/schema.gql`, it is actually `fauna/schema.gql` or `fauna/schema.graphql`.
