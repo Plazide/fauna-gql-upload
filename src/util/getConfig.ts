@@ -170,6 +170,5 @@ export default function getConfig(){
 	}
 
 	globalConfig = config;
-	console.log(config)
 	return config;
 }
