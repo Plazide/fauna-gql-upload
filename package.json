@@ -1,6 +1,6 @@
 {
   "name": "fauna-gql-upload",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Manage your FaunaDB resources in within your project and upload them using a single command",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
