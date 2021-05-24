@@ -1,4 +1,4 @@
-import { Resource, ResourceType, UploadResourcesOptions } from "../types";
+import { DataResource, Resource, ResourceType, UploadResourcesOptions } from "../types";
 
 import createOrUpdateData from "./createOrUpdateData";
 import createOrUpdateStandardResources from "./createOrUpdateStandardResources";
@@ -18,7 +18,7 @@ export default async function createOrUpdateResources(
 	const resourcesArray = resources;
 
 	if (type === "data") {
-		return createOrUpdateData(resourcesArray);
+		return createOrUpdateData(resourcesArray as DataResource[]);
 	}
 
 	if(type === "functions" && !fnsWithRoles){

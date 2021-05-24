@@ -170,7 +170,17 @@ export interface DataResource{
 	key: string;
 
 	/** The data to be inserted into your collection */
-	data: { [key: string]: string | number | object }[]
+	data: { [key: string]: string | number | object }[];
+
+	/** Optionally set credentials for your data. This is useful when creating initial user accounts, such as admin users. */
+	credentials?: {
+
+		/** The key of the document that password will be attached to. This should match one of the keys defined in `data`. */
+		key: string;
+
+		/** The password for the associated data. */
+		password: string; 
+	}[]
 }
 
 /** Describes an access provider. 
