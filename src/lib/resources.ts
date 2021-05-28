@@ -75,7 +75,7 @@ async function uploadResources(dir: string, type: ResourceType, options?: Upload
 		}
 	}))).filter( value => value !== null);
 
-	// Remove out directory before building files
+	// Remove out directory after reading files
 	await fs.promises.rmdir(resourceDir, { recursive: true });
 
 	try{
