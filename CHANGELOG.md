@@ -4,6 +4,9 @@
 ### Added
 - Support for adding credentials to data resources. See [Adding credentials to your data](https://github.com/Plazide/fauna-gql-upload#adding-credentials-to-your-data)
 
+### Fixed
+- Error when using `{ "type": "module" }` in `package.json`. Thanks to [@ry5n](https://github.com/ry5n) for reporting this in issue #30.
+
 ---
 
 ## 2.1.0 - April 5th, 2021
