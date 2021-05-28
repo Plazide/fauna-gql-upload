@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0 - June 2nd, 2021
+### Added
+- Support for adding credentials to data resources. See [Adding credentials to your data](https://github.com/Plazide/fauna-gql-upload#adding-credentials-to-your-data)
+
+---
+
 ## 2.1.0 - April 5th, 2021
 ### Added
 - Custom config path. You can now specify a custom config path using the `--config` command-line option.
