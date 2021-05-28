@@ -268,9 +268,18 @@ export default {
         delete: onlyDeleteByOwner
       }
     }
+  ],
+  membership: [
+    {
+      resource: q.Collection("User")
+    }
   ]
 }
 ```
+
+Here, we create a role called `"user"` that is allowed to `read` and `create` comments, but only the owner of the comment can `delete` it. We use the the membership field to specify which collection the role will be attached to, in this case it is the `"User"` collection.
+
+For more info on roles, see the [official documentation](https://docs.fauna.com/fauna/current/security/roles).
 
 #### Predicate functions
 Another detail that you've probably noticed is the `onlyDeleteByOwner` function. This is a [predicate function](https://docs.fauna.com/fauna/current/security/roles#mco). It lets you define your own permissions based on the user making the request and the document's fields. You would normally have to write these inline with the permissions. But in this case, we can create these in separate files and reuse them multiple times for different resources.
@@ -323,6 +332,47 @@ export default {
 };
 
 ```
+
+> **NOTE:** You need to create the index yourself. See [Uploading indexes](#uploading-indexes) for more info.
+
+#### Adding credentials to your data
+
+You can attach credentials to your data. This is useful for, among other things, creating initial admin users. Simply create a `credentials` field and specify which piece of data the credentials will be attached to.
+
+```js
+export default {
+  collection: "Admin",
+  index: "admin_by_email",
+  key: "email",
+  data: [
+    { email: "carl@chjweb.se", name: "chjweb" }
+  ],
+  credentials: [
+    { 
+      key: "carl@chjweb.se", 
+      password: "VerySecurePassword" 
+    }
+  ]
+}
+```
+
+Here, we say that the `key` for our data is the `email` field. In the `credentials` field, we say that we are looking for a `key` with a value of `"carl@chjweb.se"` and want to assign the password to the corresponding data entry.
+
+You can then use the FQL `Login()` function to get an access key for the admin user, like so:
+
+```js
+Login(
+  Match(
+    Index("admin_by_email"), 
+    "carl@chjweb.se"
+  ), 
+  { 
+    password: "VerySecurePassword" 
+  }
+)
+```
+
+You would also need to create a role and specify the `Admin` collection in the membership field. See [Uploading roles](#uploading-roles) for more info.
 
 ### Uploading access providers
 To upload your access provider configuration, you need a `fauna/providers` directory containing `.ts`/`.js` files that hold your configuration information.
