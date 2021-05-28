@@ -50,7 +50,8 @@ async function uploadResources(dir: string, type: ResourceType, options?: Upload
 			outdir: resourceDir,
 			bundle: true,
 			platform: "node",
-			target: ["node12.10.0"]
+			outExtension: { ".js": ".cjs" },
+			target: ["esnext"]
 		});
 	}catch(err){
 		status(failedUploadError, "error");
@@ -61,7 +62,7 @@ async function uploadResources(dir: string, type: ResourceType, options?: Upload
 	const resourceFiles = (await Promise.all(files.map( async file => {
 		try{
 			if(!allowedExts.includes(getExt(file))) return null;
-			const resourcePath = path.join(cwd, resourceDir, removeExt(file) + ".js");
+			const resourcePath = path.join(cwd, resourceDir, removeExt(file) + ".cjs");
 			const resource = await import(resourcePath);
 
 			// Handle default exports
