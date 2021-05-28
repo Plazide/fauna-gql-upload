@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.2.0 - June 2nd, 2021
+
+### Fixed
+- Error when using `{ "type": "module" }` in `package.json`. Thanks to [@ry5n](https://github.com/ry5n) for reporting this in issue #30.
+
 ## 2.1.0 - April 5th, 2021
 ### Added
 - Custom config path. You can now specify a custom config path using the `--config` command-line option.
