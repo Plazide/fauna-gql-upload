@@ -14,7 +14,9 @@
   "keywords": [
     "faunadb",
     "graphql",
-    "cli"
+    "cli",
+	"IaC",
+	"database"
   ],
   "author": "Carl Hallén Jansson <carl@chjweb.se>",
   "license": "ISC",
