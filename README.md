@@ -25,7 +25,9 @@ Fauna GQL Upload is a simple CLI to update your database's GraphQL schema, resol
 		- [Uploading roles](#uploading-roles)
 			- [Predicate functions](#predicate-functions)
 		- [Uploading indexes](#uploading-indexes)
+			- [Be careful when updating `terms` or `values`](#be-careful-when-updating-terms-or-values)
 		- [Uploading data](#uploading-data)
+			- [Adding credentials to your data](#adding-credentials-to-your-data)
 		- [Uploading access providers](#uploading-access-providers)
 		- [Typescript](#typescript)
 			- [Configuration file](#configuration-file)
@@ -313,6 +315,16 @@ export default {
 ```
 
 Fauna does actually create indexes based on your schema. But in certain situations it might be necessary to create custom indexes. The index above sorts people in ascending order by their age.
+
+#### Be careful when updating `terms` or `values`
+
+FaunaDB does not allow you to update the `terms` and `values` fields. Attempting to do this will result in an error. Fauna GQL Upload solves this. 
+
+As of version 2.2.0, Fauna GQL Upload deletes the indexes, waits 60 seconds, and uploads them again whenever an `"invalid document data"` error occurs on an index. This makes updating indexes convenient when using Fauna GQL Upload, but it comes with one potential downside.
+
+Because indexes are removed and can't be uploaded again until the cache has cleared, which is 60 seconds, there is a 1 minute window where you will get `"invalid ref"` errors if you try to access the indexes. That means your application wouldn't function properly during this time.
+
+Indexes should therefore be carefully considered before being pushed to production, since they can't be updated without downtime.
 
 ### Uploading data
 To upload data, you need a `fauna/data` directory containing a `.js` file for each of your data definition sets. These files describe the data and look like the following example.
