@@ -2,9 +2,13 @@ import fs from "fs";
 import path from "path";
 import createOrUpdateResources from "../util/createOrUpdateResources";
 import * as esbuild from "esbuild";
-import { ProviderResource, ResourceType, UploadResourcesOptions } from "../types";
+import { IndexResource, ProviderResource, Resource, ResourceType, UploadResourcesOptions } from "../types";
 import { detailedError, status } from "../util/logger";
 import getProviders from "../util/getProviders";
+import updateIndexes from "../util/updateIndexes";
+import CLISpinner from "cli-spinner";
+
+const Spinner = CLISpinner.Spinner; 
 
 const cwd = process.cwd();
 const allowedExts = [".js", ".ts"];
@@ -59,7 +63,7 @@ async function uploadResources(dir: string, type: ResourceType, options?: Upload
 	}
 
 
-	const resourceFiles = (await Promise.all(files.map( async file => {
+	const resourceFiles: Resource[] = (await Promise.all(files.map( async file => {
 		try{
 			if(!allowedExts.includes(getExt(file))) return null;
 			const resourcePath = path.join(cwd, resourceDir, removeExt(file) + ".cjs");
@@ -97,6 +101,27 @@ async function uploadResources(dir: string, type: ResourceType, options?: Upload
 	}catch(err){
 		// Don't log error message on first function pass.
 		if(type === "functions" && !options?.fnsWithRoles) return;
+
+		if(type === "indexes" && err.requestResult.responseRaw.includes("Index sources, terms, values, and partition count may not be updated.")){
+			status("Index sources, terms, values, and partition count cannot be updated normally. We must first delete the index and create it again. This will happen automatically, hold on...", "info");
+
+			try{
+				const indexes = resourceFiles.filter(val => !!val.source);
+				
+				const spinner = new Spinner("Updating mutated indexes... %s");
+				spinner.start();
+				await updateIndexes(indexes as IndexResource[]);
+				spinner.stop();
+
+				console.log();
+				status("Successfully updated mutated indexes", "success");
+
+				return;
+			}catch(err){
+				status("Failed to update mutated indexes", "error");
+				console.error(err);
+			}
+		}
 		
 		detailedError(err, type);
 	}

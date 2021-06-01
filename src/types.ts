@@ -8,7 +8,7 @@ export interface UploadResourcesOptions{
 }
 
 export type ResourceType = "data" | "functions" | "roles" | "indexes" | "providers";
-export type Resource = FunctionResource | RoleResource | IndexResource | DataResource;
+export type Resource = FunctionResource & RoleResource & IndexResource & DataResource;
 export type StandardResourceType = "functions" | "roles" | "indexes" | "providers";
 export type StandardResource = FunctionResource | RoleResource | IndexResource | ProviderResource;
 
