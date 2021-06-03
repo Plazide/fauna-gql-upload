@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.2.0 - June 1st, 2021
+## 2.2.0 - June 3rd, 2021
 ### Added
 - Automatic updating of mutated indexes. Previously, if you changed an index's `terms` or `values` you would not be able to update it. Fauna simply doesn't allow you to change an index in that way. To circumvent this, you would have to delete the index, wait 60 seconds, and create the index again. Fauna GQL Upload does this automatically now.
 - Support for adding credentials to data resources. See [Adding credentials to your data](https://github.com/Plazide/fauna-gql-upload#adding-credentials-to-your-data)
