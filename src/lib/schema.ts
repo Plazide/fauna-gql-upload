@@ -14,19 +14,27 @@ const Spinner = CLISpinner.Spinner;
 const defaultYes = yargs.argv.yes || yargs.argv.y
 prompts.override(defaultYes ? { shouldOverride: true } : {})
 
-async function uploadSchema(schemaPath: string, override = false){
+interface SchemaOptions{
+	mode?: "merge" | "override" | "replace";
+	override?: boolean;
+}
+
+async function uploadSchema(schemaPath: string, options: SchemaOptions){
 	const schema = path.join(process.cwd(), schemaPath);
 	if(!fs.existsSync(schema)){
 		status("Cannot find schema at \x1b[4m" + schema + "\x1b[0m", "error");
-
 		return;
+	}
+
+	if(options.override){
+		status("The `override` option has been deprecated. Please use `--mode override` instead.", "error");
 	}
 
 	const data = fs.createReadStream(schema);
 	const spinner = new Spinner("Overriding schema.. %s");
 	let shouldOverride = false;
 
-	if(override){
+	if(options.override || options.mode === "override"){
 		const answer = await prompts({
 			type: "confirm",
 			name: "shouldOverride",
@@ -36,14 +44,15 @@ async function uploadSchema(schemaPath: string, override = false){
 		shouldOverride = answer.shouldOverride;
 	}
 
-	if(override && !shouldOverride) return;
+	if((options.override || options.mode === "override") && !shouldOverride) return;
 
 	if(shouldOverride){
 		status("Okay, this could take a while. Sit tight...");
 		spinner.start();
 	}
 
-	const endpoint = `${graphqlEndpoint}/import${shouldOverride ? "?mode=override" : "?mode=merge"}`;
+	const mode = shouldOverride ? "override" : (options.mode || "merge");
+	const endpoint = `${graphqlEndpoint}/import?mode=${mode}`;
 	const res = await fetch(endpoint, {
 		method: "POST",
 		headers: {

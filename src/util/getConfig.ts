@@ -6,22 +6,23 @@ import yargs from "yargs";
 interface IOptions{
 	apiEndpointEnv: string;
 	graphqlEndpointEnv: string;
-	schemaPath: string,
+	schemaPath: string;
 	tsconfigPath?: string;
-	envPath: string,
-	secretEnv: string,
-	fnsDir: string,
-	rolesDir: string,
-	indexesDir: string,
-	dataDir: string,
+	mode?: "merge" | "override" | "replace";
+	envPath: string;
+	secretEnv: string;
+	fnsDir: string;
+	rolesDir: string;
+	indexesDir: string;
+	dataDir: string;
 	providersDir: string;
 	codegen?: {
-		typescript: boolean,
-		operations: boolean,
-		outputFile: string,
-		headers: { [key: string]: string },
-		documents: string[],
-		plugins: Plugin[],
+		typescript: boolean;
+		operations: boolean;
+		outputFile: string;
+		headers: { [key: string]: string };
+		documents: string[];
+		plugins: Plugin[];
 		pluginOptions: { [key: string]: string }
 	} | null
 }
@@ -29,8 +30,15 @@ interface IOptions{
 export const argv = yargs
 	.option("override", {
 		alias: "o",
-		description: "Override the schema, this will delete all your data in the database.",
-		type: "boolean"
+		description: "Override the schema, this will delete all your data in the database. This option is deprecated.",
+		type: "boolean",
+		deprecated: "`override` flag is deprecated and will be removed in a future version of Fauna GQL Upload. Use `--mode override` instead."
+	})
+	.option("mode", {
+		alias: "m",
+		description: "The mode to use when uploading GraphQL schema.",
+		type: "string",
+		choices: ["merge", "override", "replace"]
 	})
 	.option("yes", {
 		alias: "y",
@@ -149,6 +157,7 @@ export default function getConfig(){
 	const config: IOptions = {
 		apiEndpointEnv: argv?.apiEndpointEnv || providedConfig.apiEndpointEnv || defaultApiEndpointEnv,
 		graphqlEndpointEnv: argv?.graphqlEndpointEnv || providedConfig.graphqlEndpointEnv || defaultGraphqlEndpointEnv,
+		mode: argv?.mode || providedConfig.mode || "merge",
 		schemaPath: argv?.schemaPath || providedConfig.schemaPath || defaultSchema,
 		tsconfigPath: argv?.tsconfigPath || providedConfig.tsconfigPath,
 		envPath: argv?.envPath || providedConfig.envPath || ".env",

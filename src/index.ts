@@ -18,7 +18,8 @@ const {
 	rolesDir,
 	dataDir,
 	providersDir,
-	codegen
+	codegen,
+	mode
 } = getConfig();
 
 export async function upload({
@@ -32,7 +33,7 @@ export async function upload({
 
 	// Upload schema
 	if(resources.includes("schema"))
-		await uploadSchema(schemaPath, override);
+		await uploadSchema(schemaPath, { override, mode });
 
 	// Upload indexes
 	if(resources.includes("indexes"))
