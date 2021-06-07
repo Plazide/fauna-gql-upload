@@ -1,4 +1,4 @@
-# Problems or issues?
+# ❌ Problems or issues?
 
 If you have any problems using the package or believe to have encountered any bugs, please [create an issue](https://github.com/Plazide/fauna-gql-upload/issues/new).
 

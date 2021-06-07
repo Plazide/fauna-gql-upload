@@ -1,13 +1,13 @@
 site_name: Fauna GQL Upload
 site_url: https://fgu-docs.com
 nav:
-  - "Introduction": index.md
-  - "getting-started.md"
-  - "Configuration": 
+  - index.md
+  - getting-started.md
+  - "⌨️ Configuration": 
       - "Config file": "configuration/config-file.md"
       - "Command-line options": "configuration/command-line-options.md"
       - "Local development": "configuration/local-development.md"
-  - "Usage": 
+  - "🤹 Usage": 
       - "usage/upload-schema.md"
       - "usage/upload-functions.md"
       - "usage/upload-indexes.md"
