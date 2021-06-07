@@ -45,7 +45,7 @@ yarn fauna
 For the command to work properly, you need to have certain information in your project.
 
 1. You need a `.env` file with a variable called `FGU_SECRET`. ***This is required*** 
-2. You need a valid schema file to upload. This file should be located at `fauna/schema.gql` relative to the working directory where the command is executed. ***This is required*** 
+2. You need a valid schema file to upload. This file should be located at `fauna/schema.gql` relative to the working directory where the command is executed. See [Uploading schema](/usage/upload-schema) for more info. ***This is required*** 
 3. To upload functions, you need a directory called `fauna/functions`. Within this directory, you should have one `.js` file for each of you functions. See [Uploading Functions](/usage/upload-functions) for an example of such a file.
 4. To upload roles, you need a directory called `fauna/roles`. Within this directory, you should have one `.js` file for each of your roles. See [Uploading Roles](/usage/upload-roles) for an example of such a file.
 5. To upload indexes, you need a directory called `fauna/indexes`. Within this directory, you should have one `.js` file for each of your indexes. See [Uploading indexes](/usage/upload-indexes) for an example of such a file.

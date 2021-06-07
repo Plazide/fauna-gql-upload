@@ -1,6 +1,6 @@
 # Config file
 
-If you need to customize paths or set a different environment variable name for your secret key, you can create a configuration file called `.fauna.json` in your project root. The name of this file can be customized using the `--config` command-line option (see [Command-line options](#command-line-options) for more info).
+If you need to customize paths or set a different environment variable name for your secret key, you can create a configuration file called `.fauna.json` in your project root. The name of this file can be customized using the `--config` command-line option (see [Command-line options](/configuration/command-line-options) for more info).
 
 It takes the following properties:
 

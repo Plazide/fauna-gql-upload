@@ -23,7 +23,7 @@ yarn fauna
 
 This would create a file at `generated/graphql.ts` containing your GraphQL types.
 
-For a full list of `codegen` options, see the [config file section](#config-file).
+For a full list of `codegen` options, see the [config file section](/configuration/config-file).
 
 ## Plugins
 

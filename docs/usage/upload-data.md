@@ -18,7 +18,7 @@ export default {
 
 ```
 
-> **NOTE:** You need to create the index yourself. See [Uploading indexes](#uploading-indexes) for more info.
+> **NOTE:** You need to create the index yourself. See [Uploading indexes](/usage/upload-indexes) for more info.
 
 ## Adding credentials to your data
 
@@ -57,4 +57,4 @@ Login(
 )
 ```
 
-You would also need to create a role and specify the `Admin` collection in the membership field. See [Uploading roles](#uploading-roles) for more info.
+You would also need to create a role and specify the `Admin` collection in the membership field. See [Uploading roles](/usage/upload-roles) for more info.
