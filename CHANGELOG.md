@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.3.0 - June 7th, 2021
+### Added
+- Documentation site. Keeping all documentation inside the `README.md` was getting overwhelming. Everything was on contained in one single file and it took a while to scroll through it all. The documentation is now split up into separate pages for better browsing. Visit the [new documentation site](https://fgu-docs.com).
+- CLI option to specify schema upload mode. You could previously use the `--override` option to, well... override the schema. This has been deprecated in favor of a new `--mode` option which allows you to specify one of `merge`, `replace`, or `override`. 
+
+### Deprecated
+- The `--override` option. See above for more info.
+
+---
+
 ## 2.2.0 - June 3rd, 2021
 ### Added
 - Automatic updating of mutated indexes. Previously, if you changed an index's `terms` or `values` you would not be able to update it. Fauna simply doesn't allow you to change an index in that way. To circumvent this, you would have to delete the index, wait 60 seconds, and create the index again. Fauna GQL Upload does this automatically now.
