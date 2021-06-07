@@ -1,4 +1,22 @@
 site_name: Fauna GQL Upload
+site_url: https://fgu-docs.com
+nav:
+  - "Introduction": index.md
+  - "getting-started.md"
+  - "Configuration": 
+      - "Config file": "configuration/config-file.md"
+      - "Command-line options": "configuration/command-line-options.md"
+      - "Local development": "configuration/local-development.md"
+  - "Usage": 
+      - "usage/upload-schema.md"
+      - "usage/upload-functions.md"
+      - "usage/upload-indexes.md"
+      - "usage/upload-roles.md"
+      - "usage/upload-data.md"
+      - "usage/upload-access-providers.md"
+      - "usage/graphql-code-generator.md"
+      - "usage/with-typescript.md"
+  - "problems-or-issues.md"
 theme: 
   name: null
   custom_dir: 'theme/'
