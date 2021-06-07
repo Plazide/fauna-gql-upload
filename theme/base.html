@@ -13,8 +13,16 @@
 	<script async src="https://arc.io/widget.min.js#3ua6mscf"></script>
 </head>
 <body>
+	<header>
+		<button class="icon-button hamburger">
+			<img src="{{ "img/hamburger.svg"|url }}" />
+		</button>
+	</header>
 	<nav class="nav">
 		<header>
+			<button onclick="toggleNavigation()" class="icon-button backburger">
+				<img src="{{ "img/backburger.svg"|url }}" />
+			</button>
 			<h1 class="title">Fauna GQL Upload</h1>
 		</header>
 		
