@@ -1,4 +1,4 @@
-# What is this?
+# Introduction
 
 Fauna GQL Upload is a simple CLI to update your database's GraphQL schema, resolver functions, indexes, and database roles without going to the FaunaDB dashboard. It uses the `https://graphql.fauna.com/import` endpoint to update the schema from a file within your project, and the FQL driver for JavaScript to update/create functions, roles, and indexes.
 
