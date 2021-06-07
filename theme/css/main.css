@@ -92,16 +92,18 @@ tr, td{
 	margin-bottom: 60px;
 }
 .nav footer{
+	box-sizing: border-box;
 	position: absolute;
-	height: 60px;
+	height: 54px;
 	background: var(--light);
 	width: 100%;
 	bottom: 0;
+	padding: 0 10px 0 0;
 
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-end;
 }
 .nav footer a{
 	margin: 0 10px;
