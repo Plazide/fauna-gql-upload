@@ -1,0 +1,17 @@
+{% if not nav_item.children %}
+<li {% if nav_item.active %}class="active"{% endif %}>
+	<a href="{{ nav_item.url|url }}">{{ nav_item.title }}</a>
+</li>
+{% else %}
+<li {% if nav_item.active %}class="active dropdown"{% else %}class="dropdown"{% endif %}>
+	<button class="dropdown-button">
+		{{ nav_item.title }} 
+		<img class="chevron" alt="chevron" src="{{ "img/chevron.svg"|url }}" />
+	</button>
+	<ul {% if nav_item.active %}class="list"{% else %}class="closed list"{% endif %}>
+		{% for nav_item in nav_item.children %}
+			{% include "nav.html" %}
+		{% endfor %}
+	</ul>
+</li>
+{% endif %}

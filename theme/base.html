@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% if page.title %}{{ page.title }} - {% endif %}{{ config.site_name }}</title>
+
+	<link rel="stylesheet" href="{{ "css/main.css"|url }}" />
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism-okaidia.css" integrity="sha512-lTmd0bFMM2Ttm/S8V5dywYNiJaSyF5PILZosvAIzW4EJ7JLEYflk9ImyYIxw5KlFz7e9ZCJN53rnvPnefD240w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js" integrity="sha512-YBk7HhgDZvBxmtOfUdvX0z8IH2d10Hp3aEygaMNhtF8fSOvBZ16D/1bXZTJV6ndk/L/DlXxYStP8jrF77v2MIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+	<nav class="nav">
+		<header>
+			<h1 class="title">Fauna GQL Upload</h1>
+		</header>
+		
+		<ul class="list">
+			{% for nav_item in nav %}
+				{% include "nav.html" %}
+			{% endfor %}
+		</ul>
+
+		<footer>
+			<a href="https://github.com/Plazide/fauna-gql-upload">
+				<img alt="Github" src="{{ "img/github.png"|url }}" />
+			</a>
+			<a href="https://twitter.com/chj_web">
+				<img alt="Twitter" src="{{ "img/twitter.png"|url }}" />
+			</a>
+		</footer>
+	</nav>
+	<main class="main">{{ page.content }}</main>
+	<iframe
+		src="https://viewm.moonicorn.network/#%7B%22options%22%3A%7B%22publisherAddr%22%3A%220x60C1D3c8E5FE51bEE5546F6240E18230be4C7Ab2%22%2C%22whitelistedTokens%22%3A%5B%220x6B175474E89094C44Da98b954EedeAC495271d0F%22%5D%2C%22whitelistedType%22%3A%22legacy_160x600%22%2C%22randomize%22%3Atrue%2C%22targeting%22%3A%5B%5D%2C%22width%22%3A%22160%22%2C%22height%22%3A%22600%22%2C%22minPerImpression%22%3A%220%22%2C%22fallbackUnit%22%3Anull%2C%22marketSlot%22%3A%22QmREYH6teaTWQF7uD7TfKuVvqRY3P5WauxDeHoQoJJJ4aA%22%7D%7D"
+		width="160"
+		height="600"
+		scrolling="no"
+		frameborder="0"
+		style="border: 0;"
+		onload="window.addEventListener('message', function(ev) { 
+			if (ev.data.hasOwnProperty('adexHeight') && ('https://viewm.moonicorn.network' === ev.origin)) {
+				for (let f of document.getElementsByTagName('iframe')) {	
+					if (f.contentWindow === ev.source) {
+						f.height = ev.data.adexHeight;
+					}
+				}	
+			}
+		}, false)"
+	></iframe>
+
+	<script src="{{ "js/main.js"|url }}"></script>
+</body>
+</html>

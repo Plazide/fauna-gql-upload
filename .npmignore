@@ -5,3 +5,6 @@ yarn-error.log
 .gitignore
 .gitattributes
 CHANGELOG.md
+docs
+theme
+requirements.txt
