@@ -19,7 +19,7 @@ fgu --mode replace
 ```
 
 ## Overriding the schema
-If you need to make schema changes that are not compatible with the previous versions of the schema, you might have to override it. This can be done by adding a `--override` flag when running the command.
+If you need to make schema changes that are not compatible with the previous versions of the schema, you might have to override it. This can be done by adding a `--mode` flag when running the command.
 
 Like so:
 ```sh
