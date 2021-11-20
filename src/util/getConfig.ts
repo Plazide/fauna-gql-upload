@@ -7,6 +7,7 @@ interface IOptions{
 	apiEndpointEnv: string;
 	graphqlEndpointEnv: string;
 	schemaPath: string;
+	region?: "classic" | "eu" | "us" | "preview";
 	tsconfigPath?: string;
 	mode?: "merge" | "override" | "replace";
 	envPath: string;
@@ -56,6 +57,10 @@ export const argv = yargs
 	})
 	.option("graphqlEndpointEnv", {
 		description: "Specify environment variable for custom GraphQL endpoint",
+		type: "string"
+	})
+	.option("region", {
+		description: "Specify database region.",
 		type: "string"
 	})
 	.option("schemaPath", {
@@ -157,6 +162,7 @@ export default function getConfig(){
 	const config: IOptions = {
 		apiEndpointEnv: argv?.apiEndpointEnv || providedConfig.apiEndpointEnv || defaultApiEndpointEnv,
 		graphqlEndpointEnv: argv?.graphqlEndpointEnv || providedConfig.graphqlEndpointEnv || defaultGraphqlEndpointEnv,
+		region: argv?.region || providedConfig?.region || undefined,
 		mode: argv?.mode || providedConfig.mode || "merge",
 		schemaPath: argv?.schemaPath || providedConfig.schemaPath || defaultSchema,
 		tsconfigPath: argv?.tsconfigPath || providedConfig.tsconfigPath,

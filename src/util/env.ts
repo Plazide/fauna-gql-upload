@@ -9,7 +9,7 @@ dotenv.config({
 
 const { secretEnv, apiEndpointEnv, graphqlEndpointEnv } = config;
 const apiEndpoint = process.env[apiEndpointEnv] || "https://db.fauna.com";
-const graphqlEndpoint = process.env[graphqlEndpointEnv] || "https://graphql.fauna.com";
+const graphqlEndpoint = process.env[graphqlEndpointEnv];
 
 const secret = process.env[secretEnv];
 
