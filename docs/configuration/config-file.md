@@ -8,7 +8,8 @@ It takes the following properties:
 |--------|-------|-------|
 |`schemaPath`|`fauna/schema.gql`|Path to your GraphQL schema.
 |`secretEnv`|`FGU_SECRET`|The key used to access your FaunaDB database.
-|`region`|Whichever endpoint works with the provided secret|Specify the region group that your database belongs to. Possible values are: `eu`, `us`, `classic` and `preview`. 
+|`region`|Whichever endpoint works with the provided secret|Specify the region group that your database belongs to. Possible values are: `eu`, `us`, `classic` and `preview`.
+|`mode`|`merge`|Specify the schema upload mode. Possible values are: `merge`, `override` and `replace`
 |`apiEndpointEnv`|`FGU_API_ENDPOINT`|Environment variable for custom api endpoint, useful for local development
 |`graphqlEndpointEnv`|`FGU_GRAPHQL_ENDPOINT`|Environment variable for custom graphql endpoint, useful for local development
 |`tsconfigPath`|`tsconfig.json`|Path to a `tsconfig.json` file.
