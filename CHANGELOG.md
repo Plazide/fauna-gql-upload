@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.4.0 - November Nth, 2021
+
+### Added
+
+- Support for region groups. There has existed a glaring flaw in Fauna GQL Upload the last few months that I wasn't aware of. That flaw was that anyone who created a database which was not in the classic region, ie. accessed through `https://graphql.fauna.com`, would not be able to use the tool without specifying a custom graphql endpoint through the `FGU_GRAPHQL_ENDPOINT` environment variable. To eliminate this step from the setup process, I have added the `region` option which can be specified through either `.fauna.json` or as a command-line argument.
+
+### Fixed
+
+- Various documentation issues.
+
 ## 2.3.0 - June 7th, 2021
 ### Added
 - Documentation site. Keeping all documentation inside the `README.md` was getting overwhelming. Everything was on contained in one single file and it took a while to scroll through it all. The documentation is now split up into separate pages for better browsing. Visit the [new documentation site](https://fgu-docs.com).
