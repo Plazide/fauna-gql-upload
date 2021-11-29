@@ -1,10 +1,22 @@
-node_modules
-.eslintrc
-tests
-yarn-error.log
-.gitignore
-.gitattributes
-CHANGELOG.md
+# Docs
 docs
 theme
 requirements.txt
+mkdocs.yml
+CHANGELOG.md
+
+# Tests
+tests
+.env-test-example
+
+# Git
+.gitignore
+.gitattributes
+
+# Vercel
+vercel.json
+
+# Misc
+node_modules
+.eslintrc
+yarn-error.log
