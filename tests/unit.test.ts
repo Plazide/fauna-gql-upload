@@ -2,7 +2,7 @@ import wait from "../src/util/wait";
 import camelize from "../src/util/camelize";
 import dotenv from "dotenv";
 
-import type { FetchMockStatic } from "fetch-mock";
+import { FetchMockStatic } from "fetch-mock";
 import fetch from "node-fetch";
 
 import "fetch-mock-jest";
@@ -14,7 +14,8 @@ const endpoints = [
 	"https://graphql.eu.fauna.com/graphql",
 	"https://graphql.us.fauna.com/graphql",
 	"https://graphql.fauna-preview.com/graphql",
-	"https://graphql.fauna.com/graphql"
+	"https://graphql.fauna.com/graphql",
+	"http://localhost:8084/graphql"
 ] as const;
 
 function mockEndpoints(correctEndpoint: string){
@@ -60,16 +61,36 @@ describe("Unit tests", () => {
 	test("Should return correct endpoint", async () => {
 		const imported = await import("../src/util/getGraphqlEndpoint");
 		const getGraphqlEndpoint = imported.default;
+
+		// Mock classic endpoint
 		let correctEndpoint: typeof endpoints[number] = "https://graphql.fauna.com/graphql";
 		mockEndpoints(correctEndpoint);
 
+		// Test classic endpoint
 		let endpoint = await getGraphqlEndpoint();
 		expect(endpoint).toEqual("https://graphql.fauna.com");
 
+		// Mock eu endpoint
 		correctEndpoint = "https://graphql.eu.fauna.com/graphql";
 		mockEndpoints(correctEndpoint);
 
+		// Test eu endpoint
 		endpoint = await getGraphqlEndpoint();
 		expect(endpoint).toEqual("https://graphql.eu.fauna.com");
+
+		// Mock local endpoint
+		correctEndpoint = "http://localhost:8084/graphql";
+		mockEndpoints(correctEndpoint);
+
+		// Test local endpoint
+		endpoint = await getGraphqlEndpoint();
+		expect(endpoint).toEqual("http://localhost:8084");
+
+		// Mock non-existing endpoint
+		mockEndpoints("https://fake-endpoint.fauna.com/graphql");
+		
+		// Test non-existing endpoint
+		endpoint = await getGraphqlEndpoint();
+		expect(endpoint).toBe(null)
 	})
 })

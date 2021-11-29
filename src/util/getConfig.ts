@@ -7,7 +7,7 @@ interface IOptions{
 	apiEndpointEnv: string;
 	graphqlEndpointEnv: string;
 	schemaPath: string;
-	region?: "classic" | "eu" | "us" | "preview";
+	region?: "classic" | "eu" | "us" | "preview" | "local";
 	tsconfigPath?: string;
 	mode?: "merge" | "override" | "replace";
 	envPath: string;
