@@ -18,6 +18,8 @@ To specify a different environment file, you would do something like this:
 fgu --envPath .production.env
 ```
 
+## Codegen
+
 To use GraphQL codegen through command-line options, you need to first provide the `--codegen` option and then the desired options. All of the codegen options are prefixed with `codegen` followed by the name specified in the [config file table](/configuration/config-file).
 
 The only options that are not the same as their config property counter-parts are the `--codegenDisableTypescript`, which corresponds to `codegen.typescript`, and `--codegenDisableOperations`, which corresponds to `codegen.operations`, options. These control default GraphQL codegen plugins which are enabled by default.
@@ -28,3 +30,19 @@ fgu --codegen --codegenPlugins typescript-urql --codegenPluginOptions '{ \"omitO
 ```
 
 > **NOTE:** It is not recommended to configure Fauna GQL Upload with command-line options, they only exist to provide flexibility. You would want to use a config file in most cases.
+
+## Resources
+
+You can specify which resource types to upload using the following command-line options:
+
+|Option|Description|
+|------|-----------|
+|`--schema`|Upload the GraphQL schema|
+|`--data`|Upload domain data|
+|`--functions`|Upload functions|
+|`--indexes`|Upload indexes|
+|`--providers`|Upload access providers|
+|`--roles`|Upload roles|
+|`--ignore-all`|Ignore all resources
+
+The `--ignore-all` option can be used in combination with `--codegen` to only generate GraphQL types and skip uploading resources.
