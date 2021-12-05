@@ -32,8 +32,10 @@ export async function upload({
 	const uploadResources = (await import("./lib/resources")).default;
 
 	// Upload schema
-	if(resources.includes("schema"))
-		await uploadSchema(schemaPath, { override, mode });
+	if(resources.includes("schema")){
+		const ok = await uploadSchema(schemaPath, { override, mode });
+		if(!ok) return;
+	}
 
 	// Upload indexes
 	if(resources.includes("indexes"))

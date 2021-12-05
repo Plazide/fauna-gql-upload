@@ -73,10 +73,13 @@ async function uploadSchema(schemaPath: string, options: SchemaOptions){
 
 	if(!res.ok){
 		status(result, "error");
+		return false;
 	}
 
-	if(res.ok)
+	if(res.ok){
 		status("updated schema", "success");
+		return true;
+	}
 }
 
 export default uploadSchema;
