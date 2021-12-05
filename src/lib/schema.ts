@@ -6,7 +6,8 @@ import prompts from "prompts";
 import CLISpinner from "cli-spinner";
 import wait from "../util/wait";
 import { status } from "../util/logger";
-import { secret, graphqlEndpoint } from "../util/env";
+import { secret } from "../util/env";
+import getGraphqlEndpoint from "../util/getGraphqlEndpoint";
 
 const Spinner = CLISpinner.Spinner;
 
@@ -20,6 +21,7 @@ interface SchemaOptions{
 }
 
 async function uploadSchema(schemaPath: string, options: SchemaOptions){
+	const graphqlEndpoint = await getGraphqlEndpoint();
 	const schema = path.join(process.cwd(), schemaPath);
 	if(!fs.existsSync(schema)){
 		status("Cannot find schema at \x1b[4m" + schema + "\x1b[0m", "error");
