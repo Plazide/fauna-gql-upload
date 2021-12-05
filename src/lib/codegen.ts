@@ -9,8 +9,9 @@ import { CodeFileLoader } from "@graphql-tools/code-file-loader";
 import { loadSchema, loadDocuments } from "@graphql-tools/load";
 
 import getConfig from "../util/getConfig";
-import { secret, graphqlEndpoint } from "../util/env";
+import { secret } from "../util/env";
 import { status } from "../util/logger";
+import getGraphqlEndpoint from "../util/getGraphqlEndpoint";
 
 const cwd = process.cwd();
 const config = getConfig();
@@ -107,6 +108,7 @@ async function getPluginPath(plugin: string){
 }
 
 async function fetchSchema(){
+	const graphqlEndpoint = await getGraphqlEndpoint();
 	const schema = await loadSchema(`${graphqlEndpoint}/graphql`, {
 		loaders: [
 			new UrlLoader()
