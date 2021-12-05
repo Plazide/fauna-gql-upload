@@ -1,6 +1,7 @@
 import { graphqlEndpoint, secret } from "./env";
 import getConfig from "./getConfig";
 import fetch from "node-fetch";
+import { status } from "./logger"
 
 const regionMap = new Map([
 	["eu", "https://graphql.eu.fauna.com"],
@@ -64,6 +65,7 @@ async function findValidEndpoint(){
 		});
 	
 		const endpoint = endpoints[index];
+		status(`Your GraphQL region was inferred from your secret key and your endpoint was set to '${endpoint}'. Use the 'region' option to set it explicitly.\nMore info: https://fgu-docs.com/configuration/config-file/\n`, "info");
 	
 		return endpoint;
 	}catch{
