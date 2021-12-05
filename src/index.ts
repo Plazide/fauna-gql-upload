@@ -24,8 +24,7 @@ const {
 
 export async function upload({
 	override = false,
-	resources = ["schema", "data", "functions", "indexes", "providers", "roles"],
-	runCodegen = true
+	resources = ["schema", "data", "functions", "indexes", "providers", "roles"]
 }: UploadOptions = {}) {
 	ensurePackage("faunadb")
 	const uploadSchema = (await import("./lib/schema")).default;
@@ -64,13 +63,12 @@ export async function upload({
 		await uploadResources(providersDir, "providers");
 
 	// If the codegen is specified
-	if(codegen && runCodegen){
+	if(codegen){
 		ensurePackage("graphql");
 
 		const runCodegen = (await import("./lib/codegen")).default;
 		runCodegen()
-	}
-		
+	}	
 };
 
 function ensurePackage(name: string){

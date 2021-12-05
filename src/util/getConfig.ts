@@ -29,6 +29,7 @@ interface IOptions{
 }
 
 export const argv = yargs
+	// Config options
 	.option("override", {
 		alias: "o",
 		description: "Override the schema, this will delete all your data in the database. This option is deprecated.",
@@ -130,6 +131,31 @@ export const argv = yargs
 	.option("codegenPluginOptions", {
 		description: "Specify options for GraphQL codegen plugins",
 		type: "string"
+	})
+	// Select resources
+	.option("schema", {
+		description: "Upload schema",
+		type: "boolean"
+	})
+	.option("data", {
+		description: "Upload data",
+		type: "boolean"
+	})
+	.option("functions", {
+		description: "Upload functions",
+		type: "boolean"
+	})
+	.option("indexes", {
+		description: "Upload indexes",
+		type: "boolean"
+	})
+	.option("providers", {
+		description: "Upload providers",
+		type: "boolean"
+	})
+	.option("roles", {
+		description: "Upload roles",
+		type: "boolean"
 	})
 	.argv;
 
