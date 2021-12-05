@@ -54,7 +54,18 @@ function getMessage(message: string, status: Status){
 	const bright = "\x1b[1m";
 	const reset = "\x1b[0m";
 	const color = getColor(status);
-	const composedMessage = `${dim}${color}[${status}]${reset} ${bright}${message}${reset}`;
+	const statusType = `${dim}${color}[${status}]${reset}`;
+	let composedMessage = `${statusType} `;
+
+	switch(status){
+		case "info":
+			composedMessage += message;
+			break;
+		case "success":
+		case "error":
+		default:
+			composedMessage += `${bright}${message}${reset}`
+	}
 
 	return composedMessage;
 }
