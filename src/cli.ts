@@ -12,9 +12,11 @@ const resources: ("schema" | ResourceType)[] = [
 	"roles"
 ];
 
+const ignoreAll = argv.ignoreAll;
 const useResources = resources.filter(resource => argv[resource]);
 
 upload({ 
 	override: argv.override,
-	resources: useResources.length > 0 ? useResources : undefined
+	// Pass empty array if --ignore-all is provided,
+	resources: ignoreAll ? [] : (useResources.length > 0 ? useResources : undefined)
 })

@@ -157,6 +157,10 @@ export const argv = yargs
 		description: "Upload roles",
 		type: "boolean"
 	})
+	.option("ignoreAll", {
+		description: "Ignore all resources",
+		type: "boolean"
+	})
 	.argv;
 
 const cwd = process.cwd();
