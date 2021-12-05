@@ -29,3 +29,21 @@ It takes the following properties:
 |`codegen.typescript`|`true`|Whether or not to enable the `typescript` plugin. Setting this to false will change your `outputFile` to use a `.js` extension, unless you've set a custom `outputFile` and won't generate types.
 
 *All properties are optional, you can omit `.fauna.json` completely if you are happy with the defaults.*
+
+## Region
+
+The `region` option controls your GraphQL endpoint. The table below shows what endpoints the different options correspond to:
+
+|Option|Endpoint|
+|------|--------|
+|`eu`|`https://graphql.eu.fauna.com`|
+|`us`|`https://graphql.us.fauna.com`|
+|`classic`|`https://graphql.fauna.com`|
+|`preview`|`https://graphql.fauna-preview.com`|
+|`local`|`http://localhost:8084`|
+
+For greater control over your GraphQL endpoint, ie. when using a non-standard development endpoint, use the `FGU_GQL_ENDPOINT` environment variable.
+
+The `region` option is actually completely optional. If you do not specify it, Fauna GQL Upload will try every known endpoint with your provided secret key and use first endpoint that doesn't give a `"Invalid database secret"` error.
+
+Despite this, it is recommended to set the region whenever possible.
