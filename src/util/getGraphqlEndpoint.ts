@@ -11,7 +11,14 @@ const regionMap = new Map([
 	["local", "http://localhost:8084"]
 ])
 
+// This variable stores the potential return value of findValidEndpoint()
+let establishedEndpoint: string;
+
 export default async function getGraphqlEndpoint(){
+	// If the findValidEndpoint() has already produced a value, just use that value instead of calling it again.
+	if(establishedEndpoint)
+		return establishedEndpoint;
+
 	// Env var has top priority.
 	if(graphqlEndpoint) return graphqlEndpoint;
 
@@ -67,6 +74,7 @@ async function findValidEndpoint(){
 		const endpoint = endpoints[index];
 		status(`Your GraphQL region was inferred from your secret key and your endpoint was set to '${endpoint}'. Use the 'region' option to set it explicitly.\nMore info: https://fgu-docs.com/configuration/config-file/\n`, "info");
 	
+		establishedEndpoint = endpoint;
 		return endpoint;
 	}catch{
 		return null;
