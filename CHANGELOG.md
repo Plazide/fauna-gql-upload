@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.4.0 - December Nth, 2021
+## 2.4.0 - December 7th, 2021
 
 ### Added
 
