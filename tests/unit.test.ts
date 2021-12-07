@@ -67,7 +67,7 @@ describe("Unit tests", () => {
 		mockEndpoints(correctEndpoint);
 
 		// Test classic endpoint
-		let endpoint = await getGraphqlEndpoint();
+		let endpoint = await getGraphqlEndpoint(false);
 		expect(endpoint).toEqual("https://graphql.fauna.com");
 
 		// Mock eu endpoint
@@ -75,7 +75,7 @@ describe("Unit tests", () => {
 		mockEndpoints(correctEndpoint);
 
 		// Test eu endpoint
-		endpoint = await getGraphqlEndpoint();
+		endpoint = await getGraphqlEndpoint(false);
 		expect(endpoint).toEqual("https://graphql.eu.fauna.com");
 
 		// Mock local endpoint
@@ -83,14 +83,14 @@ describe("Unit tests", () => {
 		mockEndpoints(correctEndpoint);
 
 		// Test local endpoint
-		endpoint = await getGraphqlEndpoint();
+		endpoint = await getGraphqlEndpoint(false);
 		expect(endpoint).toEqual("http://localhost:8084");
 
 		// Mock non-existing endpoint
 		mockEndpoints("https://fake-endpoint.fauna.com/graphql");
 		
 		// Test non-existing endpoint
-		endpoint = await getGraphqlEndpoint();
+		endpoint = await getGraphqlEndpoint(false);
 		expect(endpoint).toBe(null)
 	})
 })

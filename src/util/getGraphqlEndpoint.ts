@@ -14,9 +14,10 @@ const regionMap = new Map([
 // This variable stores the potential return value of findValidEndpoint()
 let establishedEndpoint: string;
 
-export default async function getGraphqlEndpoint(){
+// The parameter `_useSavedEndpoint` was added to make tests work. It should not be used by other package code.
+export default async function getGraphqlEndpoint(_useSavedEndpoint = true){
 	// If the findValidEndpoint() has already produced a value, just use that value instead of calling it again.
-	if(establishedEndpoint)
+	if(establishedEndpoint && _useSavedEndpoint)
 		return establishedEndpoint;
 
 	// Env var has top priority.
