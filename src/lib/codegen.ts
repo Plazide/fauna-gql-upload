@@ -20,7 +20,7 @@ export default async function runCodegen(){
 	if(!config.codegen) return;
 
 	// @ts-ignore
-	const { printSchema, parse } = await import(path.resolve(cwd, "node_modules", "graphql"));
+	const { printSchema, parse } = await import("graphql");
 
 	try{
 		const schema = await fetchSchema();
@@ -95,11 +95,9 @@ async function getPlugins(){
 	If it is not, we return the provided plugin path unaltered.
  */
 async function getPluginPath(plugin: string){
-	const nodeModules = path.resolve(cwd, "node_modules");
-
 	try{
-		const pluginPath = path.join(nodeModules, "@graphql-codegen", plugin);
-		require(pluginPath)
+		const pluginPath = path.join("@graphql-codegen", plugin);
+		await import(pluginPath)
 		return pluginPath;
 	}catch(err){
 		console.error(err);

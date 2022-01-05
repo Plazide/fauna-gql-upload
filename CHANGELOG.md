@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.4.1 - January 5th, 2022
+
+### Fixed
+
+- Error importing graphql package in monorepos. Thanks [@winghouchan](https://github.com/winghouchan) for reporting this in issue #40.
+
 ## 2.4.0 - December 7th, 2021
 
 ### Added
