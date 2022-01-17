@@ -1,10 +1,20 @@
 # Changelog
 
+## 2.4.2 January 17th, 2022
+
+## Fixed
+
+- Issue where region option and inferred region would only affect the graphql endpoint. This caused a `401 Unauthorized` error when using a region other than `classic`.
+
+---
+
 ## 2.4.1 - January 5th, 2022
 
 ### Fixed
 
 - Error importing graphql package in monorepos. Thanks [@winghouchan](https://github.com/winghouchan) for reporting this in issue #40.
+
+---
 
 ## 2.4.0 - December 7th, 2021
 
