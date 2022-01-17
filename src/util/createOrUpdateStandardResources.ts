@@ -1,6 +1,6 @@
 // @ts-ignore
 import { query as q } from "faunadb";
-import client from "./client";
+import getClient from "./client";
 import { Resource, StandardResourceType } from "../types";
 
 const actions = {
@@ -34,6 +34,7 @@ export default async function createOrUpdateResources(
 	resources: Resource[], 
 	type: StandardResourceType
 ): Promise<object>{
+	const client = await getClient();
 	const result = await client.query(
 		q.Foreach(
 			resources,

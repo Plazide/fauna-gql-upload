@@ -1,9 +1,10 @@
 import { DataResource } from "../types";
 
-import client, { q } from "./client";
+import getClient, { q } from "./client";
 
 /** Creates or update domain data. */
 export default async function createOrUpdateData(resources: DataResource[]){
+	const client = await getClient();
 	const result = await client.query(
 		q.Foreach(
 			resources,

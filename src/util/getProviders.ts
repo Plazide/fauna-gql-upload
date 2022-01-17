@@ -1,7 +1,8 @@
 import { ProviderResource, ProviderResult } from "../types";
-import client, { q } from "./client";
+import getClient, { q } from "./client";
 
-export default function getProviders(providers: ProviderResource[]): Promise<ProviderResult[]>{
+export default async function getProviders(providers: ProviderResource[]): Promise<ProviderResult[]>{
+	const client = await getClient();
 	return client.query(
 		q.Map(
 			providers,

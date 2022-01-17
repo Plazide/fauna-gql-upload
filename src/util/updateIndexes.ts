@@ -2,7 +2,7 @@
 import { query as q } from "faunadb";
 
 import { IndexResource, Resource } from "../types";
-import client from "./client";
+import getClient from "./client";
 import wait from "./wait";
 import createOrUpdateResources from "./createOrUpdateStandardResources";
 
@@ -18,6 +18,7 @@ export default async function updateIndexes(indexes: IndexResource[]){
 }
 
 async function deleteOriginalIndexes(indexes: IndexResource[]){
+	const client = await getClient();
 	return client.query(
 		q.Foreach(
 			indexes,

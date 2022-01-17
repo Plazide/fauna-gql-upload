@@ -1,31 +1,57 @@
-import { graphqlEndpoint, secret } from "./env";
+import { graphqlEndpoint, apiEndpoint, secret } from "./env";
 import getConfig from "./getConfig";
 import fetch from "node-fetch";
 import { status } from "./logger"
 
-const regionMap = new Map([
-	["eu", "https://graphql.eu.fauna.com"],
-	["us", "https://graphql.us.fauna.com"],
-	["classic", "https://graphql.fauna.com"],
-	["preview", "https://graphql.fauna-preview.com"],
-	["local", "http://localhost:8084"]
+interface Endpoint{
+	graphql: string;
+	api: string;
+}
+
+const regionMap = new Map<string, Endpoint>([
+	["eu", {
+		graphql: "https://graphql.eu.fauna.com",
+		api: "https://db.eu.fauna.com"
+	}],
+	["us", {
+		graphql: "https://graphql.us.fauna.com",
+		api: "https://db.us.fauna.com"
+	}],
+	["classic", {
+		graphql: "https://graphql.fauna.com",
+		api: "https://db.fauna.com"
+	}],
+	["preview", {
+		graphql: "https://graphql.fauna-preview.com",
+		api: "https://db.fauna-preview.com"
+	}],
+	["local", {
+		graphql: "http://localhost:8084",
+		api: "http://localhost:8443"
+	}]
 ])
 
 // This variable stores the potential return value of findValidEndpoint()
-let establishedEndpoint: string;
+let establishedEndpoint: Endpoint;
 
 // The parameter `_useSavedEndpoint` was added to make tests work. It should not be used by other package code.
-export default async function getGraphqlEndpoint(_useSavedEndpoint = true){
+export default async function getEndpoint(_useSavedEndpoint = true): Promise<Endpoint>{
 	// If the findValidEndpoint() has already produced a value, just use that value instead of calling it again.
 	if(establishedEndpoint && _useSavedEndpoint)
 		return establishedEndpoint;
 
 	// Env var has top priority.
-	if(graphqlEndpoint) return graphqlEndpoint;
+	if(graphqlEndpoint && apiEndpoint) return {
+		graphql: graphqlEndpoint,
+		api: apiEndpoint
+	};
 
 	// Config option has second priority.
 	const config = getConfig();
-	if(config.region) return regionMap.get(config.region);
+	if(config.region){
+		const resultEndpoint = regionMap.get(config.region);
+		if(resultEndpoint) return resultEndpoint;
+	}
 
 	/* If neither env var nor config option is specified,
 	try to find the correct endpoint by checking each one
@@ -34,7 +60,7 @@ export default async function getGraphqlEndpoint(_useSavedEndpoint = true){
 }
 
 async function findValidEndpoint(){
-	const endpoints: string[] = [];
+	const endpoints: Endpoint[] = [];
 
 	regionMap.forEach( (value) => {
 		endpoints.push(value);
@@ -42,7 +68,7 @@ async function findValidEndpoint(){
 
 	// Send requests to all known endpoints.
 	const results = await Promise.allSettled(endpoints.map( async endpoint => {
-		return fetch(`${endpoint}/graphql`, {
+		return fetch(`${endpoint.graphql}/graphql`, {
 			method: "POST",
 			headers: {
 				"Authorization": `Bearer ${secret}`,
@@ -73,12 +99,23 @@ async function findValidEndpoint(){
 		});
 	
 		const endpoint = endpoints[index];
-		status(`Your GraphQL region was inferred from your secret key and your endpoint was set to '${endpoint}'. Use the 'region' option to set it explicitly.\nMore info: https://fgu-docs.com/configuration/config-file/\n`, "info");
+		const region = getRegionKey(endpoint);
+		status(`Your database region was inferred from your secret key and was set to '${region}'. Use the 'region' option to set it explicitly.\nMore info: https://fgu-docs.com/configuration/config-file/\n`, "info");
 	
 		establishedEndpoint = endpoint;
 		return endpoint;
 	}catch{
-		return null;
+		status("Could not infer endpoint.", "error")
+		throw "Could not infer endpoint."
 	}
 	
+}
+
+function getRegionKey(endpoint: Endpoint){
+	for(let [key, value] of regionMap.entries()){
+		if(
+			value.api == endpoint.api && 
+			value.graphql === endpoint.graphql
+		) return key;
+	}
 }

@@ -9,7 +9,8 @@
 		"forceConsistentCasingInFileNames": true,
 		"skipLibCheck": true,
 		"allowSyntheticDefaultImports": true,
-		"declaration": true
+		"declaration": true,
+		"downlevelIteration": true
 	},
 	"include": ["src/**/*.ts"],
 	"exclude": ["node_modules/*", "dist/*"]
