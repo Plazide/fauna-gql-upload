@@ -31,7 +31,7 @@
     "cli-spinner": "^0.2.10",
     "dotenv": "^8.2.0",
     "esbuild": "^0.8.2",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.1.1",
     "prompts": "^2.3.2",
     "yargs": "^15.3.1"
   },
