@@ -18,42 +18,43 @@ interface RolePredicate{
 	predicate: Expr;
 }
 
-/** Describes a source for an index.
+type OneOf<T, Keys extends keyof T = keyof T> =
+    Pick<T, Exclude<keyof T, Keys>> 
+    & {
+        [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
+    }[Keys];
 
-More info https://docs.fauna.com/fauna/current/api/fql/indexes?lang=javascript#source
- */
-export type IndexSource = Expr | {
+
+interface IndexSourceObject {
 	/** The collection or collections to be indexed, or a wildcard `(_)` */
 	collection: Expr;
 
 	/** An object mapping a binding’s name to a Lambda function.
-	
-More info https://docs.fauna.com/fauna/current/api/fql/indexes?lang=javascript#binding
-	 */
-	fields?: {
+
+	More info https://docs.fauna.com/fauna/current/api/fql/indexes?lang=javascript#binding
+	*/
+	fields: {
 		[key: string]: Expr
 	}
 }
 
-/** Describes a term for an index 
- 
-More info https://docs.fauna.com/fauna/current/api/fql/indexes?lang=javascript#term
-*/
-export interface IndexTerm{
+/** Describes a source for an index.
+
+More info https://docs.fauna.com/fauna/current/api/fql/indexes?lang=javascript#source
+ */
+export type IndexSource = OneOf<IndexSourceObject, "collection" | "fields">[] | OneOf<IndexSourceObject, "collection" | "fields">;
+
+interface IIndexTerm{
 	/** The path of the field within an document to be indexed */
-	field: string[];
+	field?: string[];
 
 	/** The name of a binding from a `IndexSource` */
 	binding?: string;
 }
 
-/** Describes value for an index 
-
-More info https://docs.fauna.com/fauna/current/api/fql/indexes?lang=javascript#value
-*/
-export interface IndexValue{
+interface IIndexValue{
 	/** The path of the field within an document to be indexed */
-	field: string[];
+	field?: string[];
 
 	/** The name of a binding from a `IndexSource` */
 	binding?: string;
@@ -61,6 +62,18 @@ export interface IndexValue{
 	/** Whether this field’s value should sort reversed */
 	reverse?: boolean;
 }
+
+/** Describes a term for an index 
+ 
+More info https://docs.fauna.com/fauna/current/api/fql/indexes?lang=javascript#term
+*/
+export type IndexTerm = OneOf<IIndexTerm, "binding" | "field">
+
+/** Describes value for an index 
+
+More info https://docs.fauna.com/fauna/current/api/fql/indexes?lang=javascript#value
+*/
+export type IndexValue = OneOf<IIndexValue, "binding" | "field">
 
 /** Describes privileges for a role */
 export interface Privilege{
@@ -128,7 +141,7 @@ More info https://docs.fauna.com/fauna/current/api/fql/indexes?lang=javascript
  */
 export interface IndexResource extends BaseResource{
 	/** Describe the source collection for this index */
-	source: IndexSource;
+	source: IndexSource
 
 	/** Describe the fields whose values are used to search for entries in the index. */
 	terms?: IndexTerm[];
