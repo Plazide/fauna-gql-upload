@@ -90,7 +90,6 @@ describe("Unit tests", () => {
 		mockEndpoints("https://fake-endpoint.fauna.com/graphql");
 		
 		// Test non-existing endpoint
-		endpoint = await getGraphqlEndpoint(false)
-		expect(endpoint).toBe(null);
+		await expect(getGraphqlEndpoint(false)).rejects.toThrow();
 	})
 })

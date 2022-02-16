@@ -35,7 +35,7 @@ const regionMap = new Map<string, Endpoint>([
 let establishedEndpoint: Endpoint;
 
 // The parameter `_useSavedEndpoint` was added to make tests work. It should not be used by other package code.
-export default async function getEndpoint(_useSavedEndpoint = true): Promise<Endpoint | null>{
+export default async function getEndpoint(_useSavedEndpoint = true): Promise<Endpoint>{
 	// If the findValidEndpoint() has already produced a value, just use that value instead of calling it again.
 	if(establishedEndpoint && _useSavedEndpoint)
 		return establishedEndpoint;
@@ -56,7 +56,12 @@ export default async function getEndpoint(_useSavedEndpoint = true): Promise<End
 	/* If neither env var nor config option is specified,
 	try to find the correct endpoint by checking each one
 	and return the first one that doesn't result in an error. */
-	return findValidEndpoint();	
+	const validEndpoint = await findValidEndpoint();
+	if(!validEndpoint){
+		throw new Error("Region could not be inferred. Please review your configuration and try again.");
+	}
+
+	return validEndpoint;
 }
 
 async function findValidEndpoint(){
