@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.4.3 February 16th, 2022
+
+## Fixed
+
+- Issue with types. Some properties in the supporting types for writing resources were incorrectly marked as required.
+
+## Improvement
+
+- Error handling. Previously, FGU would log errors and continue running. Now, errors will throw and produce a non-zero exit code.
+
+---
+
 ## 2.4.2 January 17th, 2022
 
 ## Fixed
