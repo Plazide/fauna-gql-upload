@@ -2,6 +2,7 @@
 import { upload } from "./index";
 import { ResourceType } from "./types";
 import { argv } from "./util/getConfig";
+import { status } from "./util/logger"
 
 const resources: ("schema" | ResourceType)[] = [
 	"schema",
@@ -19,4 +20,8 @@ upload({
 	override: argv.override,
 	// Pass empty array if --ignore-all is provided,
 	resources: ignoreAll ? [] : (useResources.length > 0 ? useResources : undefined)
+})
+
+process.addListener("unhandledRejection", e => {
+	throw e;
 })

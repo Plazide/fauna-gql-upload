@@ -7,6 +7,7 @@ import { detailedError, status } from "../util/logger";
 import getProviders from "../util/getProviders";
 import updateIndexes from "../util/updateIndexes";
 import CLISpinner from "cli-spinner";
+import { errors } from "faunadb";
 
 const Spinner = CLISpinner.Spinner; 
 
@@ -123,7 +124,8 @@ async function uploadResources(dir: string, type: ResourceType, options?: Upload
 			}
 		}
 		
-		detailedError(err, type);
+		detailedError(err as errors.FaunaHTTPError, type);
+		throw "Upload operation failed. See logged errors above for more info."
 	}
 
 }
