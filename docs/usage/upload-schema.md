@@ -47,3 +47,27 @@ It would look like this:
 ```sh
 fgu --mode override -y
 ```
+
+## Concatenating schema files
+
+It is possible to separate the different parts of your schema into their own files. You could, for example, create a file called `queries.gql` that hold your query definitions and then create another file called `mutations.gql` that hold your mutation definitions. These files will then be concatenated into a single file before uploading the schema to Fauna.
+
+You need to add the `schemaDir` option to your `.fauna.json` file to use this feature. This option must point to a directory containing one or more graphql schema definition files with either a `.gql` or `.graphql` extension.
+
+When using the `schemaDir` option, the `schemaPath` option will be ignored. If neither of these are defined in `.fauna.json` the default `schemaPath` value will be used, which is `fauna/schema.gql`.
+
+A config file containing a `schemaDir` option could look like this:
+
+```json
+{
+  "schemaDir": "fauna/schema"
+}
+```
+
+No other options need to be defined.
+
+You can also use a command-line option to specify the `schemaDir`, like so:
+
+```sh
+fgu --schemaDir fauna/schema
+```
