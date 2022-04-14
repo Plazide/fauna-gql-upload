@@ -57,7 +57,7 @@
   },
   "peerDependencies": {
     "faunadb": ">=4.0.0",
-    "graphql": "^15.4.0"
+    "graphql": "^15.4.0 || ^16.0.0"
   },
   "optionalDependencies": {
     "typescript": "^4.0.5"
