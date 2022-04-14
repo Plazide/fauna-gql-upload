@@ -6,7 +6,8 @@ import yargs from "yargs";
 interface IOptions{
 	apiEndpointEnv: string;
 	graphqlEndpointEnv: string;
-	schemaPath: string;
+	schemaPath?: string;
+	schemaDir?: string;
 	region?: "classic" | "eu" | "us" | "preview" | "local";
 	tsconfigPath?: string;
 	mode?: "merge" | "override" | "replace";
@@ -66,6 +67,10 @@ export const argv = yargs
 	})
 	.option("schemaPath", {
 		description: "Specify custom path for GraphQL schema",
+		type: "string"
+	})
+	.option("schemaDir", {
+		description: "Specify custom directory for GraphQL schema files",
 		type: "string"
 	})
 	.option("tsconfigPath", {
@@ -187,6 +192,7 @@ export default function getConfig(){
 	}
 
 	const providedConfig = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath, "utf8")) : {};
+	console.log(providedConfig.schemaDir)
 	const codegenTypescript = providedConfig.codegen?.typescript ?? true;
 
 	const config: IOptions = {
@@ -195,6 +201,7 @@ export default function getConfig(){
 		region: argv?.region || providedConfig?.region || undefined,
 		mode: argv?.mode || providedConfig.mode || "merge",
 		schemaPath: argv?.schemaPath || providedConfig.schemaPath || defaultSchema,
+		schemaDir: argv?.schemaDir || providedConfig.schemaDir || undefined,
 		tsconfigPath: argv?.tsconfigPath || providedConfig.tsconfigPath,
 		envPath: argv?.envPath || providedConfig.envPath || ".env",
 		secretEnv: argv?.secretEnv || providedConfig.secretEnv || defaultSecretEnv,
