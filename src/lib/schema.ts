@@ -23,6 +23,8 @@ interface SchemaOptions{
 }
 
 async function buildSchema(dir: string): Promise<string | null>{
+	status("Concatenating schema files...", "info");
+
 	const directory = path.join(process.cwd(), dir);
 	const files = await fs.promises.readdir(directory);
 	const schemaFiles = files.filter(file => 
@@ -75,7 +77,6 @@ async function uploadSchema(options: SchemaOptions){
 		status("The `override` option has been deprecated. Please use `--mode override` instead.", "error");
 	}
 
-	console.log(schema)
 	const data = schemaDir ? schema : fs.createReadStream(schema);
 	const spinner = new Spinner("Overriding schema.. %s");
 	let shouldOverride = false;
