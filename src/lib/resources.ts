@@ -103,7 +103,7 @@ async function uploadResources(dir: string, type: ResourceType, options?: Upload
 		// Don't log error message on first function pass.
 		if(type === "functions" && !options?.fnsWithRoles) return;
 
-		if(type === "indexes" && (err as any).requestResult.responseRaw.includes("Index sources, terms, values, and partition count may not be updated.")){
+		if(type === "indexes" && (err as any)?.requestResult?.responseRaw?.includes("Index sources, terms, values, and partition count may not be updated.")){
 			status("Index sources, terms, values, and partition count cannot be updated normally. We must first delete the index and create it again. This will happen automatically, hold on...", "info");
 
 			try{
