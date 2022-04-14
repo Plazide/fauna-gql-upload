@@ -13,6 +13,7 @@ export {
 
 const {
 	schemaPath,
+	schemaDir,
 	indexesDir,
 	fnsDir,
 	rolesDir,
@@ -32,7 +33,7 @@ export async function upload({
 
 	// Upload schema
 	if(resources.includes("schema")){
-		const ok = await uploadSchema(schemaPath, { override, mode });
+		const ok = await uploadSchema({ override, mode, schemaPath, schemaDir });
 		if(!ok) return;
 	}
 

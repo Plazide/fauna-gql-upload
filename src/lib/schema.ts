@@ -18,21 +18,65 @@ prompts.override(defaultYes ? { shouldOverride: true } : {})
 interface SchemaOptions{
 	mode?: "merge" | "override" | "replace";
 	override?: boolean;
+	schemaPath?: string;
+	schemaDir?: string;
 }
 
-async function uploadSchema(schemaPath: string, options: SchemaOptions){
+async function buildSchema(dir: string): Promise<string | null>{
+	const directory = path.join(process.cwd(), dir);
+	const files = await fs.promises.readdir(directory);
+	const schemaFiles = files.filter(file => 
+		file.endsWith(".graphql") || file.endsWith(".gql")
+	);
+
+	if(schemaFiles.length === 0){
+		status("No GraphQL schema files found in directory. Make sure that all files in the specified directory ends in one of the following extensions: `.gql` or `.graphql`", "error");
+		return null;
+	}
+
+	const schemaParts = await Promise.all(schemaFiles.map(async file => {
+		return fs.promises.readFile(path.join(directory, file), "utf8");
+	}));
+
+	const concatenatedSchema = schemaParts.join("\n");
+
+	return concatenatedSchema;
+}
+
+async function uploadSchema(options: SchemaOptions){
 	const { graphql: graphqlEndpoint } = await getEndpoint();
-	const schema = path.join(process.cwd(), schemaPath);
-	if(!fs.existsSync(schema)){
-		status("Cannot find schema at \x1b[4m" + schema + "\x1b[0m", "error");
+	
+
+	const schemaDir = options.schemaDir;
+	const schemaPath = options.schemaPath;
+	
+
+	const schema = schemaDir && schemaPath 
+		? await buildSchema(schemaDir) 
+		: (schemaPath ? path.join(process.cwd(), schemaPath) : null);
+
+
+	if(!schema){
+		status("Cannot read schema. Make sure you've specified a schemaDir or schemaPath", "error");
 		return;
 	}
+
+	if(!schemaDir){
+		if(schema) {
+			if(!fs.existsSync(schema)){
+				status("Cannot find schema at \x1b[4m" + schema + "\x1b[0m", "error");
+				return;
+			}
+		}
+	}
+	
 
 	if(options.override){
 		status("The `override` option has been deprecated. Please use `--mode override` instead.", "error");
 	}
 
-	const data = fs.createReadStream(schema);
+	console.log(schema)
+	const data = schemaDir ? schema : fs.createReadStream(schema);
 	const spinner = new Spinner("Overriding schema.. %s");
 	let shouldOverride = false;
 
