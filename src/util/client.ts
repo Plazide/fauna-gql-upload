@@ -9,7 +9,7 @@ async function getClient(){
 	const parts = api.replace("//", "").split(":");
 	const scheme = parts[0] as "http" | "https";
 	const domain = parts[1];
-	const port = parts[2];
+	const port = parts[2] ? { port: parseInt(parts[2]) } : {};
 
 	if(!secret) throw new Error("Secret is not defined.")
 	
@@ -18,7 +18,7 @@ async function getClient(){
 		fetch,
 		scheme,
 		domain,
-		port: port ? parseInt(port) : undefined
+		...port
 	});
 
 	return client;
