@@ -1,12 +1,20 @@
 # Changelog
 
+## 2.5.0
+
+### Added
+
+- Support for concatenating multiple schema files before uploading to Fauna. This means that you can define queries, mutations, inputs and collections in separate files. These files will then merged together into a single file before uploading it to Fauna. This requires the `schemaDir` option to be specified in `.fauna.json`.  
+
+---
+
 ## 2.4.3 February 16th, 2022
 
-## Fixed
+### Fixed
 
 - Issue with types. Some properties in the supporting types for writing resources were incorrectly marked as required.
 
-## Improvement
+### Improvement
 
 - Error handling. Previously, FGU would log errors and continue running. Now, errors will throw and produce a non-zero exit code.
 
@@ -14,7 +22,7 @@
 
 ## 2.4.2 January 17th, 2022
 
-## Fixed
+### Fixed
 
 - Issue where region option and inferred region would only affect the graphql endpoint. This caused a `401 Unauthorized` error when using a region other than `classic`.
 
