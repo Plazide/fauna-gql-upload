@@ -192,7 +192,6 @@ export default function getConfig(){
 	}
 
 	const providedConfig = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath, "utf8")) : {};
-	console.log(providedConfig.schemaDir)
 	const codegenTypescript = providedConfig.codegen?.typescript ?? true;
 
 	const config: IOptions = {
