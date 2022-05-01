@@ -1,0 +1,123 @@
+{
+	"$schema": "https://json-schema.org/draft/2019-09/schema",
+	"$id": "https://fgu-docs.com/config.schema.json",
+	"title": "FGU Config",
+	"description": "The configuration for Fauna GQL Upload",
+	"type": "object",
+	"properties": {
+		"apiEndpointEnv": {
+			"type": "string",
+			"description": "The environment variable name for the API endpoint"
+		},
+		"graphqlEndpointEnv": {
+			"type": "string",
+			"description": "The environment variable name for the GraphQL endpoint"
+		},
+		"secretEnv": {
+			"type": "string",
+			"description": "The environment variable name for the Fauna database secret key"
+		},
+		"envPath": {
+			"type": "string",
+			"description": "The path to the `.env` file. Uses `.env` if not specified."
+		},
+		"region": {
+			"enum": ["classic", "eu", "us", "local", "preview"],
+			"description": "The region to use for the Fauna database"
+		},
+		"mode": {
+			"enum": ["merge", "replace", "override"],
+			"description": "The mode to use for schema upload."
+		},
+		"schemaPath": {
+			"type": "string",
+			"description": "The path to the schema file."
+		},
+		"schemaDir": {
+			"type": "string",
+			"description": "The path to the directory containing schema files. This option causes the schemaPath option to be ignored."
+		},
+		"tsconfigPath": {
+			"type": "string",
+			"description": "The path to the `tsconfig.json` file to use when building typescript resources. Uses the the nearest `tsconfig.json` file to the resource file if not specified."
+		},
+		"fnsDir": {
+			"type": "string",
+			"description": "The path to the directory containing your user-defined functions. Uses `fauna/functions` if not specified."
+		},
+		"rolesDir": {
+			"type": "string",
+			"description": "The path to the directory containing your user-defined roles. Uses `fauna/roles` if not specified."
+		},
+		"indexesDir": {
+			"type": "string",
+			"description": "The path to the directory containing your user-defined indexes. Uses `fauna/indexes` if not specified."
+		},
+		"dataDir": {
+			"type": "string",
+			"description": "The path to the directory containing your domain data. Uses `fauna/data` if not specified."
+		},
+		"providersDir": {
+			"type": "string",
+			"description": "The path to the directory containing your access providers. Uses `fauna/providers` if not specified."
+		},
+		"codegen": {
+			"description": "When true, codegen is enabled with default options. When false, codegen is disabled. You can also pass an object to customize the codegen options.",
+			"oneOf": [
+				{
+					"type": "boolean",
+					"description": "Enable or disable codegen. Defaults to true."
+				},
+				{
+					"type": "object",
+					"properties": {
+						"typescript": {
+							"type": "boolean",
+							"description": "Enable or disable typescript plugin. Defaults to true."
+						},
+						"operations": {
+							"type": "boolean",
+							"description": "Enable or disable operations plugin. Defaults to true."
+						},
+						"outputFile": {
+							"type": "string",
+							"description": "The output file for the generated code. Defaults to `generated/graphql.ts`."
+						},
+						"headers": {
+							"type": "object",
+							"description": "The headers to pass to codegen. Do not include the `Authorization` header here, it is included automatically. If you use schema previews, you can pass in the headers for those here."
+						},
+						"documents": {
+							"type": "array",
+							"description": "The list of documents to generate code for.",
+							"items": {
+								"type": "string"
+							}
+						},
+						"plugins": {
+							"type": "array",
+							"description": "The list of plugins to use.",
+							"items": {
+								"oneOf": [
+									{ 
+										"type": "string" 
+									},
+									{ 
+										"type": "array",
+										"items": {
+											"type": ["string", "object"]
+										}
+									}
+								]
+							}
+						},
+						"pluginOptions": {
+							"type": "object",
+							"description": "The options to pass to the plugins."
+						}
+					}
+				}
+			]
+		}
+	}
+}
