@@ -10,5 +10,5 @@
 	"rules": {
 		"indent": ["tab", "error"]
 	},
-	"ignorePatterns": "dist"
+	"ignorePatterns": ["dist", "templates", "node_modules"]
 }

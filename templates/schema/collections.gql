@@ -1,0 +1,15 @@
+# This is an example of a collections schema file. Change it however you like.
+
+type Post {
+	title: String!
+	description: String
+	body: String
+	coverImage: String
+	author: User!
+}
+
+type User {
+	name: String!
+	email: String!
+	avatar: String
+}

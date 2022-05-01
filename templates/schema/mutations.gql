@@ -1,0 +1,5 @@
+# This is an example of a mutations schema file. Change it however you like.
+
+type Mutation {
+	createPost(input: CreatePostInput!): Post @resolver(name: "createPost")
+}

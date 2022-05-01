@@ -8,6 +8,7 @@ import wait from "../util/wait";
 import { status } from "../util/logger";
 import { secret } from "../util/env";
 import getEndpoint from "../util/getEndpoint";
+import error from "../util/error";
 
 const Spinner = CLISpinner.Spinner;
 
@@ -66,8 +67,7 @@ async function uploadSchema(options: SchemaOptions){
 	if(!schemaDir){
 		if(schema) {
 			if(!fs.existsSync(schema)){
-				status("Cannot find schema at \x1b[4m" + schema + "\x1b[0m", "error");
-				return;
+				error("Cannot find schema at \x1b[4m" + schema + "\x1b[0m");
 			}
 		}
 	}

@@ -3,7 +3,7 @@ import fs from "fs";
 import { Plugin } from "../types";
 import yargs from "yargs";
 
-interface IOptions{
+export interface IOptions{
 	apiEndpointEnv: string;
 	graphqlEndpointEnv: string;
 	schemaPath?: string;
@@ -169,25 +169,25 @@ export const argv = yargs
 	.argv;
 
 const cwd = process.cwd();
-const defaultSchema = fs.existsSync("./fauna/schema.gql") ? "./fauna/schema.gql" : "./fauna/schema.graphql"
-const defaultRolesDir = path.join("fauna", "roles");
-const defaultFnsDir = path.join("fauna", "functions");
-const defaultIndexesDir = path.join("fauna", "indexes");
-const defaultDataDir = path.join("fauna", "data");
-const defaultProvidersDir = path.join("fauna", "providers");
-const defaultSecretEnv = "FGU_SECRET";
-const defaultApiEndpointEnv = "FGU_API_ENDPOINT";
-const defaultGraphqlEndpointEnv = "FGU_GRAPHQL_ENDPOINT"
+export const defaultSchema = fs.existsSync("./fauna/schema.gql") ? "./fauna/schema.gql" : "./fauna/schema.graphql"
+export const defaultRolesDir = path.join("fauna", "roles");
+export const defaultFnsDir = path.join("fauna", "functions");
+export const defaultIndexesDir = path.join("fauna", "indexes");
+export const defaultDataDir = path.join("fauna", "data");
+export const defaultProvidersDir = path.join("fauna", "providers");
+export const defaultSecretEnv = "FGU_SECRET";
+export const defaultApiEndpointEnv = "FGU_API_ENDPOINT";
+export const defaultGraphqlEndpointEnv = "FGU_GRAPHQL_ENDPOINT"
 
 let globalConfig: IOptions | null = null;
 
-export default function getConfig(){
+export default function getConfig(verifyConfig = false){
 	if(globalConfig) return globalConfig;
 
 	const customConfig = argv?.config;
 	const configPath = path.join(cwd, (customConfig || ".fauna.json"));
 
-	if(customConfig && !fs.existsSync(configPath)){
+	if(customConfig && verifyConfig && !fs.existsSync(configPath)){
 		throw new Error("Could not find custom config at path " + configPath)
 	}
 

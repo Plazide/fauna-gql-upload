@@ -1,0 +1,6 @@
+# This is an example of a queries schema file. Change it however you like.
+
+type Query {
+	posts: [Post]
+	post(id: ID!): Post
+}
