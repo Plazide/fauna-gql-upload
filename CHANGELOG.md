@@ -4,7 +4,9 @@
 
 ### Added
 
-- Support for concatenating multiple schema files before uploading to Fauna. This means that you can define queries, mutations, inputs and collections in separate files. These files will then merged together into a single file before uploading it to Fauna. This requires the `schemaDir` option to be specified in `.fauna.json`.  
+- Support for concatenating multiple schema files before uploading to Fauna. This means that you can define queries, mutations, inputs and collections in separate files. These files will then merged together into a single file before uploading it to Fauna. This requires the `schemaDir` option to be specified in `.fauna.json`. 
+
+- Init command. This makes it easier to get started with FGU. You simply run `npx fgu init`, answer the questions, and you're all set. 
 
 ---
 
