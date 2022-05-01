@@ -7,7 +7,7 @@ CHANGELOG.md
 
 # Tests
 tests
-.env-test-example
+.env.test-example
 
 # Git
 .gitignore
