@@ -8,6 +8,8 @@
 
 - Init command. This makes it easier to get started with FGU. You simply run `npx fgu init`, answer the questions, and you're all set. 
 
+- JSON schema to make config writing easier. Add `"$schema": "node_modules/fauna-gql-upload/config.schema.json"` as the top property in your `.fauna.json` file to use it.
+
 ---
 
 ## 2.4.3 February 16th, 2022
