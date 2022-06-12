@@ -21,8 +21,18 @@ export default async function createOrUpdateData(resources: DataResource[]){
 						q.Lambda("item",
 							q.Let(
 								{
-									match: q.Match(q.Var("index"), q.Select([q.Var("key")], q.Var("item"))),
-									exists: q.Exists(q.Var("match")),
+									hasRef: q.ContainsField("ref", q.Var("item")),
+									ref: q.If(q.Var("hasRef"), q.Select(["ref"], q.Var("item")), null),
+									match: q.If(
+										q.Var("hasRef"),
+										null,
+										q.Match(q.Var("index"), q.Select([q.Var("key")], q.Var("item"))),
+									),
+									exists: q.If(
+										q.Var("hasRef"),
+										q.Exists(q.Var("ref")),
+										q.Exists(q.Var("match")),
+									),									
 									credentials: q.Select(
 										0,
 										q.Filter(
@@ -46,27 +56,55 @@ export default async function createOrUpdateData(resources: DataResource[]){
 								},
 								q.Do(
 									q.If(
-										q.Var("exists"),
-										q.Let(
-											{
-												ref: q.Select(["ref"], q.Get(q.Var("match")))
-											},
+										// If ref is specified, use it to create or update the data.
+										q.Var("hasRef"),
+										q.If(
+											q.Var("exists"),
+											// Update data if it exists.
 											q.Update(
-												q.Var("ref"), q.Merge(
-													{ 
-														data: q.Var("item"),
+												q.Var("ref"), 
+												q.Merge(
+													{
+														data: q.Var("item")
+													},
+													Credentials()
+												)
+											),
+											// Create data if it doesn't exist.
+											q.Create(
+												q.Var("ref"), 
+												q.Merge(
+													{
+														data: q.Var("item")
 													},
 													Credentials()
 												)
 											),
 										),
-										q.Create(
-											q.Var("collection"), q.Merge(
-												{ 
-													data: q.Var("item") 
+										// If ref is not specified, use the match to create or update the data.
+										q.If(
+											q.Var("exists"),
+											q.Let(
+												{
+													ref: q.Select(["ref"], q.Get(q.Var("match")))
 												},
-												Credentials()
-											)
+												q.Update(
+													q.Var("ref"), q.Merge(
+														{ 
+															data: q.Var("item"),
+														},
+														Credentials()
+													)
+												),
+											),
+											q.Create(
+												q.Var("collection"), q.Merge(
+													{ 
+														data: q.Var("item") 
+													},
+													Credentials()
+												)
+											),
 										),
 									),
 									q.If(
@@ -83,6 +121,7 @@ export default async function createOrUpdateData(resources: DataResource[]){
 		)
 	)
 
+	console.log(result)
 	return result;
 }
 

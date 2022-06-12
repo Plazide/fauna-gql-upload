@@ -183,7 +183,7 @@ export interface DataResource{
 	key: string;
 
 	/** The data to be inserted into your collection */
-	data: { [key: string]: string | number | object }[];
+	data: { ref?: Expr, [key: string]: undefined | string | number | object | Expr }[];
 
 	/** Optionally set credentials for your data. This is useful when creating initial user accounts, such as admin users. */
 	credentials?: {
