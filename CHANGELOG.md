@@ -10,6 +10,8 @@
 
 - JSON schema to make config writing easier. Add `"$schema": "node_modules/fauna-gql-upload/config.schema.json"` as the top property in your `.fauna.json` file to use it.
 
+- Support for specifying custom refs when uploading data. Thanks to [@employee451](https://github.com/employee451) for suggesting this.
+
 ---
 
 ## 2.4.3 February 16th, 2022
