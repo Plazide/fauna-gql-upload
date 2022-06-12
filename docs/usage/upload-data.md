@@ -58,3 +58,26 @@ Login(
 ```
 
 You would also need to create a role and specify the `Admin` collection in the membership field. See [Uploading roles](/usage/upload-roles) for more info.
+
+## Specifying refs
+
+As of version 2.5.0, it is possible to specify the exact ref that uploaded document should use. This is useful when you need to manage relations between specific documents.
+
+To specify a ref, simply add the `ref` property to the document data. Like so:
+
+```js
+export default {
+	collection: "Admin",
+	index: "admin_by_email",
+	key: "email",
+	data: [
+		{ 
+			email: "carl@chjweb.se", 
+			name: "chjweb",
+			ref: q.Ref(q.Collection("Admin"), '334248970957095424')
+		}
+	]
+}
+```
+
+Notice how we specify the collection twice. First, in the `collection` property and then in the `ref` property on the data document using the `q.Collection()` function. The collection specified inside the `q.Ref()` will be the collection your data will reside in, no matter the value of the `collection` property.
