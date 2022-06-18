@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.5.0
+## 2.5.0 June 18th, 2022
 
 ### Added
 
