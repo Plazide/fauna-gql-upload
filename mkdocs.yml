@@ -16,6 +16,7 @@ nav:
       - "usage/upload-access-providers.md"
       - "usage/graphql-code-generator.md"
       - "usage/with-typescript.md"
+  - "contributing.md"
   - "problems-or-issues.md"
 theme: 
   name: null
