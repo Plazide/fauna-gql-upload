@@ -121,7 +121,6 @@ export default async function createOrUpdateData(resources: DataResource[]){
 		)
 	)
 
-	console.log(result)
 	return result;
 }
 
