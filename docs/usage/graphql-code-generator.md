@@ -40,7 +40,7 @@ and then adding it to the `.fauna.json` file, like so:
 ```js
 {
   "codegen": {
-    "plugins": "typescript-react-apollo"
+    "plugins": ["typescript-react-apollo"]
   }
 }
 ```
